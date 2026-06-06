@@ -4135,8 +4135,8 @@
         </div>
     </footer>
 
- <script>
-    // СИСТЕМА ХРАНЕНИЯ ДАННЫХ
+  <script>
+    // 1. СИСТЕМА ХРАНЕНИЯ ДАННЫХ
     class DataStorage {
         constructor() {
             this.usersKey = 'delamainUsers';
@@ -4144,1591 +4144,195 @@
             this.carsKey = 'delamainCars';
             this.bookingsKey = 'delamainBookings';
             this.reviewsKey = 'delamainReviews';
-            
             this.initData();
         }
-        
         initData() {
-            if (!localStorage.getItem(this.usersKey)) {
-                localStorage.setItem(this.usersKey, JSON.stringify([]));
-            }
-            
-            if (!localStorage.getItem(this.carsKey)) {
-                localStorage.setItem(this.carsKey, JSON.stringify(this.getDefaultCars()));
-            }
-            
-            if (!localStorage.getItem(this.bookingsKey)) {
-                localStorage.setItem(this.bookingsKey, JSON.stringify([]));
-            }
-            
-            if (!localStorage.getItem(this.reviewsKey)) {
-                localStorage.setItem(this.reviewsKey, JSON.stringify(this.getDefaultReviews()));
-            }
+            if (!localStorage.getItem(this.usersKey)) localStorage.setItem(this.usersKey, JSON.stringify([]));
+            if (!localStorage.getItem(this.carsKey)) localStorage.setItem(this.carsKey, JSON.stringify(this.getDefaultCars()));
+            if (!localStorage.getItem(this.bookingsKey)) localStorage.setItem(this.bookingsKey, JSON.stringify([]));
+            if (!localStorage.getItem(this.reviewsKey)) localStorage.setItem(this.reviewsKey, JSON.stringify(this.getDefaultReviews()));
         }
-        
         getDefaultCars() {
             return {
                 luxury: [
-                    {
-                        id: 1,
-                        name: "Mercedes-Benz S-Class",
-                        description: "Роскошный седан с передовыми технологиями",
-                        seats: 5,
-                        luggage: 3,
-                        price: "от 25₽/мин",
-                        available: 3,
-                        year: 2022,
-                        mileage: "35 000 км",
-                        maintenance: "Последнее ТО: 01.10.2023",
-                        detailedDescription: "Этот роскошный седан предлагает непревзойденный комфорт и передовые технологии. Оснащен системой полуавтономного вождения, массажными креслами с подогревом и вентиляцией, а также премиальной аудиосистемой Burmester. Идеален для деловых поездок и длительных путешествий."
-                    },
-                    {
-                        id: 2,
-                        name: "BMW 7 Series",
-                        description: "Элегантный и технологичный автомобиль",
-                        seats: 5,
-                        luggage: 3,
-                        price: "от 23₽/мин",
-                        available: 2,
-                        year: 2021,
-                        mileage: "42 500 км",
-                        maintenance: "Последнее ТО: 15.09.2023",
-                        detailedDescription: "Флагманский седан BMW сочетает в себе динамичный дизайн и инновационные технологии. Оснащен системой Gesture Control,全景天窗 и адаптивной подвеской. Мощный двигатель обеспечивает плавное и уверенное ускорение."
-                    },
-                    {
-                        id: 3,
-                        name: "Audi A8",
-                        description: "Инновационный флагман с автономным вождением",
-                        seats: 5,
-                        luggage: 3,
-                        price: "от 24₽/мин",
-                        available: 4,
-                        year: 2023,
-                        mileage: "18 700 км",
-                        maintenance: "Последнее ТО: 05.11.2023",
-                        detailedDescription: "Audi A8 представляет собой вершину инженерной мысли с системой автономного вождения уровня 3. Салон отделан натуральной кожей и деревом, а технология MMI Touch Response обеспечивает интуитивное управление. Идеальный выбор для ценителей технологий и комфорта."
-                    },
-                    {
-                        id: 4,
-                        name: "Lexus LS",
-                        description: "Безупречное качество и комфорт",
-                        seats: 5,
-                        luggage: 3,
-                        price: "от 22₽/мин",
-                        available: 2,
-                        year: 2022,
-                        mileage: "29 800 км",
-                        maintenance: "Последнее ТО: 20.08.2023",
-                        detailedDescription: "Lexus LS славится своей надежностью и непревзойденным комфортом. Сиденья с функцией Shiatsu-массажа, система шумоподавления и плавная подвеска делают каждую поездку незабываемой. Японское качество сборки гарантирует долговечность и безотказность."
-                    },
-                    {
-                        id: 5,
-                        name: "Porsche Panamera",
-                        description: "Спортивный седан премиум-класса",
-                        seats: 4,
-                        luggage: 2,
-                        price: "от 28₽/мин",
-                        available: 1,
-                        year: 2023,
-                        mileage: "12 300 км",
-                        maintenance: "Последнее ТО: 10.10.2023",
-                        detailedDescription: "Porsche Panamera сочетает в себе спортивную динамику с комфортом премиум-седана. Мощный двигатель и система полного привода обеспечивают выдающиеся ходовые качества, а роскошный салон с кожаной отделкой подчеркивает статус владельца."
-                    }
+                    { id: 1, name: "Mercedes-Benz S-Class", description: "Роскошный седан", seats: 5, luggage: 3, price: "от 25₽/мин", available: 3, year: 2022, mileage: "35 000 км", maintenance: "01.10.2023", detailedDescription: "Флагман комфорта." },
+                    { id: 2, name: "BMW 7 Series", description: "Спортивная роскошь", seats: 5, luggage: 3, price: "от 23₽/мин", available: 2, year: 2021, mileage: "42 500 км", maintenance: "15.09.2023", detailedDescription: "Динамика и стиль." }
                 ],
                 chinese: [
-                    {
-                        id: 6,
-                        name: "Hongqi H9",
-                        description: "Флагманский седан с роскошным дизайном",
-                        seats: 5,
-                        luggage: 3,
-                        price: "от 18₽/мин",
-                        available: 5,
-                        year: 2023,
-                        mileage: "15 200 км",
-                        maintenance: "Последнее ТО: 25.09.2023",
-                        detailedDescription: "Hongqi H9 - флагманский седан китайского производства, предлагающий роскошь по доступной цене. Впечатляющий дизайн, просторный салон и современные технологии делают его отличным выбором для бизнес-поездок. Оснащен всеми необходимыми системами безопасности и комфорта."
-                    },
-                    {
-                        id: 7,
-                        name: "Chery Tiggo 8 Pro",
-                        description: "Просторный кроссовер для всей семьи",
-                        seats: 7,
-                        luggage: 4,
-                        price: "от 16₽/мин",
-                        available: 6,
-                        year: 2022,
-                        mileage: "24 500 км",
-                        maintenance: "Последнее ТО: 12.10.2023",
-                        detailedDescription: "Chery Tiggo 8 Pro - просторный семиместный кроссовер, идеально подходящий для семейных поездок. Вместительный багажник, комфортная подвеска и экономичный двигатель делают его практичным выбором. Оснащен мультимедийной системой с большим экраном и множеством функций."
-                    },
-                    {
-                        id: 8,
-                        name: "Geely Coolray",
-                        description: "Компактный и стильный кроссовер",
-                        seats: 5,
-                        luggage: 2,
-                        price: "от 14₽/мин",
-                        available: 4,
-                        year: 2023,
-                        mileage: "9 800 км",
-                        maintenance: "Последнее ТО: 18.11.2023",
-                        detailedDescription: "Geely Coolray - компактный кроссовер с ярким дизайном и отличной оснащенностью. Несмотря на компактные размеры, предлагает просторный салон и современные технологии. Экономичный и маневренный - идеален для городских поездок."
-                    }
+                    { id: 6, name: "Hongqi H9", description: "Китайский премиум", seats: 5, luggage: 3, price: "от 18₽/мин", available: 5, year: 2023, mileage: "15 200 км", maintenance: "25.09.2023", detailedDescription: "Восточный люкс." }
                 ]
             };
         }
-        
-        getDefaultReviews() {
-            return [
-                {
-                    id: 1,
-                    name: "Александр",
-                    text: "Отличный сервис! Автомобили всегда чистые и исправные. Пользуюсь регулярно, никаких нареканий. Особенно нравится Mercedes S-Class - непревзойденный комфорт.",
-                    avatar: "А",
-                    rating: 5,
-                    date: "15.09.2023",
-                    car: "Mercedes-Benz S-Class"
-                },
-                {
-                    id: 2,
-                    name: "Мария",
-                    text: "Очень удобное приложение, бронирование занимает пару минут. Все автомобили в отличном состоянии, техобслуживание проводится регулярно. Рекомендую!",
-                    avatar: "М",
-                    rating: 5,
-                    date: "22.08.2023",
-                    car: "BMW 7 Series"
-                },
-                {
-                    id: 3,
-                    name: "Дмитрий",
-                    text: "Пользуюсь каршерингом Деламейн уже больше года. Ни разу не подвели! Машины всегда на месте, чистые и заправленные. Отличная альтернатива такси и собственному авто.",
-                    avatar: "Д",
-                    rating: 4,
-                    date: "10.10.2023",
-                    car: "Audi A8"
-                },
-                {
-                    id: 4,
-                    name: "Ольга",
-                    text: "Как женщина-водитель оценила высокий уровень безопасности и чистоты в автомобилях. Техподдержка работает оперативно, всегда помогают решить любые вопросы. Спасибо!",
-                    avatar: "О",
-                    rating: 5,
-                    date: "05.11.2023",
-                    car: "Lexus LS"
-                },
-                {
-                    id: 5,
-                    name: "Иван",
-                    text: "Идеальное решение для поездок по городу. Не нужно беспокоиться о парковке, техобслуживании и страховка. Цены адекватные, машины современные. Продолжаю пользоваться!",
-                    avatar: "И",
-                    rating: 5,
-                    date: "28.07.2023",
-                    car: "Porsche Panamera"
-                },
-                {
-                    id: 6,
-                    name: "Екатерина",
-                    text: "Отличный сервис! Особенно понравилась программа лояльности - уже накопила достаточно бонусов для бесплатной поездки. Обслуживание на высшем уровне!",
-                    avatar: "Е",
-                    rating: 5,
-                    date: "12.10.2023",
-                    car: "Hongqi H9"
-                }
-            ];
-        }
-        
-        // Методы для работы с пользователями
-        getUsers() {
-            return JSON.parse(localStorage.getItem(this.usersKey)) || [];
-        }
-        
+        getDefaultReviews() { return [{ id: 1, name: "Александр", text: "Отличный сервис!", avatar: "А", rating: 5, date: "15.09.2023", car: "Mercedes S-Class" }]; }
+        getUsers() { return JSON.parse(localStorage.getItem(this.usersKey)) || []; }
         saveUser(user) {
             const users = this.getUsers();
-            const existingUserIndex = users.findIndex(u => u.email === user.email);
-            
-            if (existingUserIndex !== -1) {
-                users[existingUserIndex] = user;
-            } else {
-                users.push(user);
-            }
-            
+            const idx = users.findIndex(u => u.email === user.email);
+            if (idx !== -1) users[idx] = user; else users.push(user);
             localStorage.setItem(this.usersKey, JSON.stringify(users));
         }
-        
-        getUserByEmail(email) {
-            const users = this.getUsers();
-            return users.find(user => user.email === email);
-        }
-        
-        // Методы для работы с текущим пользователем
-        getCurrentUser() {
-            return JSON.parse(localStorage.getItem(this.currentUserKey)) || null;
-        }
-        
-        setCurrentUser(user) {
-            localStorage.setItem(this.currentUserKey, JSON.stringify(user));
-        }
-        
-        clearCurrentUser() {
-            localStorage.removeItem(this.currentUserKey);
-        }
-        
-        // Методы для работы с автомобилями
-        getCars() {
-            return JSON.parse(localStorage.getItem(this.carsKey)) || { luxury: [], chinese: [] };
-        }
-        
-        updateCarAvailability(carId, change) {
-            const cars = this.getCars();
-            let carFound = false;
-            
-            for (const category of ['luxury', 'chinese']) {
-                const carIndex = cars[category].findIndex(car => car.id === carId);
-                if (carIndex !== -1) {
-                    cars[category][carIndex].available += change;
-                    if (cars[category][carIndex].available < 0) {
-                        cars[category][carIndex].available = 0;
-                    }
-                    carFound = true;
-                    break;
-                }
-            }
-            
-            if (carFound) {
-                localStorage.setItem(this.carsKey, JSON.stringify(cars));
-            }
-        }
-        
-        // Методы для работы с бронированиями
-        getBookings() {
-            return JSON.parse(localStorage.getItem(this.bookingsKey)) || [];
-        }
-        
+        getUserByEmail(email) { return this.getUsers().find(user => user.email === email); }
+        getCurrentUser() { return JSON.parse(localStorage.getItem(this.currentUserKey)) || null; }
+        setCurrentUser(user) { localStorage.setItem(this.currentUserKey, JSON.stringify(user)); }
+        clearCurrentUser() { localStorage.removeItem(this.currentUserKey); }
+        getCars() { return JSON.parse(localStorage.getItem(this.carsKey)); }
+        getBookings() { return JSON.parse(localStorage.getItem(this.bookingsKey)) || []; }
         saveBooking(booking) {
-            const bookings = this.getBookings();
-            bookings.push(booking);
-            localStorage.setItem(this.bookingsKey, JSON.stringify(bookings));
+            const b = this.getBookings();
+            b.push(booking);
+            localStorage.setItem(this.bookingsKey, JSON.stringify(b));
         }
-        
-        updateBookingStatus(bookingId, status) {
-            const bookings = this.getBookings();
-            const bookingIndex = bookings.findIndex(b => b.id === bookingId);
-            
-            if (bookingIndex !== -1) {
-                const oldStatus = bookings[bookingIndex].status;
-                bookings[bookingIndex].status = status;
-                
-                if (oldStatus === 'active' && status === 'completed') {
-                    this.updateUserStats(bookings[bookingIndex].userId, bookings[bookingIndex]);
-                }
-                
-                if (status === 'cancelled') {
-                    this.updateCarAvailability(bookings[bookingIndex].carId, 1);
-                }
-                
-                localStorage.setItem(this.bookingsKey, JSON.stringify(bookings));
-            }
-        }
-        
-        // Методы для работы с отзывами
-        getReviews() {
-            return JSON.parse(localStorage.getItem(this.reviewsKey)) || [];
-        }
-        
-        saveReview(review) {
-            const reviews = this.getReviews();
-            reviews.push(review);
-            localStorage.setItem(this.reviewsKey, JSON.stringify(reviews));
-        }
-        
-        // Обновление статистики пользователя
-        updateUserStats(userId, booking) {
-            const users = this.getUsers();
-            const userIndex = users.findIndex(u => u.id === userId);
-            
-            if (userIndex !== -1) {
-                const user = users[userIndex];
-                
-                user.stats.distance += booking.distance || 0;
-                user.stats.driveTime += booking.duration || 0;
-                user.stats.trips += 1;
-                user.stats.bonus += Math.floor(booking.distance / 10) || 10;
-                
-                this.saveUser(user);
-                
-                const currentUser = this.getCurrentUser();
-                if (currentUser && currentUser.id === userId) {
-                    this.setCurrentUser(user);
-                }
-            }
-        }
+        getReviews() { return JSON.parse(localStorage.getItem(this.reviewsKey)) || []; }
     }
 
-    // СИСТЕМА УВЕДОМЛЕНИЙ
-    class NotificationSystem {
-        constructor() {
-            this.container = document.getElementById('notificationContainer');
-            this.notifications = [];
-        }
+    const dataStorage = new DataStorage();
 
-        show(type, title, message, duration = 5000) {
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.innerHTML = `
-                <div class="notification-icon">
-                    <i class="fas ${this.getIcon(type)}"></i>
-                </div>
-                <div class="notification-content">
-                    <h4>${title}</h4>
-                    <p>${message}</p>
-                </div>
-                <button class="notification-close">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
+    // 2. УТИЛИТЫ (Уведомления и Карточки)
+    const showNotification = (type, title, message) => {
+        const container = document.getElementById('notificationContainer');
+        const el = document.createElement('div');
+        el.className = `notification ${type}`;
+        el.innerHTML = `<div class="notification-content"><h4>${title}</h4><p>${message}</p></div><button class="notification-close">&times;</button>`;
+        container.appendChild(el);
+        setTimeout(() => el.classList.add('show'), 10);
+        setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 500); }, 4000);
+    };
 
-            this.container.appendChild(notification);
-            this.notifications.push(notification);
-
-            setTimeout(() => notification.classList.add('show'), 100);
-
-            const closeBtn = notification.querySelector('.notification-close');
-            closeBtn.addEventListener('click', () => this.hide(notification));
-
-            if (duration > 0) {
-                setTimeout(() => this.hide(notification), duration);
-            }
-
-            return notification;
-        }
-
-        hide(notification) {
-            if (notification && notification.parentNode) {
-                notification.classList.add('hiding');
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                    this.notifications = this.notifications.filter(n => n !== notification);
-                }, 500);
-            }
-        }
-
-        getIcon(type) {
-            const icons = {
-                'success': 'fa-check',
-                'error': 'fa-exclamation-triangle',
-                'warning': 'fa-exclamation',
-                'info': 'fa-info'
-            };
-            return icons[type] || 'fa-info';
-        }
-
-        clearAll() {
-            this.notifications.forEach(notification => this.hide(notification));
-        }
+    function getCarPhoto(id) {
+        const photos = { 1: 'мерседес.png', 2: 'BMW7Series.png', 6: 'HongqiH9.png' };
+        return photos[id] || 'default.png';
     }
 
-    // Глобальная переменная для текущего бронируемого автомобиля
-    let currentBookingCar = null;
-
-    // Функция для открытия модального окна бронирования
-    function openBookingModal(car) {
-        currentBookingCar = car;
-        
-        // Обновляем информацию об автомобиле
-        const bookingCarName = document.getElementById('bookingCarName');
-        if (bookingCarName) bookingCarName.textContent = car.name;
-        
-        const bookingCarSeats = document.getElementById('bookingCarSeats');
-        if (bookingCarSeats) bookingCarSeats.textContent = car.seats + ' мест';
-        
-        const bookingCarLuggage = document.getElementById('bookingCarLuggage');
-        if (bookingCarLuggage) bookingCarLuggage.textContent = car.luggage + ' чемодана';
-        
-        const bookingCarPrice = document.getElementById('bookingCarPrice');
-        if (bookingCarPrice) bookingCarPrice.textContent = car.price;
-        
-        // Устанавливаем изображение автомобиля
-        const carImage = document.getElementById('bookingCarImage');
-        if (carImage) {
-            const photoName = getCarPhoto(car.id);
-            carImage.style.backgroundImage = `url('img/${photoName}')`;
-        }
-        
-        // Устанавливаем ID автомобиля
-        const carIdInput = document.getElementById('carId');
-        if (carIdInput) carIdInput.value = car.id;
-        
-        // Устанавливаем даты по умолчанию
-        const now = new Date();
-        const startDate = new Date(now.getTime() + 60 * 60 * 1000);
-        const endDate = new Date(startDate.getTime() + 4 * 60 * 60 * 1000);
-        
-        const startDateInput = document.getElementById('startDate');
-        const endDateInput = document.getElementById('endDate');
-        
-        if (startDateInput) startDateInput.value = formatDateTimeLocal(startDate);
-        if (endDateInput) endDateInput.value = formatDateTimeLocal(endDate);
-        
-        // Сбрасываем выбор тарифа
-        document.querySelectorAll('.tariff-option').forEach(option => {
-            option.classList.remove('active');
-        });
-        const minuteTariff = document.querySelector('.tariff-option[data-tariff="minute"]');
-        if (minuteTariff) minuteTariff.classList.add('active');
-        
-        // Сбрасываем доп. опции
-        const childSeat = document.getElementById('childSeat');
-        const premiumInsurance = document.getElementById('premiumInsurance');
-        const delivery = document.getElementById('delivery');
-        
-        if (childSeat) childSeat.checked = false;
-        if (premiumInsurance) premiumInsurance.checked = true;
-        if (delivery) delivery.checked = false;
-        
-        // Пересчитываем стоимость
-        calculateBookingCost();
-        
-        // Показываем модальное окно
-        const bookingModal = document.getElementById('bookingModal');
-        if (bookingModal) bookingModal.classList.add('active');
-    }
-
-    // Получение фото автомобиля по ID
-    function getCarPhoto(carId) {
-        const photoMap = {
-            1: 'Mercedes.png',
-            2: 'BMW7Series.png', 
-            3: 'AudiA8.png',
-            4: 'LexusLS.png',
-            5: 'Porsche.png',
-            6: 'HongqiH9.png',
-            7: 'Chery.png',
-            8: 'GeelyCool.png'
-        };
-        return photoMap[carId] || 'default-car.jpg';
-    }
-
-    // Форматирование даты для input[type=datetime-local]
-    function formatDateTimeLocal(date) {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        
-        return `${year}-${month}-${day}T${hours}:${minutes}`;
-    }
-    
-    // Функция расчета стоимости бронирования
-    function calculateBookingCost() {
-        const startDateInput = document.getElementById('startDate');
-        const endDateInput = document.getElementById('endDate');
-        
-        if (!startDateInput || !endDateInput) return 0;
-        
-        const startDate = new Date(startDateInput.value);
-        const endDate = new Date(endDateInput.value);
-        
-        if (!startDate || !endDate || endDate <= startDate) {
-            updatePriceSummary(0, 0, 0);
-            return 0;
-        }
-        
-        const durationMs = endDate.getTime() - startDate.getTime();
-        const durationMinutes = Math.ceil(durationMs / (1000 * 60));
-        const durationHours = Math.ceil(durationMs / (1000 * 60 * 60));
-        const durationDays = Math.ceil(durationMs / (1000 * 60 * 60 * 24));
-        
-        const selectedTariff = document.querySelector('.tariff-option.active');
-        if (!selectedTariff) return 0;
-        
-        const tariffType = selectedTariff.getAttribute('data-tariff');
-        const tariffPrice = parseFloat(selectedTariff.getAttribute('data-price'));
-        
-        let rentalCost = 0;
-        
-        switch(tariffType) {
-            case 'minute':
-                rentalCost = (tariffPrice * durationMinutes);
-                break;
-            case 'hour':
-                rentalCost = (tariffPrice * durationHours);
-                break;
-            case 'day':
-                rentalCost = (tariffPrice * durationDays);
-                break;
-            case 'week':
-                const weeks = Math.ceil(durationDays / 7);
-                rentalCost = (tariffPrice * weeks);
-                break;
-        }
-        
-        let extraCost = 0;
-        const childSeat = document.getElementById('childSeat');
-        const premiumInsurance = document.getElementById('premiumInsurance');
-        const delivery = document.getElementById('delivery');
-        
-        if (childSeat && childSeat.checked) extraCost += 500;
-        if (premiumInsurance && premiumInsurance.checked) extraCost += 1000;
-        if (delivery && delivery.checked) extraCost += 1500;
-        
-        const discount = rentalCost * 0.1;
-        const totalCost = rentalCost + extraCost - discount;
-        
-        updatePriceSummary(rentalCost, extraCost, discount, totalCost);
-        
-        return totalCost;
-    }
-
-    // Функция обновления отображения стоимости
-    function updatePriceSummary(rental, extra, discount, total = 0) {
-        const rentalCostEl = document.getElementById('rentalCost');
-        const extraCostEl = document.getElementById('extraCost');
-        const discountEl = document.getElementById('discount');
-        const totalCostEl = document.getElementById('totalCost');
-        
-        if (rentalCostEl) rentalCostEl.textContent = formatPrice(rental);
-        if (extraCostEl) extraCostEl.textContent = formatPrice(extra);
-        if (discountEl) discountEl.textContent = formatPrice(discount, true);
-        if (totalCostEl) totalCostEl.textContent = formatPrice(total);
-    }
-
-    // Форматирование цены
-    function formatPrice(price, isDiscount = false) {
-        const prefix = isDiscount && price > 0 ? '-' : '';
-        return `${prefix}${Math.round(price).toLocaleString('ru-RU')}₽`;
-    }
-
-    // Создание карточки автомобиля
     function createCarCard(car) {
-        const card = document.createElement('div');
-        card.className = 'car-card';
-        
-        const photoName = getCarPhoto(car.id);
-        
-        card.innerHTML = `
-            <div class="car-image" style="background-image: url('img/${photoName}'); background-size: cover; background-position: center; min-height: 200px; border-radius: 10px;">
-            </div>
+        const div = document.createElement('div');
+        div.className = 'car-card';
+        div.innerHTML = `
+            <div class="car-image" style="background-image: url('img/${getCarPhoto(car.id)}'); height:200px; background-size:cover;"></div>
             <div class="car-info">
                 <h3>${car.name}</h3>
                 <p>${car.description}</p>
-                <div class="car-features">
-                    <div class="car-feature">
-                        <i class="fas fa-user"></i>
-                        <span>${car.seats} мест</span>
-                    </div>
-                    <div class="car-feature">
-                        <i class="fas fa-suitcase"></i>
-                        <span>${car.luggage} чем.</span>
-                    </div>
-                </div>
                 <div class="car-price">${car.price}</div>
                 <div class="car-status">
-                    <div class="available-count">Доступно: ${car.available}</div>
-                    <div>
-                        <button class="btn-details" data-car-id="${car.id}">Подробнее</button>
-                        <button class="btn-book" ${car.available === 0 ? 'disabled' : ''} data-car-id="${car.id}">
-                            ${car.available === 0 ? 'Нет в наличии' : 'Забронировать'}
-                        </button>
-                    </div>
+                    <span>Доступно: ${car.available}</span>
+                    <button class="btn-book" onclick="showCarDetails(${car.id})">Подробнее</button>
                 </div>
-            </div>
-        `;
-        
-        // Проверка загрузки картинки
-        const img = new Image();
-        img.onerror = function() {
-            const carImage = card.querySelector('.car-image');
-            if (carImage) {
-                carImage.style.backgroundImage = "url('img/default-car.jpg')";
-                carImage.innerHTML = '<div class="image-text" style="display: flex; align-items: center; justify-content: center; height: 100%; color: white; font-size: 1.2rem;">' + car.name + '</div>';
-            }
-        };
-        img.src = `img/${photoName}`;
-        
-        // Обработчики кнопок
-        const detailsBtn = card.querySelector('.btn-details');
-        const bookBtn = card.querySelector('.btn-book');
-        
-        if (detailsBtn) {
-            detailsBtn.addEventListener('click', function() {
-                showCarDetails(car.id);
-            });
-        }
-        
-        if (bookBtn && car.available > 0) {
-            bookBtn.addEventListener('click', function() {
-                openBookingModal(car);
-            });
-        }
-        
-        return card;
+            </div>`;
+        return div;
     }
 
-    // Функция показа деталей автомобиля
-    function showCarDetails(carId) {
-        const dataStorage = new DataStorage();
-        const cars = dataStorage.getCars();
-        let car = null;
-        
-        for (const category of ['luxury', 'chinese']) {
-            car = cars[category].find(c => c.id === carId);
-            if (car) break;
+    // 3. НАВИГАЦИЯ
+    function showSection(name) {
+        document.querySelectorAll('main > section').forEach(s => s.style.display = 'none');
+        const target = document.getElementById(name + 'Section') || document.getElementById(name);
+        if (target) {
+            target.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        
-        if (!car) return;
-        
-        const photoName = getCarPhoto(car.id);
-        const borderColors = {
-            1: 'var(--primary-color)',
-            2: '#FF6B6B',
-            3: '#4ECDC4',
-            4: '#FFD166',
-            5: '#06D6A0',
-            6: '#118AB2',
-            7: '#9D4EDD',
-            8: '#FF9E6D'
-        };
-        
-        const borderColor = borderColors[car.id] || 'var(--primary-color)';
-        
-        const modalContent = document.getElementById('carModalContent');
-        if (!modalContent) return;
-        
-        modalContent.innerHTML = `
-            <div class="car-modal-content">
-                <div class="car-modal-image" id="modalCarImage" style="
-                    height: 300px;
-                    background-image: url('img/${photoName}');
-                    background-size: cover;
-                    background-position: center;
-                    border-radius: 15px;
-                    margin-bottom: 20px;
-                    border: 2px solid ${borderColor};
-                ">
-                </div>
-                <h2 style="margin-bottom: 15px; color: ${borderColor};">${car.name}</h2>
-                <p class="car-description">${car.detailedDescription}</p>
-                
-                <div class="car-modal-details">
-                    <div class="car-detail-item">
-                        <span class="car-detail-label">Год выпуска</span>
-                        <span class="car-detail-value">${car.year}</span>
-                    </div>
-                    <div class="car-detail-item">
-                        <span class="car-detail-label">Пробег</span>
-                        <span class="car-detail-value">${car.mileage}</span>
-                    </div>
-                    <div class="car-detail-item">
-                        <span class="car-detail-label">Количество мест</span>
-                        <span class="car-detail-value">${car.seats}</span>
-                    </div>
-                    <div class="car-detail-item">
-                        <span class="car-detail-label">Багаж</span>
-                        <span class="car-detail-value">${car.luggage} чемодана</span>
-                    </div>
-                    <div class="car-detail-item">
-                        <span class="car-detail-label">Техобслуживание</span>
-                        <span class="car-detail-value">${car.maintenance}</span>
-                    </div>
-                    <div class="car-detail-item">
-                        <span class="car-detail-label">Доступно</span>
-                        <span class="car-detail-value">${car.available} автомобилей</span>
-                    </div>
-                </div>
-                
-                <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-                    <div class="car-price" style="font-size: 1.8rem; color: ${borderColor};">${car.price}</div>
-                    <button class="btn-book" style="padding: 12px 30px; background-color: ${borderColor}; border-color: ${borderColor};" ${car.available === 0 ? 'disabled' : ''} data-car-id="${car.id}">
-                        ${car.available === 0 ? 'Нет в наличии' : 'Забронировать'}
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        // Проверка загрузки картинки
-        const img = new Image();
-        img.onerror = function() {
-            const modalImage = document.getElementById('modalCarImage');
-            if (modalImage) {
-                modalImage.style.backgroundImage = "url('img/default-car.jpg')";
-            }
-        };
-        img.src = `img/${photoName}`;
-        
-        // Обработчик кнопки "Забронировать"
-        const bookButton = modalContent.querySelector('.btn-book');
-        if (bookButton && car.available > 0) {
-            bookButton.addEventListener('click', function() {
-                const carModal = document.getElementById('carModal');
-                if (carModal) carModal.classList.remove('active');
-                setTimeout(() => {
-                    openBookingModal(car);
-                }, 300);
-            });
-        }
-        
-        const carModal = document.getElementById('carModal');
-        if (carModal) carModal.classList.add('active');
     }
 
-    // ОСНОВНОЙ КОД ПРИЛОЖЕНИЯ
+    // 4. ОСНОВНОЙ ЦИКЛ
     document.addEventListener('DOMContentLoaded', function() {
-        // Инициализация систем
-        const dataStorage = new DataStorage();
-        const notificationSystem = new NotificationSystem();
-        window.showNotification = (type, title, message, duration) => {
-            return notificationSystem.show(type, title, message, duration);
-        };
-        window.dataStorage = dataStorage;
-        
-        // Приветственное уведомление
-        setTimeout(() => {
-            showNotification('success', 'Добро пожаловать!', 'Сайт Деламейн успешно загружен', 4000);
-        }, 1000);
-        
-        // Инициализация компонентов
-        initCarFleet();
-        initReviews();
-        initQuickQuestions();
-        checkAuthStatus();
-        
-        // Устанавливаем начальные значения дат
-        const now = new Date();
-        const minDate = formatDateTimeLocal(now);
-        const startDateInput = document.getElementById('startDate');
-        const endDateInput = document.getElementById('endDate');
-        
-        if (startDateInput && endDateInput) {
-            startDateInput.min = minDate;
-            endDateInput.min = minDate;
-            
-            const startDate = new Date(now.getTime() + 60 * 60 * 1000);
-            const endDate = new Date(startDate.getTime() + 4 * 60 * 60 * 1000);
-            
-            startDateInput.value = formatDateTimeLocal(startDate);
-            endDateInput.value = formatDateTimeLocal(endDate);
-            
-            calculateBookingCost();
-        }
-        
-        // Эффект скролла для шапки
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
+        // Отрисовка данных
+        const cars = dataStorage.getCars();
+        const luxBox = document.getElementById('luxuryCars');
+        const chinBox = document.getElementById('chineseCars');
+        if (luxBox) cars.luxury.forEach(c => luxBox.appendChild(createCarCard(c)));
+        if (chinBox) cars.chinese.forEach(c => chinBox.appendChild(createCarCard(c)));
 
-            // ЛОГИКА ВК ПОСТИНГА (БЕЗОПАСНАЯ)
-        const vkFinalSubmitBtn = document.getElementById('finalPostBtn');
-        if (vkFinalSubmitBtn) {
-            vkFinalSubmitBtn.addEventListener('click', async function() {
-                const vkTextData = document.getElementById('vkMainEditor').value;
-                const vkFileRef = document.getElementById('vkFileInput').files[0];
-
-                if (!vkTextData && !vkFileRef) {
-                    showNotification('warning', 'Внимание', 'Введите текст или выберите фото');
-                    return;
-                }
-
-                vkFinalSubmitBtn.disabled = true;
-                vkFinalSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
-
-                const vkPayload = new FormData();
-                vkPayload.append('message', vkTextData);
-                if (vkFileRef) vkPayload.append('photo', vkFileRef);
-
-                try {
-                    const vkResponse = await fetch('/api/post', { method: 'POST', body: vkPayload });
-                    const vkJsonResult = await vkResponse.json();
-
-                    if (vkJsonResult.success) {
-                        showNotification('success', 'Успех!', 'Пост опубликован в группе VK');
-                        document.getElementById('vkMainEditor').value = '';
-                        document.getElementById('vkFileInput').value = '';
-                    } else {
-                        showNotification('error', 'Ошибка ВК', vkJsonResult.error || 'Доступ запрещен');
-                    }
-                } catch (err) {
-                    showNotification('error', 'Ошибка соединения', 'Сервер api/post не отвечает');
-                } finally {
-                    vkFinalSubmitBtn.disabled = false;
-                    vkFinalSubmitBtn.innerHTML = '<i class="fab fa-vk"></i> Опубликовать в группу';
-                }
-            });
-        }
-        });
-
-        // Инициализация темы
-        const themeToggle = document.getElementById('themeToggle');
-        if (themeToggle) {
-            const currentTheme = localStorage.getItem('theme') || 'dark';
-            document.body.setAttribute('data-theme', currentTheme);
-            updateThemeIcon(currentTheme);
-
-            themeToggle.addEventListener('click', function() {
-                const currentTheme = document.body.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                document.body.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                updateThemeIcon(newTheme);
-                showNotification('info', 'Тема изменена', `Переключено на ${newTheme === 'dark' ? 'тёмную' : 'светлую'} тему`, 3000);
-            });
-
-            function updateThemeIcon(theme) {
-                const icon = themeToggle.querySelector('i');
-                if (icon) {
-                    icon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
-                }
-            }
-        }
-        
-        // Управление модальными окнами
-        const registerBtn = document.getElementById('registerBtn');
-        const loginBtn = document.getElementById('loginBtn');
-        const quickRegisterBtn = document.getElementById('quickRegisterBtn');
-        const registrationModal = document.getElementById('registrationModal');
-        const loginModal = document.getElementById('loginModal');
-        const supportModal = document.getElementById('supportModal');
-        const carModal = document.getElementById('carModal');
-        const bookingModalElement = document.getElementById('bookingModal');
-        const closeRegistrationModal = document.getElementById('closeRegistrationModal');
-        const closeLoginModal = document.getElementById('closeLoginModal');
-        const closeSupportModal = document.getElementById('closeSupportModal');
-        const closeCarModal = document.getElementById('closeCarModal');
-        const closeBookingModal = document.getElementById('closeBookingModal');
-        const helpToggle = document.getElementById('helpToggle');
-        const adminToggle = document.getElementById('adminToggle');
-        const supportBtnFooter = document.getElementById('footerSupportBtn');
-        const registrationForm = document.getElementById('registrationForm');
-        const loginForm = document.getElementById('loginForm');
-        const sendMessageBtn = document.getElementById('sendMessage');
-        const chatInput = document.getElementById('chatInput');
-        const chatMessages = document.getElementById('chatMessages');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const birthdateInput = document.getElementById('birthdate');
-        const ageWarning = document.getElementById('ageWarning');
-        const toRegisterFromLogin = document.getElementById('toRegisterFromLogin');
-        const toLoginFromRegister = document.getElementById('toLoginFromRegister');
-        const logoHome = document.getElementById('logoHome');
-        const avatarUpload = document.getElementById('avatarUpload');
-        const avatarInput = document.getElementById('avatarInput');
-        const editProfileBtn = document.getElementById('editProfileBtn');
-        
-        // Обработчики модальных окон
-        if (registerBtn) {
-            registerBtn.addEventListener('click', function() {
-                if (registrationModal) registrationModal.classList.add('active');
-            });
-        }
-        
-        if (loginBtn) {
-            loginBtn.addEventListener('click', function() {
-                if (loginModal) loginModal.classList.add('active');
-            });
-        }
-        
-        if (quickRegisterBtn) {
-            quickRegisterBtn.addEventListener('click', function() {
-                if (registrationModal) registrationModal.classList.add('active');
-            });
-        }
-
-        if (helpToggle) {
-            helpToggle.addEventListener('click', function() {
-                if (supportModal) supportModal.classList.add('active');
-            });
-        }
-
-        if (adminToggle) {
-            adminToggle.addEventListener('click', function() {
-                showSection('admin');
-                updateAdminPanel();
-            });
-        }
-
-        if (toRegisterFromLogin) {
-            toRegisterFromLogin.addEventListener('click', function(e) {
-                e.preventDefault();
-                if (loginModal) loginModal.classList.remove('active');
-                if (registrationModal) registrationModal.classList.add('active');
-            });
-        }
-
-        if (toLoginFromRegister) {
-            toLoginFromRegister.addEventListener('click', function(e) {
-                e.preventDefault();
-                if (registrationModal) registrationModal.classList.remove('active');
-                if (loginModal) loginModal.classList.add('active');
-            });
-        }
-
-        // Регистрация
-        if (registrationForm) {
-            registrationForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const name = document.getElementById('name').value;
-                const surname = document.getElementById('surname').value;
-                const email = document.getElementById('email').value;
-                const phone = document.getElementById('phone').value;
-                const birthDate = new Date(birthdateInput.value);
-                const today = new Date();
-                const age = today.getFullYear() - birthDate.getFullYear();
-                const license = document.getElementById('license').value;
-                const password = document.getElementById('regPassword').value;
-                
-                if (age < 18) {
-                    showNotification('error', 'Ошибка регистрации', 'Для регистрации должно быть 18 лет или больше', 5000);
-                    return;
-                }
-                
-                if (dataStorage.getUserByEmail(email)) {
-                    showNotification('error', 'Ошибка регистрации', 'Пользователь с таким email уже существует', 5000);
-                    return;
-                }
-                
-                const newUser = {
-                    id: Date.now(),
-                    name: `${name} ${surname}`,
-                    email: email,
-                    phone: phone,
-                    birthdate: birthdateInput.value,
-                    license: license,
-                    password: password,
-                    avatar: '',
-                    registrationDate: new Date().toLocaleDateString('ru-RU'),
-                    tariff: null,
-                    stats: {
-                        distance: 0,
-                        driveTime: 0,
-                        trips: 0,
-                        bonus: 0
-                    }
-                };
-                
-                dataStorage.saveUser(newUser);
-                dataStorage.setCurrentUser(newUser);
-                
-                if (registrationModal) registrationModal.classList.remove('active');
-                showNotification('success', 'Успешная регистрация', `Добро пожаловать, ${name} ${surname}!`, 5000);
-                
-                updateUserInterface();
-            });
-        }
-
-        // Вход
-        if (loginForm) {
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const email = document.getElementById('loginEmail').value;
-                const password = document.getElementById('loginPassword').value;
-                
-                if (email === 'admin@delamain.ru' && password === 'admin123') {
-                    if (loginModal) loginModal.classList.remove('active');
-                    showNotification('success', 'Успешный вход', 'Добро пожаловать, Администратор!', 5000);
-                    
-                    const adminUser = {
-                        id: 0,
-                        name: 'Администратор',
-                        email: 'admin@delamain.ru',
-                        phone: '+7 (900) 000-00-00',
-                        birthdate: '1980-01-01',
-                        license: '0000 000000',
-                        avatar: '',
-                        registrationDate: '01.01.2020',
-                        tariff: 'VIP',
-                        stats: {
-                            distance: 10000,
-                            driveTime: 500,
-                            trips: 150,
-                            bonus: 10000
-                        },
-                        isAdmin: true
-                    };
-                    
-                    dataStorage.setCurrentUser(adminUser);
-                    updateUserInterface();
-                    return;
-                }
-                
-                const user = dataStorage.getUserByEmail(email);
-                
-                if (user && user.password === password) {
-                    if (loginModal) loginModal.classList.remove('active');
-                    showNotification('success', 'Успешный вход', `Добро пожаловать обратно, ${user.name}!`, 4000);
-                    
-                    dataStorage.setCurrentUser(user);
-                    updateUserInterface();
-                } else {
-                    showNotification('error', 'Ошибка входа', 'Неверный email или пароль', 5000);
-                }
-            });
-        }
-
-        // Выход
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', function() {
-                dataStorage.clearCurrentUser();
-                
-                const authButtons = document.getElementById('authButtons');
-                const userProfile = document.getElementById('userProfile');
-                const adminToggle = document.getElementById('adminToggle');
-                
-                if (authButtons) authButtons.style.display = 'flex';
-                if (userProfile) userProfile.style.display = 'none';
-                if (adminToggle) adminToggle.style.display = 'none';
-                
-                showNotification('info', 'Выход', 'Вы вышли из аккаунта', 4000);
-                showSection('home');
-            });
-        }
-
-        // Закрытие модальных окон
-        const closeModal = (modal, closeBtn) => {
-            if (closeBtn && modal) {
-                closeBtn.addEventListener('click', function() {
-                    modal.classList.remove('active');
-                });
-            }
-        };
-        
-        closeModal(registrationModal, closeRegistrationModal);
-        closeModal(loginModal, closeLoginModal);
-        closeModal(supportModal, closeSupportModal);
-        closeModal(carModal, closeCarModal);
-        closeModal(bookingModalElement, closeBookingModal);
-
-        // Закрытие при клике вне модального окна
-        window.addEventListener('click', function(e) {
-            if (registrationModal && e.target === registrationModal) {
-                registrationModal.classList.remove('active');
-            }
-            if (loginModal && e.target === loginModal) {
-                loginModal.classList.remove('active');
-            }
-            if (supportModal && e.target === supportModal) {
-                supportModal.classList.remove('active');
-            }
-            if (carModal && e.target === carModal) {
-                carModal.classList.remove('active');
-            }
-            if (bookingModalElement && e.target === bookingModalElement) {
-                bookingModalElement.classList.remove('active');
-            }
-        });
-
-        // Чат поддержки
-        if (sendMessageBtn) {
-            sendMessageBtn.addEventListener('click', sendMessage);
-        }
-        
-        if (chatInput) {
-            chatInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            });
-        }
-
-        function sendMessage() {
-            if (!chatInput || !chatMessages) return;
-            
-            const message = chatInput.value.trim();
-            if (message === '') return;
-
-            addMessage('user', 'Вы', message);
-            chatInput.value = '';
-
-            setTimeout(() => {
-                const response = getBotResponse(message);
-                addMessage('bot', 'Ви', response);
-            }, 1000);
-        }
-
-        function addMessage(sender, name, text) {
-            if (!chatMessages) return;
-            
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
-            messageDiv.innerHTML = `
-                <div class="message-sender">${name}</div>
-                <div class="message-text">${text}</div>
-            `;
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function getBotResponse(message) {
-            const lowerMessage = message.toLowerCase();
-            const botResponses = {
-                "привет": "Здравствуйте! Чем могу помочь?",
-                "здравствуйте": "Добрый день! Рад вас видеть. Какой у вас вопрос?",
-                "как пользоваться": "Чтобы начать пользоваться каршерингом, нужно:\n1. Зарегистрироваться в приложении\n2. Подтвердить водительское удостоверение\n3. Выбрать автомобиль на карте\n4. Забронировать и начать поездку",
-                "регистрация": "Для регистрации нужны:\n- Паспорт\n- Водительское удостоверение\n- Банковская карта\nПроцесс занимает около 5 минут!",
-                "машины": "Сейчас все наши автомобили доступны на карте в приложении. Хотите узнать о конкретной модели?",
-                "где машины": "Автомобили отображаются на карте в реальном времени в нашем приложении. Скачайте его для просмотра доступных авто рядом с вами!",
-                "тарифы": "У нас есть несколько тарифов: Эконом (12₽/мин), Бизнес (18₽/мин), Премиум (25₽/мин) и VIP (35₽/мин). Какой вас интересует?",
-                "помощь": "Конечно! Расскажите, с чем вам нужна помощь: бронирование, оплата, технические вопросы или что-то другое?",
-                "бронирование": "Чтобы забронировать автомобиль, выберите его на карте в приложении и нажмите кнопку 'Забронировать'. Вы можете забронировать авто на нужное вам время.",
-                "оплата": "Оплата происходит автоматически после завершения поездки. Мы принимаем карты Visa, MasterCard, МИР, а также электронные кошельки.",
-                "отмена": "Вы можете отменить бронирование без штрафа за 15 минут до начала аренды. В приложении нажмите на активное бронирование и выберите 'Отменить'.",
-                "топливо": "Все наши автомобили полностью заправлены. Вам не нужно беспокоиться о заправке во время поездки - это включено в стоимость.",
-                "парковка": "Вы можете оставить автомобиль в любой разрешенной парковочной зоне в пределах города. Плата за парковку включена в стоимость аренды.",
-                "страховка": "Все автомобили застрахованы по КАСКО и ОСАГО. В случае ДТП свяжитесь с поддержкой, и мы поможем оформить все документы.",
-                "приложение": "Наше приложение доступно в App Store и Google Play. Скачайте его, чтобы начать пользоваться каршерингом!",
-                "прокопьевск": "В Прокопьевске у нас 15 пунктов выдачи автомобилей. Основные расположены в центре города, у ТРЦ и в жилых районах.",
-                "default": "Извините, я не совсем понял вопрос. Можете переформулировать? Или спросите о тарифы, автомобилях или помощи с приложением."
-            };
-            
-            for (const [key, response] of Object.entries(botResponses)) {
-                if (lowerMessage.includes(key)) {
-                    return response;
-                }
-            }
-            
-            return botResponses.default;
-        }
-
-        function initQuickQuestions() {
-            const container = document.getElementById('quickQuestions');
-            if (!container) return;
-            
-            const quickQuestions = [
-                "тарифы",
-                "бронирование",
-                "оплата",
-                "отмена",
-                "топливо",
-                "парковка",
-                "страховка",
-                "приложение",
-                "прокопьевск"
-            ];
-            
-            container.innerHTML = '';
-            quickQuestions.forEach(question => {
-                const btn = document.createElement('button');
-                btn.className = 'quick-question-btn';
-                btn.textContent = question;
-                btn.addEventListener('click', function() {
-                    if (chatInput) {
-                        chatInput.value = question;
-                        sendMessage();
-                    }
-                });
-                container.appendChild(btn);
-            });
-        }
-
-     function initCarFleet() {
-            const carDataObj = dataStorage.getCars();
-            const luxuryNode = document.getElementById('luxuryCars');
-            const chineseNode = document.getElementById('chineseCars');
-            
-            const generateCarHtml = (carItem) => {
-                return `
-                    <div class="car-card">
-                        <div class="car-image" style="background-image: url('img/${getCarPhoto(carItem.id)}'); height: 220px; background-size: cover;"></div>
-                        <div class="car-info">
-                            <h3>${carItem.name}</h3>
-                            <p>${carItem.description}</p>
-                            <div class="car-price">${carItem.price}</div>
-                            <div class="car-status">
-                                <span>Доступно: ${carItem.available}</span>
-                                <button class="btn-book" onclick="openBookingModal(${JSON.stringify(carItem).replace(/"/g, '&quot;')})">Забронировать</button>
-                            </div>
-                        </div>
-                    </div>`;
-            };
-
-            if (luxuryNode) luxuryNode.innerHTML = carDataObj.luxury.map(generateCarHtml).join('');
-            if (chineseNode) chineseNode.innerHTML = carDataObj.chinese.map(generateCarHtml).join('');
-        }
-
-        function initReviews() {
-            const reviews = dataStorage.getReviews();
-            const container = document.getElementById('reviewsContainer');
-            
-            if (!container) return;
-            
-            container.innerHTML = '';
-            reviews.forEach(review => {
-                const card = document.createElement('div');
-                card.className = 'review-card';
-                card.innerHTML = `
-                    <div class="review-header">
-                        <div class="review-avatar">${review.avatar}</div>
-                        <div class="review-info">
-                            <h4>${review.name}</h4>
-                            <div class="review-stars">
-                                ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
-                            </div>
-                            <small>${review.date} • ${review.car}</small>
-                        </div>
-                    </div>
-                    <div class="review-text">${review.text}</div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        // ОБРАБОТЧИКИ СОБЫТИЙ ДЛЯ БРОНИРОВАНИЯ
-
-        // Выбор тарифа
-        document.querySelectorAll('.tariff-option').forEach(option => {
-            option.addEventListener('click', function() {
-                document.querySelectorAll('.tariff-option').forEach(opt => {
-                    opt.classList.remove('active');
-                });
-                this.classList.add('active');
-                calculateBookingCost();
-            });
-        });
-
-        // Изменение дат
-        const startDateEl = document.getElementById('startDate');
-        const endDateEl = document.getElementById('endDate');
-        
-        if (startDateEl) startDateEl.addEventListener('change', calculateBookingCost);
-        if (endDateEl) endDateEl.addEventListener('change', calculateBookingCost);
-
-        // Изменение доп. опций
-        document.querySelectorAll('.extra-checkbox input').forEach(checkbox => {
-            checkbox.addEventListener('change', calculateBookingCost);
-        });
-
-        // Кнопка расчета стоимости
-        const calculateBtn = document.getElementById('calculateBtn');
-        if (calculateBtn) {
-            calculateBtn.addEventListener('click', function() {
-                calculateBookingCost();
-                showNotification('info', 'Стоимость пересчитана', 'Итоговая стоимость обновлена', 3000);
-            });
-        }
-
-        // Кнопка подтверждения бронирования
-        const confirmBookingBtn = document.getElementById('confirmBookingBtn');
-        if (confirmBookingBtn) {
-            confirmBookingBtn.addEventListener('click', function() {
-                if (!currentBookingCar) return;
-                
-                const currentUser = dataStorage.getCurrentUser();
-                
-                if (!currentUser) {
-                    showNotification('error', 'Ошибка бронирования', 'Для бронирования необходимо войти в систему', 5000);
-                    if (loginModal) loginModal.classList.add('active');
-                    if (bookingModalElement) bookingModalElement.classList.remove('active');
-                    return;
-                }
-                
-                const startDate = document.getElementById('startDate').value;
-                const endDate = document.getElementById('endDate').value;
-                const selectedTariff = document.querySelector('.tariff-option.active');
-                if (!selectedTariff) return;
-                
-                const tariffType = selectedTariff.getAttribute('data-tariff');
-                const totalCost = calculateBookingCost();
-                
-                const booking = {
-                    id: Date.now(),
-                    userId: currentUser.id,
-                    carId: currentBookingCar.id,
-                    carName: currentBookingCar.name,
-                    startTime: new Date(startDate).toLocaleString('ru-RU'),
-                    endTime: new Date(endDate).toLocaleString('ru-RU'),
-                    tariff: tariffType,
-                    cost: totalCost,
-                    status: 'active',
-                    extras: {
-                        childSeat: document.getElementById('childSeat')?.checked || false,
-                        premiumInsurance: document.getElementById('premiumInsurance')?.checked || true,
-                        delivery: document.getElementById('delivery')?.checked || false
-                    },
-                    createdAt: new Date().toLocaleString('ru-RU'),
-                    distance: Math.floor(Math.random() * 100) + 10,
-                    duration: 4
-                };
-                
-                dataStorage.saveBooking(booking);
-                dataStorage.updateCarAvailability(currentBookingCar.id, -1);
-                
-                showNotification('success', 'Бронирование подтверждено!', 
-                    `${currentBookingCar.name} забронирован с ${new Date(startDate).toLocaleDateString('ru-RU')}`, 5000);
-                
-                if (bookingModalElement) bookingModalElement.classList.remove('active');
-                
-                updateProfileBookings();
-                initCarFleet();
-            });
-        }
+        updateUserInterface();
 
         // Навигация
-        function showSection(sectionName) {
-            document.querySelectorAll('main > section').forEach(section => {
-                section.style.display = 'none';
-            });
-            
-            const targetSection = document.getElementById(sectionName + 'Section');
-            if (targetSection) {
-                targetSection.style.display = 'block';
-                
-                window.scrollTo({
-                    top: targetSection.offsetTop - 100,
-                    behavior: 'smooth'
-                });
-                
-                if (sectionName === 'profile') {
-                    updateProfileData();
-                }
-                if (sectionName === 'admin') {
-                    updateAdminPanel();
-                }
-            }
-        }
-
-        function checkAuthStatus() {
-            const currentUser = dataStorage.getCurrentUser();
-            if (currentUser) {
-                updateUserInterface();
-            }
-        }
-
-      function updateUserInterface() {
-            const activeUser = dataStorage.getCurrentUser();
-            if (!activeUser) return;
-
-            const authBtnGroup = document.getElementById('authButtons');
-            const userProfileNode = document.getElementById('userProfile');
-            const adminGearBtn = document.getElementById('adminToggle');
-            const vkAdminCards = document.querySelectorAll('#goToVkAdmin, #smmCard');
-
-            if (authBtnGroup) authBtnGroup.style.display = 'none';
-            if (userProfileNode) {
-                userProfileNode.style.display = 'flex';
-                document.getElementById('userName').textContent = activeUser.name;
-                userProfileNode.onclick = () => showSection('profile');
-            }
-
-            if (activeUser.isAdmin) {
-                if (adminGearBtn) adminGearBtn.style.display = 'flex';
-                vkAdminCards.forEach(card => {
-                    card.style.display = 'block';
-                    card.onclick = () => showSection('vkPosting');
-                });
-            }
-            updateProfileData();
-        }
-
-        function updateProfileData() {
-            const currentUser = dataStorage.getCurrentUser();
-            
-            if (!currentUser) return;
-            
-            const profileName = document.getElementById('profileName');
-            const profileEmail = document.getElementById('profileEmail');
-            const profilePhone = document.getElementById('profilePhone');
-            const profileRegDate = document.getElementById('profileRegDate');
-            const profileTariff = document.getElementById('profileTariff');
-            
-            if (profileName) profileName.textContent = currentUser.name;
-            if (profileEmail) profileEmail.textContent = currentUser.email;
-            if (profilePhone) profilePhone.textContent = currentUser.phone;
-            if (profileRegDate) profileRegDate.textContent = currentUser.registrationDate;
-            if (profileTariff) profileTariff.textContent = currentUser.tariff || 'Не выбран';
-            
-            const profileDistance = document.getElementById('profileDistance');
-            const profileDriveTime = document.getElementById('profileDriveTime');
-            const profileTrips = document.getElementById('profileTrips');
-            const profileBonus = document.getElementById('profileBonus');
-            
-            if (profileDistance) profileDistance.textContent = currentUser.stats.distance;
-            if (profileDriveTime) profileDriveTime.textContent = currentUser.stats.driveTime;
-            if (profileTrips) profileTrips.textContent = currentUser.stats.trips;
-            if (profileBonus) profileBonus.textContent = currentUser.stats.bonus;
-            
-            updateProfileBookings();
-        }
-
-        function updateProfileBookings() {
-            const currentUser = dataStorage.getCurrentUser();
-            const bookings = dataStorage.getBookings();
-            const userBookings = bookings.filter(booking => booking.userId === currentUser.id);
-            const container = document.getElementById('activeBookingsContainer');
-            
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            if (userBookings.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: var(--text-color);">У вас нет активных бронирований</p>';
-                return;
-            }
-            
-            userBookings.forEach(booking => {
-                if (booking.status === 'active') {
-                    const bookingItem = document.createElement('div');
-                    bookingItem.className = 'booking-item';
-                    bookingItem.innerHTML = `
-                        <div class="booking-details">
-                            <h4>${booking.carName}</h4>
-                            <p>Забронировано до: ${booking.endTime}</p>
-                        </div>
-                        <div class="booking-status status-active">Активно</div>
-                    `;
-                    container.appendChild(bookingItem);
-                }
-            });
-        }
-
-        function updateAdminPanel() {
-            const users = dataStorage.getUsers();
-            const bookings = dataStorage.getBookings();
-            const cars = dataStorage.getCars();
-            
-            const adminUsersCount = document.getElementById('adminUsersCount');
-            const adminCarsCount = document.getElementById('adminCarsCount');
-            const adminBookingsCount = document.getElementById('adminBookingsCount');
-            const adminRevenue = document.getElementById('adminRevenue');
-            
-            if (adminUsersCount) adminUsersCount.textContent = users.length;
-            if (adminCarsCount) adminCarsCount.textContent = cars.luxury.length + cars.chinese.length;
-            if (adminBookingsCount) adminBookingsCount.textContent = bookings.filter(b => b.status === 'active').length;
-            
-            const revenue = bookings.reduce((total, booking) => total + (booking.distance * 2), 0);
-            if (adminRevenue) adminRevenue.textContent = `${revenue}₽`;
-            
-            const bookingsContainer = document.getElementById('adminBookingsContainer');
-            if (bookingsContainer) {
-                bookingsContainer.innerHTML = '';
-                
-                const activeBookings = bookings.filter(b => b.status === 'active');
-                if (activeBookings.length === 0) {
-                    bookingsContainer.innerHTML = '<p style="text-align: center; color: var(--text-color);">Нет активных бронирований</p>';
-                } else {
-                    activeBookings.forEach(booking => {
-                        const user = users.find(u => u.id === booking.userId);
-                        const bookingItem = document.createElement('div');
-                        bookingItem.className = 'booking-admin-item';
-                        bookingItem.innerHTML = `
-                            <div class="booking-admin-header">
-                                <h4>${booking.carName}</h4>
-                                <div class="booking-duration">4 часа</div>
-                            </div>
-                            <div class="booking-details-admin">
-                                <div class="booking-detail">
-                                    <span class="label">Пользователь:</span>
-                                    <span class="value">${user ? user.name : 'Неизвестно'}</span>
-                                </div>
-                                <div class="booking-detail">
-                                    <span class="label">Начало:</span>
-                                    <span class="value">${booking.startTime}</span>
-                                </div>
-                                <div class="booking-detail">
-                                    <span class="label">Конец:</span>
-                                    <span class="value">${booking.endTime}</span>
-                                </div>
-                            </div>
-                            <div class="admin-actions">
-                                <button class="admin-btn btn-edit" data-booking-id="${booking.id}">Завершить</button>
-                                <button class="admin-btn btn-delete" data-booking-id="${booking.id}">Отменить</button>
-                            </div>
-                        `;
-                        bookingsContainer.appendChild(bookingItem);
-                    });
-                }
-            }
-            
-            const usersContainer = document.getElementById('adminUsersContainer');
-            if (usersContainer) {
-                usersContainer.innerHTML = '';
-                
-                if (users.length === 0) {
-                    usersContainer.innerHTML = '<p style="text-align: center; color: var(--text-color);">Нет зарегистрированных пользователей</p>';
-                } else {
-                    const recentUsers = users.slice(-5).reverse();
-                    recentUsers.forEach(user => {
-                        const userItem = document.createElement('div');
-                        userItem.className = 'user-admin-item';
-                        userItem.innerHTML = `
-                            <div class="user-admin-header">
-                                <h4>${user.name}</h4>
-                                <div class="user-status status-active">Активен</div>
-                            </div>
-                            <div class="user-details-admin">
-                                <div class="user-detail">
-                                    <span class="label">Регистрация:</span>
-                                    <span class="value">${user.registrationDate}</span>
-                                </div>
-                                <div class="user-detail">
-                                    <span class="label">Поездок:</span>
-                                    <span class="value">${user.stats.trips}</span>
-                                </div>
-                                <div class="user-detail">
-                                    <span class="label">Тариф:</span>
-                                    <span class="value">${user.tariff || 'Не выбран'}</span>
-                                </div>
-                                <div class="user-detail">
-                                    <span class="label">Статус:</span>
-                                    <span class="value">Верифицирован</span>
-                                </div>
-                            </div>
-                            <div class="admin-actions">
-                                <button class="admin-btn btn-edit" data-user-id="${user.id}">Редактировать</button>
-                                <button class="admin-btn btn-delete" data-user-id="${user.id}">Заблокировать</button>
-                            </div>
-                        `;
-                        usersContainer.appendChild(userItem);
-                    });
-                }
-            }
-            
-            document.querySelectorAll('.admin-btn.btn-edit[data-booking-id]').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const bookingId = parseInt(this.getAttribute('data-booking-id'));
-                    dataStorage.updateBookingStatus(bookingId, 'completed');
-                    updateAdminPanel();
-                    showNotification('success', 'Бронирование завершено', 'Бронирование успешно завершено', 4000);
-                });
-            });
-            
-            document.querySelectorAll('.admin-btn.btn-delete[data-booking-id]').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const bookingId = parseInt(this.getAttribute('data-booking-id'));
-                    dataStorage.updateBookingStatus(bookingId, 'cancelled');
-                    updateAdminPanel();
-                    showNotification('success', 'Бронирование отменено', 'Бронирование успешно отменено', 4000);
-                });
-            });
-        }
-
-        // Инициализация при загрузке
-        if (logoHome) {
-            logoHome.addEventListener('click', function(e) {
-                e.preventDefault();
-                showSection('home');
-            });
-        }
-        
-        // Навигация по ссылкам
         document.querySelectorAll('[data-section]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const section = this.getAttribute('data-section');
-                if (section) {
-                    showSection(section);
-                }
-            });
+            link.onclick = (e) => { e.preventDefault(); showSection(link.getAttribute('data-section')); };
         });
-        
-        initQuickQuestions();
+
+        // Вход / Выход
+        document.getElementById('loginBtn').onclick = () => document.getElementById('loginModal').classList.add('active');
+        document.getElementById('logoutBtn').onclick = () => { dataStorage.clearCurrentUser(); location.reload(); };
+
+        document.getElementById('loginForm').onsubmit = (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPassword').value;
+
+            if (email === 'admin@delamain.ru' && pass === 'admin123') {
+                dataStorage.setCurrentUser({ name: 'Администратор', isAdmin: true, email: email, stats: {distance:0, driveTime:0, trips:0, bonus:0} });
+                location.reload();
+            } else {
+                const user = dataStorage.getUserByEmail(email);
+                if (user && user.password === pass) {
+                    dataStorage.setCurrentUser(user);
+                    location.reload();
+                } else {
+                    showNotification('error', 'Ошибка', 'Неверные данные');
+                }
+            }
+        };
+
+        // --- ЛОГИКА ВК (ВЫНЕСЕНА ИЗ СКРОЛЛА) ---
+        const vkBtn = document.getElementById('finalPostBtn');
+        if (vkBtn) {
+            vkBtn.onclick = async function() {
+                const textValue = document.getElementById('vkMainEditor').value;
+                const fileInput = document.getElementById('vkFileInput');
+                
+                if (!textValue && !fileInput.files[0]) return showNotification('warning', 'Внимание', 'Пост пуст!');
+
+                this.disabled = true;
+                this.innerHTML = "Публикация...";
+
+                const postData = new FormData();
+                postData.append('message', textValue);
+                if (fileInput.files[0]) postData.append('photo', fileInput.files[0]);
+
+                try {
+                    const response = await fetch('/api/post', { method: 'POST', body: postData });
+                    const result = await response.json();
+                    if (result.success) {
+                        showNotification('success', 'Успех', 'Пост в ВК опубликован!');
+                        document.getElementById('vkMainEditor').value = "";
+                    } else {
+                        showNotification('error', 'Ошибка ВК', result.error);
+                    }
+                } catch (err) {
+                    showNotification('error', 'Ошибка', 'Сервер api/post не найден');
+                } finally {
+                    this.disabled = false;
+                    this.innerHTML = '<i class="fab fa-vk"></i> Опубликовать в группу';
+                }
+            };
+        }
+
+        // Кнопки открытия SMM панели (для всех кнопок с этим ID)
+        document.querySelectorAll('#goToVkAdmin, #smmCard').forEach(btn => {
+            btn.onclick = () => showSection('vkPosting');
+        });
+
+        // Тема
+        document.getElementById('themeToggle').onclick = () => {
+            const theme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', theme);
+        };
     });
+
+    function updateUserInterface() {
+        const user = dataStorage.getCurrentUser();
+        if (user) {
+            document.getElementById('authButtons').style.display = 'none';
+            document.getElementById('userProfile').style.display = 'flex';
+            document.getElementById('userName').textContent = user.name;
+            if (user.isAdmin) {
+                document.getElementById('adminToggle').style.display = 'flex';
+                document.querySelectorAll('#goToVkAdmin, #smmCard').forEach(el => el.style.display = 'block');
+            }
+        }
+    }
+    
+    // Глобальная функция для модалки деталей (нужна для кнопок в карточках)
+    window.showCarDetails = (id) => {
+        // Здесь можно вызвать твою функцию отрисовки деталей, если она нужна
+        showNotification('info', 'Инфо', 'Подробности об авто ID: ' + id);
+    };
 </script>
 </body>
 </html>
