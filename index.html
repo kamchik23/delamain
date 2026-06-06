@@ -3565,35 +3565,48 @@
                 <p><strong>Совет:</strong> Для ежедневных поездок по городу выбирайте тариф <span class="highlight-accent">"Эконом"</span>, для деловых поездок - <span class="highlight-accent">"Бизнес"</span>, а для максимального комфорта и всех возможностей - <span class="highlight-accent">"Премиум"</span>. Вы всегда можете сменить тариф в личном кабинете.</p>
             </div>
         </section>
-
-        <!-- Секция отзывов и лояльности -->
+<!-- Секция отзывов и лояльности (ИСПРАВЛЕННАЯ) -->
         <section class="reviews-loyalty-section" id="reviewsLoyaltySection" style="display: none;">
-            <h2 class="section-title">Отзывы и программа лояльности</h2>
+            <div class="section-header">
+                <h2 class="section-title">Отзывы и лояльность</h2>
+                <p class="section-subtitle">Наши клиенты доверяют нам, а мы благодарим их за это <span class="highlight-accent">эксклюзивными бонусами</span></p>
+            </div>
+
             <div class="reviews-loyalty-container">
+                <!-- Контейнер для отзывов -->
                 <div class="reviews-container" id="reviewsContainer">
-                    <!-- Отзывы будут добавлены через JavaScript -->
+                    <!-- Сюда JavaScript сам добавит отзывы, не меняй этот ID -->
                 </div>
                 
-                <div class="loyalty-container">
-                    
-                  <div class="loyalty-container" style="max-width: 800px; margin: 0 auto; padding: 40px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; border: 1px solid var(--primary-color);">
-    <div class="form-group">
-        <label style="color: var(--primary-color); font-weight: bold; display: block; margin-bottom: 15px;">Текст публикации</label>
-        <textarea id="vkMainEditor" class="form-control" style="height: 150px; background: rgba(0,0,0,0.3); border: 1px solid var(--primary-color); color: #fff; padding: 20px; border-radius: 15px; resize: none;" placeholder="Что нового?"></textarea>
-    </div>
+                <!-- Программа лояльности вместо формы ВК -->
+                <div class="loyalty-container" style="max-width: 1000px; margin: 60px auto 0; padding: 40px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; border: 1px solid var(--primary-color);">
+                    <div class="loyalty-header" style="text-align: center; margin-bottom: 40px;">
+                        <i class="fas fa-gem" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 20px;"></i>
+                        <h3>Программа лояльности <span class="highlight-text">Delamain Club</span></h3>
+                        <p>Накапливайте мили за каждую поездку и повышайте свой статус</p>
+                    </div>
 
-    <div class="form-group" style="margin-top: 20px;">
-        <label style="color: var(--primary-color); font-weight: bold; display: block; margin-bottom: 10px;">Прикрепить фото с ПК:</label>
-        <input type="file" id="vkFileInput" accept="image/*" class="form-control" style="padding: 10px;">
-    </div>
+                    <div class="benefits-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                        <div class="benefit-card" style="text-align: center; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid rgba(255,215,0,0.1);">
+                            <i class="fas fa-percent" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 15px;"></i>
+                            <h4>Кэшбэк 5%</h4>
+                            <p>Возвращаем баллами на бонусный счет</p>
+                        </div>
+                        <div class="benefit-card" style="text-align: center; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid rgba(255,215,0,0.1);">
+                            <i class="fas fa-parking" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 15px;"></i>
+                            <h4>Бесплатная бронь</h4>
+                            <p>До 20 минут бесплатного ожидания</p>
+                        </div>
+                        <div class="benefit-card" style="text-align: center; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid rgba(255,215,0,0.1);">
+                            <i class="fas fa-birthday-cake" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 15px;"></i>
+                            <h4>Подарки</h4>
+                            <p>Бонусные часы в ваш день рождения</p>
+                        </div>
+                    </div>
 
-    <div style="display: flex; gap: 15px; margin-top: 25px;">
-        <button id="backToProfile" class="btn btn-secondary" style="flex: 1; justify-content: center;">Назад</button>
-        <button id="finalPostBtn" class="btn btn-primary" style="flex: 2; justify-content: center;">
-            <i class="fab fa-vk"></i> Опубликовать с фото
-        </button>
-    </div>
-</div>
+                    <div style="margin-top: 40px; text-align: center;">
+                        <button class="btn btn-primary" onclick="showNotification('info', 'Клуб Delamain', 'Зарегистрируйтесь, чтобы начать копить баллы!')">Стать участником</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -4120,208 +4133,238 @@
         </div>
     </footer>
 
-   <script>
-  // 1. ДАННЫЕ И ХРАНИЛИЩЕ
-const carData = {
-    luxury: [
-        { id: 1, name: "Mercedes-Benz S-Class", price: "от 25₽/мин", desc: "Роскошный седан", img: "Mercedes.png" },
-        { id: 2, name: "BMW 7 Series", price: "от 23₽/мин", desc: "Элегантный драйв", img: "BMW7Series.png" },
-        { id: 3, name: "Audi A8", price: "от 24₽/мин", desc: "Технологичный флагман", img: "AudiA8.png" }
-    ],
-    chinese: [
-        { id: 6, name: "Hongqi H9", price: "от 18₽/мин", desc: "Китайский премиум", img: "HongqiH9.png" }
-    ]
-};
+<script>
+    // 1. ХРАНИЛИЩЕ ДАННЫХ
+    class DataStorage {
+        constructor() {
+            this.usersKey = 'delamainUsers';
+            this.currentUserKey = 'delamainCurrentUser';
+            this.carsKey = 'delamainCars';
+            this.bookingsKey = 'delamainBookings';
+            this.initData();
+        }
 
-// Функция переключения секций
-function showSection(name) {
-    // Убираем суффикс Section если он есть, чтобы не было дублей (например: vkPosting -> vkPostingSection)
-    const cleanName = name.replace('Section', '');
-    const sections = document.querySelectorAll('main > section');
-    sections.forEach(s => s.style.display = 'none');
-    
-    const target = document.getElementById(cleanName + 'Section');
-    if (target) {
-        target.style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-}
+        initData() {
+            if (!localStorage.getItem(this.usersKey)) localStorage.setItem(this.usersKey, JSON.stringify([]));
+            if (!localStorage.getItem(this.carsKey)) localStorage.setItem(this.carsKey, JSON.stringify(this.getDefaultCars()));
+            if (!localStorage.getItem(this.bookingsKey)) localStorage.setItem(this.bookingsKey, JSON.stringify([]));
+        }
 
-// 2. ГЛАВНАЯ ЛОГИКА
-document.addEventListener('DOMContentLoaded', function() {
-    const notificationContainer = document.getElementById('notificationContainer');
+        getDefaultCars() {
+            return {
+                luxury: [
+                    { id: 1, name: "Mercedes-Benz S-Class", description: "Флагманский седан Mercedes", seats: 5, luggage: 3, price: "от 25₽/мин", available: 3, year: 2022, detailedDescription: "Максимальный комфорт и статус. Оснащен массажными креслами и системой ароматизации салона.", img: "Mercedes.png" },
+                    { id: 2, name: "BMW 7 Series", description: "Спортивная роскошь", seats: 5, luggage: 3, price: "от 23₽/мин", available: 2, year: 2021, detailedDescription: "Для тех, кто любит управлять мощностью. Пневмоподвеска и лазерные фары.", img: "BMW7Series.png" },
+                    { id: 3, name: "Audi A8", description: "Технологичный лидер", seats: 5, luggage: 3, price: "от 24₽/мин", available: 4, year: 2023, detailedDescription: "Полный привод Quattro и инновационная мультимедиа система.", img: "AudiA8.png" }
+                ],
+                chinese: [
+                    { id: 6, name: "Hongqi H9", description: "Китайский премиум", seats: 5, luggage: 3, price: "от 18₽/мин", available: 5, year: 2023, detailedDescription: "Воплощение восточной роскоши. Очень мягкий ход и тихий салон.", img: "HongqiH9.png" }
+                ]
+            };
+        }
 
-    // Система уведомлений
-    window.showNotification = (type, title, msg) => {
-        const el = document.createElement('div');
-        el.className = `notification ${type}`;
-        el.innerHTML = `
-            <div class="notification-icon"><i class="fas ${type === 'success' ? 'fa-check' : 'fa-exclamation-triangle'}"></i></div>
-            <div class="notification-content">
-                <h4>${title}</h4>
-                <p>${msg}</p>
-            </div>
-        `;
-        notificationContainer.appendChild(el);
-        setTimeout(() => el.classList.add('show'), 10);
-        setTimeout(() => {
-            el.classList.remove('show');
-            setTimeout(() => el.remove(), 500);
-        }, 4000);
-    };
-
-    // Отрисовка автопарка
-    const luxuryContainer = document.getElementById('luxuryCars');
-    const chineseContainer = document.getElementById('chineseCars');
-
-    if (luxuryContainer) {
-        carData.luxury.forEach(car => {
-            luxuryContainer.innerHTML += `
-                <div class="car-card">
-                    <div class="car-image" style="background-image: url('img/${car.img}')"></div>
-                    <div class="car-info">
-                        <h3>${car.name}</h3>
-                        <p>${car.desc}</p>
-                        <div class="car-price">${car.price}</div>
-                        <button class="btn-book">Забронировать</button>
-                    </div>
-                </div>`;
-        });
-    }
-
-    if (chineseContainer) {
-        carData.chinese.forEach(car => {
-            chineseContainer.innerHTML += `
-                <div class="car-card">
-                    <div class="car-image" style="background-image: url('img/${car.img}')"></div>
-                    <div class="car-info">
-                        <h3>${car.name}</h3>
-                        <p>${car.desc}</p>
-                        <div class="car-price">${car.price}</div>
-                        <button class="btn-book">Забронировать</button>
-                    </div>
-                </div>`;
-        });
-    }
-
-    // Навигация по кликам на пункты меню
-    document.querySelectorAll('[data-section]').forEach(el => {
-        el.onclick = (e) => {
-            e.preventDefault();
-            const sectionName = el.getAttribute('data-section');
-            showSection(sectionName);
-        };
-    });
-
-    // Проверка авторизации
-    const user = JSON.parse(localStorage.getItem('delamainUser'));
-    const authButtons = document.getElementById('authButtons');
-    const userProfile = document.getElementById('userProfile');
-    const userNameSpan = document.getElementById('userName');
-    const vkAdminBtn = document.querySelectorAll('#goToVkAdmin'); // Находим все кнопки SMM панели
-
-    if (user) {
-        authButtons.style.display = 'none';
-        userProfile.style.display = 'flex';
-        userNameSpan.textContent = user.name;
-        
-        if (user.isAdmin) {
-            document.getElementById('adminToggle').style.display = 'flex';
-            vkAdminBtn.forEach(btn => btn.style.display = 'block');
+        getCars() { return JSON.parse(localStorage.getItem(this.carsKey)); }
+        getCurrentUser() { return JSON.parse(localStorage.getItem(this.currentUserKey)); }
+        setCurrentUser(user) { localStorage.setItem(this.currentUserKey, JSON.stringify(user)); }
+        clearCurrentUser() { localStorage.removeItem(this.currentUserKey); }
+        saveBooking(b) {
+            const current = JSON.parse(localStorage.getItem(this.bookingsKey));
+            current.push(b);
+            localStorage.setItem(this.bookingsKey, JSON.stringify(current));
         }
     }
 
-    // Логика входа
-    const loginModal = document.getElementById('loginModal');
-    document.getElementById('loginBtn').onclick = () => loginModal.classList.add('active');
-    document.getElementById('closeLoginModal').onclick = () => loginModal.classList.remove('active');
+    // 2. СИСТЕМА УВЕДОМЛЕНИЙ
+    const showNotification = (type, title, msg) => {
+        const container = document.getElementById('notificationContainer');
+        const el = document.createElement('div');
+        el.className = `notification ${type}`;
+        el.innerHTML = `<div><strong>${title}</strong><br>${msg}</div>`;
+        container.appendChild(el);
+        setTimeout(() => el.classList.add('show'), 10);
+        setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 500); }, 4000);
+    };
 
+    // 3. ЛОГИКА АВТОПАРКА
+    const ds = new DataStorage();
+
+    function initFleet() {
+        const cars = ds.getCars();
+        renderCategory('luxuryCars', cars.luxury);
+        renderCategory('chineseCars', cars.chinese);
+    }
+
+    function renderCategory(containerId, carList) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+        carList.forEach(car => {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+            card.innerHTML = `
+                <div class="car-image" style="background-image: url('img/${car.img}'); height: 220px; background-size: cover; background-position: center;"></div>
+                <div class="car-info">
+                    <h3>${car.name}</h3>
+                    <p>${car.description}</p>
+                    <div class="car-price" style="text-align: right; font-size: 1.5rem; color: var(--primary-color); font-weight: bold; margin: 10px 0;">${car.price}</div>
+                    <div class="car-status" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.9rem; opacity: 0.8;">Доступно: ${car.available} шт.</span>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn-details" onclick="openDetails(${car.id})">Подробнее</button>
+                            <button class="btn-book" ${car.available === 0 ? 'disabled' : ''} onclick="startBooking(${car.id})">Бронировать</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // Открыть детали (Модалка)
+    window.openDetails = function(carId) {
+        const cars = ds.getCars();
+        const car = [...cars.luxury, ...cars.chinese].find(c => c.id === carId);
+        if (!car) return;
+
+        const modal = document.getElementById('carModal');
+        const content = document.getElementById('carModalContent');
+        content.innerHTML = `
+            <div style="background-image: url('img/${car.img}'); height: 300px; background-size: cover; border-radius: 15px; margin-bottom: 20px;"></div>
+            <h2 style="color: var(--primary-color); margin-bottom: 15px;">${car.name}</h2>
+            <p style="line-height: 1.6; margin-bottom: 20px;">${car.detailedDescription}</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+                <span><strong>Год выпуска:</strong> ${car.year}</span>
+                <span><strong>Мест:</strong> ${car.seats}</span>
+                <span><strong>Цена:</strong> ${car.price}</span>
+                <span><strong>Статус:</strong> Свободен</span>
+            </div>
+            <button class="submit-btn" onclick="startBooking(${car.id})">Перейти к бронированию</button>
+        `;
+        modal.classList.add('active');
+    };
+
+    // Начать бронирование
+    window.startBooking = function(carId) {
+        const user = ds.getCurrentUser();
+        if (!user) {
+            showNotification('error', 'Вход не выполнен', 'Для бронирования нужно войти в аккаунт');
+            document.getElementById('loginModal').classList.add('active');
+            return;
+        }
+        const cars = ds.getCars();
+        const car = [...cars.luxury, ...cars.chinese].find(c => c.id === carId);
+        
+        document.getElementById('carModal').classList.remove('active');
+        document.getElementById('bookingCarImage').style.backgroundImage = `url('img/${car.img}')`;
+        document.getElementById('bookingCarPrice').textContent = car.price;
+        document.getElementById('bookingModal').classList.add('active');
+        
+        // Для логики сохранения
+        window.currentCar = car;
+    };
+
+    // 4. ОСНОВНАЯ ЗАГРУЗКА
+    document.addEventListener('DOMContentLoaded', () => {
+        initFleet();
+
+        // Навигация
+        document.querySelectorAll('[data-section]').forEach(link => {
+            link.onclick = (e) => {
+                e.preventDefault();
+                const sec = link.getAttribute('data-section');
+                document.querySelectorAll('main > section').forEach(s => s.style.display = 'none');
+                const target = document.getElementById(sec + 'Section');
+                if (target) {
+                    target.style.display = 'block';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            };
+        });
+
+        // Проверка авторизации (Admin)
+        const user = ds.getCurrentUser();
+        if (user) {
+            document.getElementById('authButtons').style.display = 'none';
+            document.getElementById('userProfile').style.display = 'flex';
+            document.getElementById('userName').textContent = user.name;
+            if (user.isAdmin) {
+                document.getElementById('adminToggle').style.display = 'flex';
+                const smmBtn = document.getElementById('goToVkAdmin');
+                if (smmBtn) smmBtn.style.display = 'block';
+            }
+        }
+
+        // --- ЛОГИКА ВК (VERCEL) ---
+        const finalPostBtn = document.getElementById('finalPostBtn');
+        if (finalPostBtn) {
+            finalPostBtn.onclick = async function() {
+                const text = document.getElementById('vkMainEditor').value;
+                const fileInput = document.getElementById('vkFileInput');
+
+                if (!text && (!fileInput.files || !fileInput.files[0])) {
+                    showNotification('error', 'Ошибка', 'Напишите текст или выберите фото');
+                    return;
+                }
+
+                this.disabled = true;
+                this.innerHTML = 'Загрузка...';
+
+                const formData = new FormData();
+                formData.append('message', text);
+                if (fileInput.files[0]) formData.append('photo', fileInput.files[0]);
+
+                try {
+                    const response = await fetch('/api/post', { method: 'POST', body: formData });
+                    const result = await response.json();
+                    if (result.success) {
+                        showNotification('success', 'Готово!', 'Пост опубликован в группе VK');
+                        document.getElementById('vkMainEditor').value = '';
+                    } else {
+                        showNotification('error', 'Ошибка VK', result.error);
+                    }
+                } catch (e) {
+                    showNotification('error', 'Сервер недоступен', 'Проверьте настройки хостинга');
+                } finally {
+                    this.disabled = false;
+                    this.innerHTML = '<i class="fab fa-vk"></i> Опубликовать в группу';
+                }
+            };
+        }
+    });
+
+    // Вход
+    document.getElementById('loginBtn').onclick = () => document.getElementById('loginModal').classList.add('active');
     document.getElementById('loginForm').onsubmit = (e) => {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value;
         const pass = document.getElementById('loginPassword').value;
-
         if (email === 'admin@delamain.ru' && pass === 'admin123') {
-            localStorage.setItem('delamainUser', JSON.stringify({
-                name: 'Главный Админ',
-                isAdmin: true,
-                email: email
-            }));
-            showNotification('success', 'Успех', 'Добро пожаловать, Админ!');
-            setTimeout(() => location.reload(), 1000);
+            ds.setCurrentUser({ name: 'Главный Админ', isAdmin: true, email: email });
+            location.reload();
         } else {
             showNotification('error', 'Ошибка', 'Неверный логин или пароль');
         }
     };
 
-    // Выход
-    document.getElementById('logoutBtn').onclick = () => {
-        localStorage.removeItem('delamainUser');
-        location.reload();
-    };
-
-    // Личный кабинет
-    userProfile.onclick = () => showSection('profile');
-
-    // Кнопка перехода в ВК Панель
-    vkAdminBtn.forEach(btn => {
-        btn.onclick = () => showSection('vkPosting');
+    document.getElementById('logoutBtn').onclick = () => { ds.clearCurrentUser(); location.reload(); };
+    
+    // Закрытие всех модалок
+    document.querySelectorAll('.close-btn').forEach(btn => {
+        btn.onclick = () => btn.closest('.modal').classList.remove('active');
     });
 
-    document.getElementById('backToProfile').onclick = () => showSection('profile');
-
-    // --- ЛОГИКА ПУБЛИКАЦИИ ВК ---
-    const finalPostBtn = document.getElementById('finalPostBtn');
-
-    if (finalPostBtn) {
-        finalPostBtn.onclick = async function() {
-            const text = document.getElementById('vkMainEditor').value;
-            const fileInput = document.getElementById('vkFileInput');
-
-            if (!text.trim() && (!fileInput.files || !fileInput.files[0])) {
-                showNotification('error', 'Внимание', 'Введите текст поста или выберите фото');
-                return;
-            }
-
-            // Визуальная блокировка
-            this.disabled = true;
-            const originalHTML = this.innerHTML;
-            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Публикация...';
-
-            const formData = new FormData();
-            formData.append('message', text);
-            if (fileInput.files && fileInput.files[0]) {
-                formData.append('photo', fileInput.files[0]);
-            }
-
-            try {
-                const response = await fetch('/api/post', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (!response.ok) throw new Error('Сервер недоступен');
-
-                const result = await response.json();
-
-                if (result.success) {
-                    showNotification('success', 'Ура!', 'Пост успешно опубликован в группе VK!');
-                    document.getElementById('vkMainEditor').value = '';
-                    fileInput.value = '';
-                    setTimeout(() => showSection('profile'), 2000);
-                } else {
-                    showNotification('error', 'Ошибка VK', result.error);
-                }
-            } catch (err) {
-                showNotification('error', 'Ошибка соединения', 'Запустите vk_server.py на ПК');
-                console.error(err);
-            } finally {
-                this.disabled = false;
-                this.innerHTML = originalHTML;
-            }
-        };
-    }
-});
+    // Переходы в SMM
+    const smmAction = document.getElementById('goToVkAdmin');
+    if (smmAction) smmAction.onclick = () => {
+        document.querySelectorAll('main > section').forEach(s => s.style.display = 'none');
+        document.getElementById('vkPostingSection').style.display = 'block';
+    };
+    
+    const backBtn = document.getElementById('backToProfile');
+    if (backBtn) backBtn.onclick = () => {
+        document.querySelectorAll('main > section').forEach(s => s.style.display = 'none');
+        document.getElementById('profileSection').style.display = 'block';
+    };
 </script>
 </body>
 </html>
