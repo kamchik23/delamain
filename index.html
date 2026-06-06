@@ -6,7 +6,825 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Деламейн - Премиальный каршеринг</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-   
+    <style>
+        /* БАЗОВЫЕ СТИЛИ И НОВАЯ ЦВЕТОВАЯ СХЕМА */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* ОБНОВЛЕННАЯ ЦВЕТОВАЯ СХЕМА - ЧЕРНЫЙ, БЕЛЫЙ, СЕРЫЙ С ЖЕЛТЫМИ АКЦЕНТАМИ */
+        :root {
+            --primary-color: #FFD700;
+            --secondary-color: #FFA500;
+            --accent-color: #FFC107;
+            --dark-color: #121212;
+            --darker-color: #0A0A0A;
+            --light-color: #FFFFFF;
+            --text-color: #E0E0E0;
+            --gray-color: #2A2A2A;
+            --light-gray: #F5F5F5;
+            --medium-gray: #9E9E9E;
+            --success-color: #27AE60;
+            --warning-color: #F39C12;
+            --danger-color: #E74C3C;
+            --transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        [data-theme="light"] {
+            --dark-color: #FFFFFF;
+            --darker-color: #F8F9FA;
+            --light-color: #2C3E50;
+            --text-color: #2C3E50;
+            --gray-color: #E0E0E0;
+            --light-gray: #2C3E50;
+            --medium-gray: #757575;
+        }
+
+        body {
+            background-color: var(--darker-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            opacity: 0;
+            animation: fadeIn 1.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* НОВЫЕ СТИЛИ ДЛЯ ВЫДЕЛЕННОГО ТЕКСТА */
+        .highlight-text {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .highlight-text::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        .highlight-box {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight-accent {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        /* НОВАЯ СЕКЦИЯ "КАК ЭТО РАБОТАЕТ" В СТИЛЕ DELIMOBIL */
+        .how-it-works-section {
+            padding: 120px 5%;
+            background: var(--darker-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .how-it-works-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><path fill="rgba(255,215,0,0.02)" d="M0,1000Q250,500,500,0Q750,500,1000,1000Z"/></svg>');
+            background-size: cover;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .how-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .how-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .how-header h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .how-header p {
+            font-size: 1.3rem;
+            color: var(--text-color);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .how-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .how-step {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .how-step:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark-color);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            z-index: 2;
+        }
+
+        .step-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--dark-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 25px;
+            font-size: 45px;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        .how-step:hover .step-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: var(--primary-color);
+            color: var(--dark-color);
+        }
+
+        .how-step h3 {
+            font-size: 1.7rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .how-step p {
+            color: var(--text-color);
+            line-height: 1.7;
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        .how-advantages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+        }
+
+        .how-advantage {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .how-advantage:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .advantage-icon {
+            width: 70px;
+            height: 70px;
+            min-width: 70px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .advantage-content h4 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .advantage-content p {
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Кнопка смены темы и помощи */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: var(--dark-color);
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .help-toggle {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--dark-color);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-toggle {
+            position: fixed;
+            bottom: 170px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--danger-color);
+            color: var(--light-color);
+            border: 2px solid var(--danger-color);
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: none;
+        }
+
+        .theme-toggle:hover, .help-toggle:hover, .admin-toggle:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Кружок статуса СНТХВУ */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ECC71;
+            border: 1px solid #2ECC71;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #2ECC71;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Шапка сайта */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 25px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        [data-theme="light"] header {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        header.scrolled {
+            padding: 15px 5%;
+            background: rgba(10, 10, 10, 0.98);
+        }
+
+        [data-theme="light"] header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+     
+
+        .logo {
+    display: block; /* или inline-block */
+    width: 200px; /* настройте размер */
+    height: 60px; /* настройте размер */
+    text-decoration: none; /* убираем подчеркивание */
+    transition: transform 0.3s ease; /* плавный эффект при наведении */
+}
+
+.logo:hover {
+    transform: scale(1.05); /* легкое увеличение при наведении */
+}
+
+.logo:active {
+    transform: scale(0.98); /* эффект нажатия */
+}
+
+.logo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* сохраняет пропорции логотипа */
+    display: block;
+}
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+            transition: left 0.7s;
+        }
+
+        .nav-link:hover:before {
+            left: 100%;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateY(-3px);
+            color: var(--primary-color);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 8px 16px;
+            border-radius: 25px;
+        }
+
+        .user-profile:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark-color);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid var(--primary-color);
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Улучшенные кнопки */
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 15px;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover:before {
+            left: 100%;
+        }
+
+        .btn-login {
+            background: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-login:hover {
+            background: var(--primary-color);
+            color: var(--dark-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-register {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--dark-color);
+        }
+
+        .btn-register:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        /* НОВЫЙ ГЛАВНЫЙ ЭКРАН В СТИЛЕ TATTOO22.RU */
+        .main-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--darker-color) 0%, var(--dark-color) 100%);
+            padding: 120px 5% 80px;
+        }
+
+        .main-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,215,0,0.03)" points="0,1000 1000,0 1000,1000"/></svg>');
+            background-size: cover;
+            z-index: 0;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 1400px;
+            width: 100%;
+            z-index: 2;
+        }
+
+        .hero-content {
+            padding-right: 40px;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            color: var(--text-color);
+            max-width: 600px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin: 50px 0;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--medium-gray);
+            margin-top: 5px;
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+// Обновленный CSS
+.car-image {
+    height: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.car-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255, 215, 0, 0.1) 0%, transparent 50%, rgba(255, 215, 0, 0.1) 100%);
+}
+
+/* ============ ПК ВЕРСИЯ (по умолчанию) ============ */
+
+/* Большие экраны (1200px и больше) */
+@media (min-width: 1200px) {
+    .car-showcase {
+        height: 550px; /* Самый большой размер */
+        max-width: 1200px; /* Ограничение ширины */
+    }
+}
+
+/* Стандартные ПК (992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .car-showcase {
+        height: 500px; /* Стандартная высота для ПК */
+        max-width: 1000px;
+    }
+}
+
+/* Небольшие ПК/ноутбуки (769px - 991px) */
+@media (min-width: 769px) and (max-width: 991px) {
+    .car-showcase {
+        height: 450px; /* Немного меньше */
+        max-width: 900px;
+    }
+}
+
+/* ============ ПЛАНШЕТНАЯ ВЕРСИЯ ============ */
+
+/* Планшеты горизонтальные (577px - 768px) */
+@media (min-width: 577px) and (max-width: 768px) {
+    .car-showcase {
+        height: 400px; /* Средняя высота для планшетов */
+        border-radius: 15px; /* Немного меньше скругление */
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6); /* Более легкая тень */
+    }
+}
+
+/* Планшеты вертикальные (481px - 576px) */
+@media (min-width: 481px) and (max-width: 576px) {
+    .car-showcase {
+        height: 350px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* ============ МОБИЛЬНАЯ ВЕРСИЯ ============ */
+
+/* Большие мобильные (401px - 480px) */
+@media (max-width: 480px) and (min-width: 401px) {
+    .car-showcase {
+        height: 320px;
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        border-width: 1.5px; /* Тоньше бордер */
+    }
+}
+
+/* Средние мобильные (376px - 400px) */
+@media (max-width: 400px) and (min-width: 376px) {
+    .car-showcase {
+        height: 280px;
+    }
+}
+
+/* Малые мобильные (до 375px) */
+@media (max-width: 375px) {
+    .car-showcase {
+        height: 250px;
+        border-radius: 8px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        border-width: 1px;
+    }
+}
+
+/* Очень маленькие экраны (до 320px) */
+@media (max-width: 320px) {
+    .car-showcase {
+        height: 220px;
+    }
+}
+
+/* ============ АЛЬТЕРНАТИВНЫЙ ВАРИАНТ: ОТНОСИТЕЛЬНАЯ ВЫСОТА ============ */
+/* Раскомментируйте, если хотите пропорциональную высоту */
+
+/*
+.car-showcase {
+    height: auto;
+    aspect-ratio: 16/9; /* Соотношение сторон 16:9 */
+}
+
+@media (max-width: 768px) {
+    .car-showcase {
+        aspect-ratio: 4/3; /* Более квадратное на мобильных */
+    }
+}
+
+@media (max-width: 480px) {
+    .car-showcase {
+        aspect-ratio: 1/1; /* Квадратное на маленьких экранах */
+    }
+}
+*/
+
+/* ============ УЛУЧШЕННЫЙ ВАРИАНТ С РАЗНЫМИ ИЗОБРАЖЕНИЯМИ ============ */
+
+/* Базовый стиль с мобильной версией изображения по умолчанию */
+.car-showcase {
+    background-image: url('img/картинка1\(мобилка\).png'); /* Мобильная версия */
+}
+
+/* Загрузка ПК версии только на больших экранах */
+@media (min-width: 769px) {
+    .car-showcase {
+        background-image: url('img/картинка1.png'); /* ПК версия */
+    }
+}
+
+/* Для ретина-дисплеев */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .car-showcase {
+        background-image: url('img/картинка1.png');
+    }
+    
+    @media (max-width: 768px) {
+        .car-showcase {
+            background-image: url('img/картинка1.png');
+        }
+    }
+}
+
+/* ============ АНИМАЦИИ И ЭФФЕКТЫ ============ */
+
+/* Плавное изменение размера при ресайзе окна */
+.car-showcase {
+    transition: height 0.3s ease, border-radius 0.3s ease;
+}
+
+/* Эффект при наведении (только для ПК) */
+@media (hover: hover) and (pointer: fine) {
+    .car-showcase:hover {
+        transform: scale(1.01);
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+}
+
+.car-showcase {
+    width: 100%;
+    height: 500px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
     border: 3px solid var(--primary-color);
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     background: #000;
@@ -2605,8 +3423,7 @@
                 <p><strong>Важная информация:</strong> Все автомобили проходят <span class="highlight-accent">ежедневную мойку и дезинфекцию</span>, а также регулярное техническое обслуживание. Состояние каждого авто можно проверить в приложении перед бронированием.</p>
             </div>
         </section>
- 
-        
+
         <!-- СЕКЦИЯ ТАРИФОВ -->
         <section class="tariffs-section" id="tariffsSection" style="display: none;">
             <h2 class="section-title">Наши тарифы</h2>
@@ -2747,47 +3564,75 @@
                 <p><strong>Совет:</strong> Для ежедневных поездок по городу выбирайте тариф <span class="highlight-accent">"Эконом"</span>, для деловых поездок - <span class="highlight-accent">"Бизнес"</span>, а для максимального комфорта и всех возможностей - <span class="highlight-accent">"Премиум"</span>. Вы всегда можете сменить тариф в личном кабинете.</p>
             </div>
         </section>
-<!-- Секция отзывов и лояльности (ИСПРАВЛЕННАЯ) -->
-        <section class="reviews-loyalty-section" id="reviewsLoyaltySection" style="display: none;">
-            <div class="section-header">
-                <h2 class="section-title">Отзывы и лояльность</h2>
-                <p class="section-subtitle">Наши клиенты доверяют нам, а мы благодарим их за это <span class="highlight-accent">эксклюзивными бонусами</span></p>
-            </div>
 
+        <!-- Секция отзывов и лояльности -->
+        <section class="reviews-loyalty-section" id="reviewsLoyaltySection" style="display: none;">
+            <h2 class="section-title">Отзывы и программа лояльности</h2>
             <div class="reviews-loyalty-container">
-                <!-- Контейнер для отзывов -->
                 <div class="reviews-container" id="reviewsContainer">
-                    <!-- Сюда JavaScript сам добавит отзывы, не меняй этот ID -->
+                    <!-- Отзывы будут добавлены через JavaScript -->
                 </div>
                 
-                <!-- Программа лояльности вместо формы ВК -->
-                <div class="loyalty-container" style="max-width: 1000px; margin: 60px auto 0; padding: 40px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; border: 1px solid var(--primary-color);">
-                    <div class="loyalty-header" style="text-align: center; margin-bottom: 40px;">
-                        <i class="fas fa-gem" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 20px;"></i>
-                        <h3>Программа лояльности <span class="highlight-text">Delamain Club</span></h3>
-                        <p>Накапливайте мили за каждую поездку и повышайте свой статус</p>
+                <div class="loyalty-container">
+                    <div class="loyalty-header">
+                        <h3>Зарабатывайте бонусы за каждую поездку!</h3>
+                        <p>Наша программа лояльности вознаграждает постоянных клиентов</p>
                     </div>
-
-                    <div class="benefits-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                        <div class="benefit-card" style="text-align: center; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid rgba(255,215,0,0.1);">
-                            <i class="fas fa-percent" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 15px;"></i>
-                            <h4>Кэшбэк 5%</h4>
-                            <p>Возвращаем баллами на бонусный счет</p>
+                    
+                    <div class="loyalty-badges">
+                        <div class="badge">
+                            <div class="badge-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <h4>Кешбэк до 15%</h4>
+                            <p>Возвращаем часть стоимости каждой поездки</p>
                         </div>
-                        <div class="benefit-card" style="text-align: center; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid rgba(255,215,0,0.1);">
-                            <i class="fas fa-parking" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 15px;"></i>
-                            <h4>Бесплатная бронь</h4>
-                            <p>До 20 минут бесплатного ожидания</p>
+                        <div class="badge">
+                            <div class="badge-icon">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <h4>Бесплатные поездки</h4>
+                            <p>Накопите бонусы и катайтесь бесплатно</p>
                         </div>
-                        <div class="benefit-card" style="text-align: center; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid rgba(255,215,0,0.1);">
-                            <i class="fas fa-birthday-cake" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 15px;"></i>
-                            <h4>Подарки</h4>
-                            <p>Бонусные часы в ваш день рождения</p>
+                        <div class="badge">
+                            <div class="badge-icon">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <h4>Привилегии</h4>
+                            <p>Приоритетный доступ к премиум автомобилям</p>
                         </div>
                     </div>
-
-                    <div style="margin-top: 40px; text-align: center;">
-                        <button class="btn btn-primary" onclick="showNotification('info', 'Клуб Delamain', 'Зарегистрируйтесь, чтобы начать копить баллы!')">Стать участником</button>
+                    
+                    <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary-color);">Преимущества программы</h3>
+                    <div class="benefits-grid">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                            <h4>Накопительная система</h4>
+                            <p>Чем больше ездите, тем выше ваш кешбэк</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h4>Мгновенные бонусы</h4>
+                            <p>Бонусы начисляются сразу после поездки</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <h4>Сезонные акции</h4>
+                            <p>Специальные предложения в праздничные дни</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <h4>Приведи друга</h4>
+                            <p>Получите бонусы за приглашенных друзей</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2873,7 +3718,6 @@
 
         <!-- ОБНОВЛЕННЫЙ ЛИЧНЫЙ КАБИНЕТ -->
         <section class="profile-section" id="profileSection" style="display: none;">
-          
             <div class="profile-header">
                 <div class="profile-avatar-container">
                     <div class="profile-avatar" id="profileAvatar"></div>
@@ -2909,13 +3753,6 @@
             </div>
             
             <div class="profile-content">
- <!-- КНОПКА ПЕРЕХОДА В SMM -->
-                <div class="stat-card" id="goToVkAdmin" style="cursor: pointer; grid-column: 1 / -1; border: 2px solid var(--primary-color); background: rgba(76, 117, 163, 0.1); padding: 30px;">
-                    <i class="fab fa-vk" style="color: #4c75a3; font-size: 3rem; margin-bottom: 15px;"></i>
-                    <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 10px;">SMM Панель</h3>
-                    <p style="color: #ccc;">Нажмите здесь, чтобы создать пост в группе ВКонтакте</p>
-                </div>
-                
                 <div class="profile-info">
                     <h3>Основная информация <button class="edit-btn" id="editProfileBtn">Редактировать</button></h3>
                     <div class="info-item">
@@ -2948,12 +3785,7 @@
                         <span class="info-value" id="profileTariff">Не выбран</span>
                     </div>
                 </div>
-                <!-- Добавь это внутрь <div class="profile-content"> -->
-<div class="stat-card" id="goToVkAdmin" style="cursor: pointer; grid-column: 1 / -1; border-color: #ffd700;">
-    <i class="fab fa-vk" style="color: #4c75a3;"></i>
-    <span class="stat-number">SMM Панель</span>
-    <span class="stat-label">Опубликовать новость в ВК группу</span>
-</div>
+                
                 <div class="profile-bookings">
                     <h3>Активные бронирования</h3>
                     <div id="activeBookingsContainer">
@@ -3011,32 +3843,6 @@
                 </div>
             </div>
         </section>
-        <!-- ЕДИНСТВЕННАЯ И ПРАВИЛЬНАЯ СЕКЦИЯ ВК -->
-<section class="admin-section" id="vkPostingSection" style="display: none;">
-    <div class="admin-header">
-        <h2 class="section-title">Управление сообществом <span class="highlight-text">VK</span></h2>
-        <p>Публикация постов с фотографиями напрямую с твоего компьютера</p>
-    </div>
-
-    <div class="loyalty-container" style="max-width: 800px; margin: 0 auto; padding: 40px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; border: 1px solid var(--primary-color);">
-        <div class="form-group">
-            <label style="color: var(--primary-color); font-weight: bold; display: block; margin-bottom: 10px;">Текст поста:</label>
-            <textarea id="vkMainEditor" class="form-control" style="height: 150px; background: rgba(0,0,0,0.3); border: 1px solid var(--primary-color); color: #fff; padding: 15px; border-radius: 10px; resize: none;" placeholder="Что нового в Деламейн?"></textarea>
-        </div>
-
-        <div class="form-group" style="margin-top: 20px;">
-            <label style="color: var(--primary-color); font-weight: bold; display: block; margin-bottom: 10px;">Выберите фото на компьютере:</label>
-            <input type="file" id="vkFileInput" accept="image/*" class="form-control" style="padding: 10px; background: rgba(255,255,255,0.1);">
-        </div>
-
-        <div style="display: flex; gap: 15px; margin-top: 30px;">
-            <button id="backToProfile" class="btn btn-secondary" style="flex: 1; justify-content: center;">Назад</button>
-            <button id="finalPostBtn" class="btn btn-primary" style="flex: 2; justify-content: center;">
-                <i class="fab fa-vk"></i> Опубликовать в группу
-            </button>
-        </div>
-    </div>
-</section>
     </main>
 
     <!-- Модальные окна -->
@@ -3315,215 +4121,1565 @@
         </div>
     </footer>
 
-<script>
-    // 1. СИСТЕМА ХРАНЕНИЯ ДАННЫХ (DataStorage)
+    <script>
+    // СИСТЕМА ХРАНЕНИЯ ДАННЫХ
     class DataStorage {
         constructor() {
             this.usersKey = 'delamainUsers';
             this.currentUserKey = 'delamainCurrentUser';
             this.carsKey = 'delamainCars';
             this.bookingsKey = 'delamainBookings';
+            this.reviewsKey = 'delamainReviews';
+            
             this.initData();
         }
         
         initData() {
-            if (!localStorage.getItem(this.usersKey)) localStorage.setItem(this.usersKey, JSON.stringify([]));
-            if (!localStorage.getItem(this.carsKey)) localStorage.setItem(this.carsKey, JSON.stringify(this.getDefaultCars()));
-            if (!localStorage.getItem(this.bookingsKey)) localStorage.setItem(this.bookingsKey, JSON.stringify([]));
+            if (!localStorage.getItem(this.usersKey)) {
+                localStorage.setItem(this.usersKey, JSON.stringify([]));
+            }
+            
+            if (!localStorage.getItem(this.carsKey)) {
+                localStorage.setItem(this.carsKey, JSON.stringify(this.getDefaultCars()));
+            }
+            
+            if (!localStorage.getItem(this.bookingsKey)) {
+                localStorage.setItem(this.bookingsKey, JSON.stringify([]));
+            }
+            
+            if (!localStorage.getItem(this.reviewsKey)) {
+                localStorage.setItem(this.reviewsKey, JSON.stringify(this.getDefaultReviews()));
+            }
         }
         
         getDefaultCars() {
             return {
                 luxury: [
-                    { id: 1, name: "Mercedes-Benz S-Class", price: "от 25₽/мин", available: 3, img: "Mercedes.png", seats: 5, luggage: 3, description: "Флагманский седан" },
-                    { id: 2, name: "BMW 7 Series", price: "от 23₽/мин", available: 2, img: "BMW7Series.png", seats: 5, luggage: 3, description: "Спортивная роскошь" }
+                    {
+                        id: 1,
+                        name: "Mercedes-Benz S-Class",
+                        description: "Роскошный седан с передовыми технологиями",
+                        seats: 5,
+                        luggage: 3,
+                        price: "от 25₽/мин",
+                        available: 3,
+                        year: 2022,
+                        mileage: "35 000 км",
+                        maintenance: "Последнее ТО: 01.10.2023",
+                        detailedDescription: "Этот роскошный седан предлагает непревзойденный комфорт и передовые технологии. Оснащен системой полуавтономного вождения, массажными креслами с подогревом и вентиляцией, а также премиальной аудиосистемой Burmester. Идеален для деловых поездок и длительных путешествий."
+                    },
+                    {
+                        id: 2,
+                        name: "BMW 7 Series",
+                        description: "Элегантный и технологичный автомобиль",
+                        seats: 5,
+                        luggage: 3,
+                        price: "от 23₽/мин",
+                        available: 2,
+                        year: 2021,
+                        mileage: "42 500 км",
+                        maintenance: "Последнее ТО: 15.09.2023",
+                        detailedDescription: "Флагманский седан BMW сочетает в себе динамичный дизайн и инновационные технологии. Оснащен системой Gesture Control,全景天窗 и адаптивной подвеской. Мощный двигатель обеспечивает плавное и уверенное ускорение."
+                    },
+                    {
+                        id: 3,
+                        name: "Audi A8",
+                        description: "Инновационный флагман с автономным вождением",
+                        seats: 5,
+                        luggage: 3,
+                        price: "от 24₽/мин",
+                        available: 4,
+                        year: 2023,
+                        mileage: "18 700 км",
+                        maintenance: "Последнее ТО: 05.11.2023",
+                        detailedDescription: "Audi A8 представляет собой вершину инженерной мысли с системой автономного вождения уровня 3. Салон отделан натуральной кожей и деревом, а технология MMI Touch Response обеспечивает интуитивное управление. Идеальный выбор для ценителей технологий и комфорта."
+                    },
+                    {
+                        id: 4,
+                        name: "Lexus LS",
+                        description: "Безупречное качество и комфорт",
+                        seats: 5,
+                        luggage: 3,
+                        price: "от 22₽/мин",
+                        available: 2,
+                        year: 2022,
+                        mileage: "29 800 км",
+                        maintenance: "Последнее ТО: 20.08.2023",
+                        detailedDescription: "Lexus LS славится своей надежностью и непревзойденным комфортом. Сиденья с функцией Shiatsu-массажа, система шумоподавления и плавная подвеска делают каждую поездку незабываемой. Японское качество сборки гарантирует долговечность и безотказность."
+                    },
+                    {
+                        id: 5,
+                        name: "Porsche Panamera",
+                        description: "Спортивный седан премиум-класса",
+                        seats: 4,
+                        luggage: 2,
+                        price: "от 28₽/мин",
+                        available: 1,
+                        year: 2023,
+                        mileage: "12 300 км",
+                        maintenance: "Последнее ТО: 10.10.2023",
+                        detailedDescription: "Porsche Panamera сочетает в себе спортивную динамику с комфортом премиум-седана. Мощный двигатель и система полного привода обеспечивают выдающиеся ходовые качества, а роскошный салон с кожаной отделкой подчеркивает статус владельца."
+                    }
                 ],
                 chinese: [
-                    { id: 6, name: "Hongqi H9", price: "от 18₽/мин", available: 5, img: "HongqiH9.png", seats: 5, luggage: 3, description: "Китайский люкс" }
+                    {
+                        id: 6,
+                        name: "Hongqi H9",
+                        description: "Флагманский седан с роскошным дизайном",
+                        seats: 5,
+                        luggage: 3,
+                        price: "от 18₽/мин",
+                        available: 5,
+                        year: 2023,
+                        mileage: "15 200 км",
+                        maintenance: "Последнее ТО: 25.09.2023",
+                        detailedDescription: "Hongqi H9 - флагманский седан китайского производства, предлагающий роскошь по доступной цене. Впечатляющий дизайн, просторный салон и современные технологии делают его отличным выбором для бизнес-поездок. Оснащен всеми необходимыми системами безопасности и комфорта."
+                    },
+                    {
+                        id: 7,
+                        name: "Chery Tiggo 8 Pro",
+                        description: "Просторный кроссовер для всей семьи",
+                        seats: 7,
+                        luggage: 4,
+                        price: "от 16₽/мин",
+                        available: 6,
+                        year: 2022,
+                        mileage: "24 500 км",
+                        maintenance: "Последнее ТО: 12.10.2023",
+                        detailedDescription: "Chery Tiggo 8 Pro - просторный семиместный кроссовер, идеально подходящий для семейных поездок. Вместительный багажник, комфортная подвеска и экономичный двигатель делают его практичным выбором. Оснащен мультимедийной системой с большим экраном и множеством функций."
+                    },
+                    {
+                        id: 8,
+                        name: "Geely Coolray",
+                        description: "Компактный и стильный кроссовер",
+                        seats: 5,
+                        luggage: 2,
+                        price: "от 14₽/мин",
+                        available: 4,
+                        year: 2023,
+                        mileage: "9 800 км",
+                        maintenance: "Последнее ТО: 18.11.2023",
+                        detailedDescription: "Geely Coolray - компактный кроссовер с ярким дизайном и отличной оснащенностью. Несмотря на компактные размеры, предлагает просторный салон и современные технологии. Экономичный и маневренный - идеален для городских поездок."
+                    }
                 ]
             };
         }
-
-        getUsers() { return JSON.parse(localStorage.getItem(this.usersKey)) || []; }
+        
+        getDefaultReviews() {
+            return [
+                {
+                    id: 1,
+                    name: "Александр",
+                    text: "Отличный сервис! Автомобили всегда чистые и исправные. Пользуюсь регулярно, никаких нареканий. Особенно нравится Mercedes S-Class - непревзойденный комфорт.",
+                    avatar: "А",
+                    rating: 5,
+                    date: "15.09.2023",
+                    car: "Mercedes-Benz S-Class"
+                },
+                {
+                    id: 2,
+                    name: "Мария",
+                    text: "Очень удобное приложение, бронирование занимает пару минут. Все автомобили в отличном состоянии, техобслуживание проводится регулярно. Рекомендую!",
+                    avatar: "М",
+                    rating: 5,
+                    date: "22.08.2023",
+                    car: "BMW 7 Series"
+                },
+                {
+                    id: 3,
+                    name: "Дмитрий",
+                    text: "Пользуюсь каршерингом Деламейн уже больше года. Ни разу не подвели! Машины всегда на месте, чистые и заправленные. Отличная альтернатива такси и собственному авто.",
+                    avatar: "Д",
+                    rating: 4,
+                    date: "10.10.2023",
+                    car: "Audi A8"
+                },
+                {
+                    id: 4,
+                    name: "Ольга",
+                    text: "Как женщина-водитель оценила высокий уровень безопасности и чистоты в автомобилях. Техподдержка работает оперативно, всегда помогают решить любые вопросы. Спасибо!",
+                    avatar: "О",
+                    rating: 5,
+                    date: "05.11.2023",
+                    car: "Lexus LS"
+                },
+                {
+                    id: 5,
+                    name: "Иван",
+                    text: "Идеальное решение для поездок по городу. Не нужно беспокоиться о парковке, техобслуживании и страховка. Цены адекватные, машины современные. Продолжаю пользоваться!",
+                    avatar: "И",
+                    rating: 5,
+                    date: "28.07.2023",
+                    car: "Porsche Panamera"
+                },
+                {
+                    id: 6,
+                    name: "Екатерина",
+                    text: "Отличный сервис! Особенно понравилась программа лояльности - уже накопила достаточно бонусов для бесплатной поездки. Обслуживание на высшем уровне!",
+                    avatar: "Е",
+                    rating: 5,
+                    date: "12.10.2023",
+                    car: "Hongqi H9"
+                }
+            ];
+        }
+        
+        // Методы для работы с пользователями
+        getUsers() {
+            return JSON.parse(localStorage.getItem(this.usersKey)) || [];
+        }
+        
         saveUser(user) {
             const users = this.getUsers();
-            const idx = users.findIndex(u => u.email === user.email);
-            if (idx !== -1) users[idx] = user; else users.push(user);
+            const existingUserIndex = users.findIndex(u => u.email === user.email);
+            
+            if (existingUserIndex !== -1) {
+                users[existingUserIndex] = user;
+            } else {
+                users.push(user);
+            }
+            
             localStorage.setItem(this.usersKey, JSON.stringify(users));
         }
-        getUserByEmail(email) { return this.getUsers().find(u => u.email === email); }
-        getCurrentUser() { return JSON.parse(localStorage.getItem(this.currentUserKey)); }
-        setCurrentUser(user) { localStorage.setItem(this.currentUserKey, JSON.stringify(user)); }
-        clearCurrentUser() { localStorage.removeItem(this.currentUserKey); }
-        getCars() { return JSON.parse(localStorage.getItem(this.carsKey)); }
-        getBookings() { return JSON.parse(localStorage.getItem(this.bookingsKey)) || []; }
+        
+        getUserByEmail(email) {
+            const users = this.getUsers();
+            return users.find(user => user.email === email);
+        }
+        
+        // Методы для работы с текущим пользователем
+        getCurrentUser() {
+            return JSON.parse(localStorage.getItem(this.currentUserKey)) || null;
+        }
+        
+        setCurrentUser(user) {
+            localStorage.setItem(this.currentUserKey, JSON.stringify(user));
+        }
+        
+        clearCurrentUser() {
+            localStorage.removeItem(this.currentUserKey);
+        }
+        
+        // Методы для работы с автомобилями
+        getCars() {
+            return JSON.parse(localStorage.getItem(this.carsKey)) || { luxury: [], chinese: [] };
+        }
+        
+        updateCarAvailability(carId, change) {
+            const cars = this.getCars();
+            let carFound = false;
+            
+            for (const category of ['luxury', 'chinese']) {
+                const carIndex = cars[category].findIndex(car => car.id === carId);
+                if (carIndex !== -1) {
+                    cars[category][carIndex].available += change;
+                    if (cars[category][carIndex].available < 0) {
+                        cars[category][carIndex].available = 0;
+                    }
+                    carFound = true;
+                    break;
+                }
+            }
+            
+            if (carFound) {
+                localStorage.setItem(this.carsKey, JSON.stringify(cars));
+            }
+        }
+        
+        // Методы для работы с бронированиями
+        getBookings() {
+            return JSON.parse(localStorage.getItem(this.bookingsKey)) || [];
+        }
+        
+        saveBooking(booking) {
+            const bookings = this.getBookings();
+            bookings.push(booking);
+            localStorage.setItem(this.bookingsKey, JSON.stringify(bookings));
+        }
+        
+        updateBookingStatus(bookingId, status) {
+            const bookings = this.getBookings();
+            const bookingIndex = bookings.findIndex(b => b.id === bookingId);
+            
+            if (bookingIndex !== -1) {
+                const oldStatus = bookings[bookingIndex].status;
+                bookings[bookingIndex].status = status;
+                
+                if (oldStatus === 'active' && status === 'completed') {
+                    this.updateUserStats(bookings[bookingIndex].userId, bookings[bookingIndex]);
+                }
+                
+                if (status === 'cancelled') {
+                    this.updateCarAvailability(bookings[bookingIndex].carId, 1);
+                }
+                
+                localStorage.setItem(this.bookingsKey, JSON.stringify(bookings));
+            }
+        }
+        
+        // Методы для работы с отзывами
+        getReviews() {
+            return JSON.parse(localStorage.getItem(this.reviewsKey)) || [];
+        }
+        
+        saveReview(review) {
+            const reviews = this.getReviews();
+            reviews.push(review);
+            localStorage.setItem(this.reviewsKey, JSON.stringify(reviews));
+        }
+        
+        // Обновление статистики пользователя
+        updateUserStats(userId, booking) {
+            const users = this.getUsers();
+            const userIndex = users.findIndex(u => u.id === userId);
+            
+            if (userIndex !== -1) {
+                const user = users[userIndex];
+                
+                user.stats.distance += booking.distance || 0;
+                user.stats.driveTime += booking.duration || 0;
+                user.stats.trips += 1;
+                user.stats.bonus += Math.floor(booking.distance / 10) || 10;
+                
+                this.saveUser(user);
+                
+                const currentUser = this.getCurrentUser();
+                if (currentUser && currentUser.id === userId) {
+                    this.setCurrentUser(user);
+                }
+            }
+        }
     }
 
-    // 2. СИСТЕМА УВЕДОМЛЕНИЙ
+    // СИСТЕМА УВЕДОМЛЕНИЙ
     class NotificationSystem {
-        constructor() { this.container = document.getElementById('notificationContainer'); }
-        show(type, title, message) {
-            const el = document.createElement('div');
-            el.className = `notification ${type}`;
-            el.innerHTML = `<div class="notification-content"><h4>${title}</h4><p>${message}</p></div>`;
-            this.container.appendChild(el);
-            setTimeout(() => el.classList.add('show'), 10);
-            setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 500); }, 4000);
+        constructor() {
+            this.container = document.getElementById('notificationContainer');
+            this.notifications = [];
+        }
+
+        show(type, title, message, duration = 5000) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="notification-icon">
+                    <i class="fas ${this.getIcon(type)}"></i>
+                </div>
+                <div class="notification-content">
+                    <h4>${title}</h4>
+                    <p>${message}</p>
+                </div>
+                <button class="notification-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+
+            this.container.appendChild(notification);
+            this.notifications.push(notification);
+
+            setTimeout(() => notification.classList.add('show'), 100);
+
+            const closeBtn = notification.querySelector('.notification-close');
+            closeBtn.addEventListener('click', () => this.hide(notification));
+
+            if (duration > 0) {
+                setTimeout(() => this.hide(notification), duration);
+            }
+
+            return notification;
+        }
+
+        hide(notification) {
+            if (notification && notification.parentNode) {
+                notification.classList.add('hiding');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                    this.notifications = this.notifications.filter(n => n !== notification);
+                }, 500);
+            }
+        }
+
+        getIcon(type) {
+            const icons = {
+                'success': 'fa-check',
+                'error': 'fa-exclamation-triangle',
+                'warning': 'fa-exclamation',
+                'info': 'fa-info'
+            };
+            return icons[type] || 'fa-info';
+        }
+
+        clearAll() {
+            this.notifications.forEach(notification => this.hide(notification));
         }
     }
 
-    // Инициализация глобальных объектов
-    const ds = new DataStorage();
-    const ns = new NotificationSystem();
+    // Глобальная переменная для текущего бронируемого автомобиля
+    let currentBookingCar = null;
 
-    // 3. ФУНКЦИЯ НАВИГАЦИИ (ПОКАЗ СЕКЦИЙ)
-    function showSection(name) {
-        // Скрываем вообще все секции, которые есть в main
-        const allSections = document.querySelectorAll('main > section');
-        allSections.forEach(s => s.style.display = 'none');
-
-        // Ищем нужную секцию по ID (например 'fleet' -> 'fleetSection')
-        const target = document.getElementById(name + 'Section') || document.getElementById(name);
-        if (target) {
-            target.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Функция для открытия модального окна бронирования
+    function openBookingModal(car) {
+        currentBookingCar = car;
+        
+        // Обновляем информацию об автомобиле
+        const bookingCarName = document.getElementById('bookingCarName');
+        if (bookingCarName) bookingCarName.textContent = car.name;
+        
+        const bookingCarSeats = document.getElementById('bookingCarSeats');
+        if (bookingCarSeats) bookingCarSeats.textContent = car.seats + ' мест';
+        
+        const bookingCarLuggage = document.getElementById('bookingCarLuggage');
+        if (bookingCarLuggage) bookingCarLuggage.textContent = car.luggage + ' чемодана';
+        
+        const bookingCarPrice = document.getElementById('bookingCarPrice');
+        if (bookingCarPrice) bookingCarPrice.textContent = car.price;
+        
+        // Устанавливаем изображение автомобиля
+        const carImage = document.getElementById('bookingCarImage');
+        if (carImage) {
+            const photoName = getCarPhoto(car.id);
+            carImage.style.backgroundImage = `url('img/${photoName}')`;
         }
+        
+        // Устанавливаем ID автомобиля
+        const carIdInput = document.getElementById('carId');
+        if (carIdInput) carIdInput.value = car.id;
+        
+        // Устанавливаем даты по умолчанию
+        const now = new Date();
+        const startDate = new Date(now.getTime() + 60 * 60 * 1000);
+        const endDate = new Date(startDate.getTime() + 4 * 60 * 60 * 1000);
+        
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        
+        if (startDateInput) startDateInput.value = formatDateTimeLocal(startDate);
+        if (endDateInput) endDateInput.value = formatDateTimeLocal(endDate);
+        
+        // Сбрасываем выбор тарифа
+        document.querySelectorAll('.tariff-option').forEach(option => {
+            option.classList.remove('active');
+        });
+        const minuteTariff = document.querySelector('.tariff-option[data-tariff="minute"]');
+        if (minuteTariff) minuteTariff.classList.add('active');
+        
+        // Сбрасываем доп. опции
+        const childSeat = document.getElementById('childSeat');
+        const premiumInsurance = document.getElementById('premiumInsurance');
+        const delivery = document.getElementById('delivery');
+        
+        if (childSeat) childSeat.checked = false;
+        if (premiumInsurance) premiumInsurance.checked = true;
+        if (delivery) delivery.checked = false;
+        
+        // Пересчитываем стоимость
+        calculateBookingCost();
+        
+        // Показываем модальное окно
+        const bookingModal = document.getElementById('bookingModal');
+        if (bookingModal) bookingModal.classList.add('active');
     }
 
-    // 4. ОСНОВНОЙ КОД ПРИ ЗАГРУЗКЕ
-    document.addEventListener('DOMContentLoaded', () => {
-        // Проверка авторизации при входе
-        updateUserInterface();
+    // Получение фото автомобиля по ID
+    function getCarPhoto(carId) {
+        const photoMap = {
+            1: 'Mercedes.png',
+            2: 'BMW7Series.png', 
+            3: 'AudiA8.png',
+            4: 'LexusLS.png',
+            5: 'Porsche.png',
+            6: 'HongqiH9.png',
+            7: 'Chery.png',
+            8: 'GeelyCool.png'
+        };
+        return photoMap[carId] || 'default-car.jpg';
+    }
 
-        // Навигация по ссылкам в меню
-        document.querySelectorAll('[data-section]').forEach(link => {
-            link.addEventListener('click', (e) => {
+    // Форматирование даты для input[type=datetime-local]
+    function formatDateTimeLocal(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+    
+    // Функция расчета стоимости бронирования
+    function calculateBookingCost() {
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        
+        if (!startDateInput || !endDateInput) return 0;
+        
+        const startDate = new Date(startDateInput.value);
+        const endDate = new Date(endDateInput.value);
+        
+        if (!startDate || !endDate || endDate <= startDate) {
+            updatePriceSummary(0, 0, 0);
+            return 0;
+        }
+        
+        const durationMs = endDate.getTime() - startDate.getTime();
+        const durationMinutes = Math.ceil(durationMs / (1000 * 60));
+        const durationHours = Math.ceil(durationMs / (1000 * 60 * 60));
+        const durationDays = Math.ceil(durationMs / (1000 * 60 * 60 * 24));
+        
+        const selectedTariff = document.querySelector('.tariff-option.active');
+        if (!selectedTariff) return 0;
+        
+        const tariffType = selectedTariff.getAttribute('data-tariff');
+        const tariffPrice = parseFloat(selectedTariff.getAttribute('data-price'));
+        
+        let rentalCost = 0;
+        
+        switch(tariffType) {
+            case 'minute':
+                rentalCost = (tariffPrice * durationMinutes);
+                break;
+            case 'hour':
+                rentalCost = (tariffPrice * durationHours);
+                break;
+            case 'day':
+                rentalCost = (tariffPrice * durationDays);
+                break;
+            case 'week':
+                const weeks = Math.ceil(durationDays / 7);
+                rentalCost = (tariffPrice * weeks);
+                break;
+        }
+        
+        let extraCost = 0;
+        const childSeat = document.getElementById('childSeat');
+        const premiumInsurance = document.getElementById('premiumInsurance');
+        const delivery = document.getElementById('delivery');
+        
+        if (childSeat && childSeat.checked) extraCost += 500;
+        if (premiumInsurance && premiumInsurance.checked) extraCost += 1000;
+        if (delivery && delivery.checked) extraCost += 1500;
+        
+        const discount = rentalCost * 0.1;
+        const totalCost = rentalCost + extraCost - discount;
+        
+        updatePriceSummary(rentalCost, extraCost, discount, totalCost);
+        
+        return totalCost;
+    }
+
+    // Функция обновления отображения стоимости
+    function updatePriceSummary(rental, extra, discount, total = 0) {
+        const rentalCostEl = document.getElementById('rentalCost');
+        const extraCostEl = document.getElementById('extraCost');
+        const discountEl = document.getElementById('discount');
+        const totalCostEl = document.getElementById('totalCost');
+        
+        if (rentalCostEl) rentalCostEl.textContent = formatPrice(rental);
+        if (extraCostEl) extraCostEl.textContent = formatPrice(extra);
+        if (discountEl) discountEl.textContent = formatPrice(discount, true);
+        if (totalCostEl) totalCostEl.textContent = formatPrice(total);
+    }
+
+    // Форматирование цены
+    function formatPrice(price, isDiscount = false) {
+        const prefix = isDiscount && price > 0 ? '-' : '';
+        return `${prefix}${Math.round(price).toLocaleString('ru-RU')}₽`;
+    }
+
+    // Создание карточки автомобиля
+    function createCarCard(car) {
+        const card = document.createElement('div');
+        card.className = 'car-card';
+        
+        const photoName = getCarPhoto(car.id);
+        
+        card.innerHTML = `
+            <div class="car-image" style="background-image: url('img/${photoName}'); background-size: cover; background-position: center; min-height: 200px; border-radius: 10px;">
+            </div>
+            <div class="car-info">
+                <h3>${car.name}</h3>
+                <p>${car.description}</p>
+                <div class="car-features">
+                    <div class="car-feature">
+                        <i class="fas fa-user"></i>
+                        <span>${car.seats} мест</span>
+                    </div>
+                    <div class="car-feature">
+                        <i class="fas fa-suitcase"></i>
+                        <span>${car.luggage} чем.</span>
+                    </div>
+                </div>
+                <div class="car-price">${car.price}</div>
+                <div class="car-status">
+                    <div class="available-count">Доступно: ${car.available}</div>
+                    <div>
+                        <button class="btn-details" data-car-id="${car.id}">Подробнее</button>
+                        <button class="btn-book" ${car.available === 0 ? 'disabled' : ''} data-car-id="${car.id}">
+                            ${car.available === 0 ? 'Нет в наличии' : 'Забронировать'}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Проверка загрузки картинки
+        const img = new Image();
+        img.onerror = function() {
+            const carImage = card.querySelector('.car-image');
+            if (carImage) {
+                carImage.style.backgroundImage = "url('img/default-car.jpg')";
+                carImage.innerHTML = '<div class="image-text" style="display: flex; align-items: center; justify-content: center; height: 100%; color: white; font-size: 1.2rem;">' + car.name + '</div>';
+            }
+        };
+        img.src = `img/${photoName}`;
+        
+        // Обработчики кнопок
+        const detailsBtn = card.querySelector('.btn-details');
+        const bookBtn = card.querySelector('.btn-book');
+        
+        if (detailsBtn) {
+            detailsBtn.addEventListener('click', function() {
+                showCarDetails(car.id);
+            });
+        }
+        
+        if (bookBtn && car.available > 0) {
+            bookBtn.addEventListener('click', function() {
+                openBookingModal(car);
+            });
+        }
+        
+        return card;
+    }
+
+    // Функция показа деталей автомобиля
+    function showCarDetails(carId) {
+        const dataStorage = new DataStorage();
+        const cars = dataStorage.getCars();
+        let car = null;
+        
+        for (const category of ['luxury', 'chinese']) {
+            car = cars[category].find(c => c.id === carId);
+            if (car) break;
+        }
+        
+        if (!car) return;
+        
+        const photoName = getCarPhoto(car.id);
+        const borderColors = {
+            1: 'var(--primary-color)',
+            2: '#FF6B6B',
+            3: '#4ECDC4',
+            4: '#FFD166',
+            5: '#06D6A0',
+            6: '#118AB2',
+            7: '#9D4EDD',
+            8: '#FF9E6D'
+        };
+        
+        const borderColor = borderColors[car.id] || 'var(--primary-color)';
+        
+        const modalContent = document.getElementById('carModalContent');
+        if (!modalContent) return;
+        
+        modalContent.innerHTML = `
+            <div class="car-modal-content">
+                <div class="car-modal-image" id="modalCarImage" style="
+                    height: 300px;
+                    background-image: url('img/${photoName}');
+                    background-size: cover;
+                    background-position: center;
+                    border-radius: 15px;
+                    margin-bottom: 20px;
+                    border: 2px solid ${borderColor};
+                ">
+                </div>
+                <h2 style="margin-bottom: 15px; color: ${borderColor};">${car.name}</h2>
+                <p class="car-description">${car.detailedDescription}</p>
+                
+                <div class="car-modal-details">
+                    <div class="car-detail-item">
+                        <span class="car-detail-label">Год выпуска</span>
+                        <span class="car-detail-value">${car.year}</span>
+                    </div>
+                    <div class="car-detail-item">
+                        <span class="car-detail-label">Пробег</span>
+                        <span class="car-detail-value">${car.mileage}</span>
+                    </div>
+                    <div class="car-detail-item">
+                        <span class="car-detail-label">Количество мест</span>
+                        <span class="car-detail-value">${car.seats}</span>
+                    </div>
+                    <div class="car-detail-item">
+                        <span class="car-detail-label">Багаж</span>
+                        <span class="car-detail-value">${car.luggage} чемодана</span>
+                    </div>
+                    <div class="car-detail-item">
+                        <span class="car-detail-label">Техобслуживание</span>
+                        <span class="car-detail-value">${car.maintenance}</span>
+                    </div>
+                    <div class="car-detail-item">
+                        <span class="car-detail-label">Доступно</span>
+                        <span class="car-detail-value">${car.available} автомобилей</span>
+                    </div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                    <div class="car-price" style="font-size: 1.8rem; color: ${borderColor};">${car.price}</div>
+                    <button class="btn-book" style="padding: 12px 30px; background-color: ${borderColor}; border-color: ${borderColor};" ${car.available === 0 ? 'disabled' : ''} data-car-id="${car.id}">
+                        ${car.available === 0 ? 'Нет в наличии' : 'Забронировать'}
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        // Проверка загрузки картинки
+        const img = new Image();
+        img.onerror = function() {
+            const modalImage = document.getElementById('modalCarImage');
+            if (modalImage) {
+                modalImage.style.backgroundImage = "url('img/default-car.jpg')";
+            }
+        };
+        img.src = `img/${photoName}`;
+        
+        // Обработчик кнопки "Забронировать"
+        const bookButton = modalContent.querySelector('.btn-book');
+        if (bookButton && car.available > 0) {
+            bookButton.addEventListener('click', function() {
+                const carModal = document.getElementById('carModal');
+                if (carModal) carModal.classList.remove('active');
+                setTimeout(() => {
+                    openBookingModal(car);
+                }, 300);
+            });
+        }
+        
+        const carModal = document.getElementById('carModal');
+        if (carModal) carModal.classList.add('active');
+    }
+
+    // ОСНОВНОЙ КОД ПРИЛОЖЕНИЯ
+    document.addEventListener('DOMContentLoaded', function() {
+        // Инициализация систем
+        const dataStorage = new DataStorage();
+        const notificationSystem = new NotificationSystem();
+        window.showNotification = (type, title, message, duration) => {
+            return notificationSystem.show(type, title, message, duration);
+        };
+        window.dataStorage = dataStorage;
+        
+        // Приветственное уведомление
+        setTimeout(() => {
+            showNotification('success', 'Добро пожаловать!', 'Сайт Деламейн успешно загружен', 4000);
+        }, 1000);
+        
+        // Инициализация компонентов
+        initCarFleet();
+        initReviews();
+        initQuickQuestions();
+        checkAuthStatus();
+        
+        // Устанавливаем начальные значения дат
+        const now = new Date();
+        const minDate = formatDateTimeLocal(now);
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        
+        if (startDateInput && endDateInput) {
+            startDateInput.min = minDate;
+            endDateInput.min = minDate;
+            
+            const startDate = new Date(now.getTime() + 60 * 60 * 1000);
+            const endDate = new Date(startDate.getTime() + 4 * 60 * 60 * 1000);
+            
+            startDateInput.value = formatDateTimeLocal(startDate);
+            endDateInput.value = formatDateTimeLocal(endDate);
+            
+            calculateBookingCost();
+        }
+        
+        // Эффект скролла для шапки
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Инициализация темы
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+            document.body.setAttribute('data-theme', currentTheme);
+            updateThemeIcon(currentTheme);
+
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = document.body.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.body.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+                showNotification('info', 'Тема изменена', `Переключено на ${newTheme === 'dark' ? 'тёмную' : 'светлую'} тему`, 3000);
+            });
+
+            function updateThemeIcon(theme) {
+                const icon = themeToggle.querySelector('i');
+                if (icon) {
+                    icon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+                }
+            }
+        }
+        
+        // Управление модальными окнами
+        const registerBtn = document.getElementById('registerBtn');
+        const loginBtn = document.getElementById('loginBtn');
+        const quickRegisterBtn = document.getElementById('quickRegisterBtn');
+        const registrationModal = document.getElementById('registrationModal');
+        const loginModal = document.getElementById('loginModal');
+        const supportModal = document.getElementById('supportModal');
+        const carModal = document.getElementById('carModal');
+        const bookingModalElement = document.getElementById('bookingModal');
+        const closeRegistrationModal = document.getElementById('closeRegistrationModal');
+        const closeLoginModal = document.getElementById('closeLoginModal');
+        const closeSupportModal = document.getElementById('closeSupportModal');
+        const closeCarModal = document.getElementById('closeCarModal');
+        const closeBookingModal = document.getElementById('closeBookingModal');
+        const helpToggle = document.getElementById('helpToggle');
+        const adminToggle = document.getElementById('adminToggle');
+        const supportBtnFooter = document.getElementById('footerSupportBtn');
+        const registrationForm = document.getElementById('registrationForm');
+        const loginForm = document.getElementById('loginForm');
+        const sendMessageBtn = document.getElementById('sendMessage');
+        const chatInput = document.getElementById('chatInput');
+        const chatMessages = document.getElementById('chatMessages');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const birthdateInput = document.getElementById('birthdate');
+        const ageWarning = document.getElementById('ageWarning');
+        const toRegisterFromLogin = document.getElementById('toRegisterFromLogin');
+        const toLoginFromRegister = document.getElementById('toLoginFromRegister');
+        const logoHome = document.getElementById('logoHome');
+        const avatarUpload = document.getElementById('avatarUpload');
+        const avatarInput = document.getElementById('avatarInput');
+        const editProfileBtn = document.getElementById('editProfileBtn');
+        
+        // Обработчики модальных окон
+        if (registerBtn) {
+            registerBtn.addEventListener('click', function() {
+                if (registrationModal) registrationModal.classList.add('active');
+            });
+        }
+        
+        if (loginBtn) {
+            loginBtn.addEventListener('click', function() {
+                if (loginModal) loginModal.classList.add('active');
+            });
+        }
+        
+        if (quickRegisterBtn) {
+            quickRegisterBtn.addEventListener('click', function() {
+                if (registrationModal) registrationModal.classList.add('active');
+            });
+        }
+
+        if (helpToggle) {
+            helpToggle.addEventListener('click', function() {
+                if (supportModal) supportModal.classList.add('active');
+            });
+        }
+
+        if (adminToggle) {
+            adminToggle.addEventListener('click', function() {
+                showSection('admin');
+                updateAdminPanel();
+            });
+        }
+
+        if (toRegisterFromLogin) {
+            toRegisterFromLogin.addEventListener('click', function(e) {
                 e.preventDefault();
-                showSection(link.getAttribute('data-section'));
+                if (loginModal) loginModal.classList.remove('active');
+                if (registrationModal) registrationModal.classList.add('active');
+            });
+        }
+
+        if (toLoginFromRegister) {
+            toLoginFromRegister.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (registrationModal) registrationModal.classList.remove('active');
+                if (loginModal) loginModal.classList.add('active');
+            });
+        }
+
+        // Регистрация
+        if (registrationForm) {
+            registrationForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const surname = document.getElementById('surname').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const birthDate = new Date(birthdateInput.value);
+                const today = new Date();
+                const age = today.getFullYear() - birthDate.getFullYear();
+                const license = document.getElementById('license').value;
+                const password = document.getElementById('regPassword').value;
+                
+                if (age < 18) {
+                    showNotification('error', 'Ошибка регистрации', 'Для регистрации должно быть 18 лет или больше', 5000);
+                    return;
+                }
+                
+                if (dataStorage.getUserByEmail(email)) {
+                    showNotification('error', 'Ошибка регистрации', 'Пользователь с таким email уже существует', 5000);
+                    return;
+                }
+                
+                const newUser = {
+                    id: Date.now(),
+                    name: `${name} ${surname}`,
+                    email: email,
+                    phone: phone,
+                    birthdate: birthdateInput.value,
+                    license: license,
+                    password: password,
+                    avatar: '',
+                    registrationDate: new Date().toLocaleDateString('ru-RU'),
+                    tariff: null,
+                    stats: {
+                        distance: 0,
+                        driveTime: 0,
+                        trips: 0,
+                        bonus: 0
+                    }
+                };
+                
+                dataStorage.saveUser(newUser);
+                dataStorage.setCurrentUser(newUser);
+                
+                if (registrationModal) registrationModal.classList.remove('active');
+                showNotification('success', 'Успешная регистрация', `Добро пожаловать, ${name} ${surname}!`, 5000);
+                
+                updateUserInterface();
+            });
+        }
+
+        // Вход
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                
+                if (email === 'admin@delamain.ru' && password === 'admin123') {
+                    if (loginModal) loginModal.classList.remove('active');
+                    showNotification('success', 'Успешный вход', 'Добро пожаловать, Администратор!', 5000);
+                    
+                    const adminUser = {
+                        id: 0,
+                        name: 'Администратор',
+                        email: 'admin@delamain.ru',
+                        phone: '+7 (900) 000-00-00',
+                        birthdate: '1980-01-01',
+                        license: '0000 000000',
+                        avatar: '',
+                        registrationDate: '01.01.2020',
+                        tariff: 'VIP',
+                        stats: {
+                            distance: 10000,
+                            driveTime: 500,
+                            trips: 150,
+                            bonus: 10000
+                        },
+                        isAdmin: true
+                    };
+                    
+                    dataStorage.setCurrentUser(adminUser);
+                    updateUserInterface();
+                    return;
+                }
+                
+                const user = dataStorage.getUserByEmail(email);
+                
+                if (user && user.password === password) {
+                    if (loginModal) loginModal.classList.remove('active');
+                    showNotification('success', 'Успешный вход', `Добро пожаловать обратно, ${user.name}!`, 4000);
+                    
+                    dataStorage.setCurrentUser(user);
+                    updateUserInterface();
+                } else {
+                    showNotification('error', 'Ошибка входа', 'Неверный email или пароль', 5000);
+                }
+            });
+        }
+
+        // Выход
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function() {
+                dataStorage.clearCurrentUser();
+                
+                const authButtons = document.getElementById('authButtons');
+                const userProfile = document.getElementById('userProfile');
+                const adminToggle = document.getElementById('adminToggle');
+                
+                if (authButtons) authButtons.style.display = 'flex';
+                if (userProfile) userProfile.style.display = 'none';
+                if (adminToggle) adminToggle.style.display = 'none';
+                
+                showNotification('info', 'Выход', 'Вы вышли из аккаунта', 4000);
+                showSection('home');
+            });
+        }
+
+        // Закрытие модальных окон
+        const closeModal = (modal, closeBtn) => {
+            if (closeBtn && modal) {
+                closeBtn.addEventListener('click', function() {
+                    modal.classList.remove('active');
+                });
+            }
+        };
+        
+        closeModal(registrationModal, closeRegistrationModal);
+        closeModal(loginModal, closeLoginModal);
+        closeModal(supportModal, closeSupportModal);
+        closeModal(carModal, closeCarModal);
+        closeModal(bookingModalElement, closeBookingModal);
+
+        // Закрытие при клике вне модального окна
+        window.addEventListener('click', function(e) {
+            if (registrationModal && e.target === registrationModal) {
+                registrationModal.classList.remove('active');
+            }
+            if (loginModal && e.target === loginModal) {
+                loginModal.classList.remove('active');
+            }
+            if (supportModal && e.target === supportModal) {
+                supportModal.classList.remove('active');
+            }
+            if (carModal && e.target === carModal) {
+                carModal.classList.remove('active');
+            }
+            if (bookingModalElement && e.target === bookingModalElement) {
+                bookingModalElement.classList.remove('active');
+            }
+        });
+
+        // Чат поддержки
+        if (sendMessageBtn) {
+            sendMessageBtn.addEventListener('click', sendMessage);
+        }
+        
+        if (chatInput) {
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        }
+
+        function sendMessage() {
+            if (!chatInput || !chatMessages) return;
+            
+            const message = chatInput.value.trim();
+            if (message === '') return;
+
+            addMessage('user', 'Вы', message);
+            chatInput.value = '';
+
+            setTimeout(() => {
+                const response = getBotResponse(message);
+                addMessage('bot', 'Ви', response);
+            }, 1000);
+        }
+
+        function addMessage(sender, name, text) {
+            if (!chatMessages) return;
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.innerHTML = `
+                <div class="message-sender">${name}</div>
+                <div class="message-text">${text}</div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function getBotResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            const botResponses = {
+                "привет": "Здравствуйте! Чем могу помочь?",
+                "здравствуйте": "Добрый день! Рад вас видеть. Какой у вас вопрос?",
+                "как пользоваться": "Чтобы начать пользоваться каршерингом, нужно:\n1. Зарегистрироваться в приложении\n2. Подтвердить водительское удостоверение\n3. Выбрать автомобиль на карте\n4. Забронировать и начать поездку",
+                "регистрация": "Для регистрации нужны:\n- Паспорт\n- Водительское удостоверение\n- Банковская карта\nПроцесс занимает около 5 минут!",
+                "машины": "Сейчас все наши автомобили доступны на карте в приложении. Хотите узнать о конкретной модели?",
+                "где машины": "Автомобили отображаются на карте в реальном времени в нашем приложении. Скачайте его для просмотра доступных авто рядом с вами!",
+                "тарифы": "У нас есть несколько тарифов: Эконом (12₽/мин), Бизнес (18₽/мин), Премиум (25₽/мин) и VIP (35₽/мин). Какой вас интересует?",
+                "помощь": "Конечно! Расскажите, с чем вам нужна помощь: бронирование, оплата, технические вопросы или что-то другое?",
+                "бронирование": "Чтобы забронировать автомобиль, выберите его на карте в приложении и нажмите кнопку 'Забронировать'. Вы можете забронировать авто на нужное вам время.",
+                "оплата": "Оплата происходит автоматически после завершения поездки. Мы принимаем карты Visa, MasterCard, МИР, а также электронные кошельки.",
+                "отмена": "Вы можете отменить бронирование без штрафа за 15 минут до начала аренды. В приложении нажмите на активное бронирование и выберите 'Отменить'.",
+                "топливо": "Все наши автомобили полностью заправлены. Вам не нужно беспокоиться о заправке во время поездки - это включено в стоимость.",
+                "парковка": "Вы можете оставить автомобиль в любой разрешенной парковочной зоне в пределах города. Плата за парковку включена в стоимость аренды.",
+                "страховка": "Все автомобили застрахованы по КАСКО и ОСАГО. В случае ДТП свяжитесь с поддержкой, и мы поможем оформить все документы.",
+                "приложение": "Наше приложение доступно в App Store и Google Play. Скачайте его, чтобы начать пользоваться каршерингом!",
+                "прокопьевск": "В Прокопьевске у нас 15 пунктов выдачи автомобилей. Основные расположены в центре города, у ТРЦ и в жилых районах.",
+                "default": "Извините, я не совсем понял вопрос. Можете переформулировать? Или спросите о тарифы, автомобилях или помощи с приложением."
+            };
+            
+            for (const [key, response] of Object.entries(botResponses)) {
+                if (lowerMessage.includes(key)) {
+                    return response;
+                }
+            }
+            
+            return botResponses.default;
+        }
+
+        function initQuickQuestions() {
+            const container = document.getElementById('quickQuestions');
+            if (!container) return;
+            
+            const quickQuestions = [
+                "тарифы",
+                "бронирование",
+                "оплата",
+                "отмена",
+                "топливо",
+                "парковка",
+                "страховка",
+                "приложение",
+                "прокопьевск"
+            ];
+            
+            container.innerHTML = '';
+            quickQuestions.forEach(question => {
+                const btn = document.createElement('button');
+                btn.className = 'quick-question-btn';
+                btn.textContent = question;
+                btn.addEventListener('click', function() {
+                    if (chatInput) {
+                        chatInput.value = question;
+                        sendMessage();
+                    }
+                });
+                container.appendChild(btn);
+            });
+        }
+
+        function initCarFleet() {
+            const cars = dataStorage.getCars();
+            const luxuryContainer = document.getElementById('luxuryCars');
+            const chineseContainer = document.getElementById('chineseCars');
+            
+            if (luxuryContainer) {
+                luxuryContainer.innerHTML = '';
+                cars.luxury.forEach(car => {
+                    luxuryContainer.appendChild(createCarCard(car));
+                });
+            }
+            
+            if (chineseContainer) {
+                chineseContainer.innerHTML = '';
+                cars.chinese.forEach(car => {
+                    chineseContainer.appendChild(createCarCard(car));
+                });
+            }
+        }
+
+        function initReviews() {
+            const reviews = dataStorage.getReviews();
+            const container = document.getElementById('reviewsContainer');
+            
+            if (!container) return;
+            
+            container.innerHTML = '';
+            reviews.forEach(review => {
+                const card = document.createElement('div');
+                card.className = 'review-card';
+                card.innerHTML = `
+                    <div class="review-header">
+                        <div class="review-avatar">${review.avatar}</div>
+                        <div class="review-info">
+                            <h4>${review.name}</h4>
+                            <div class="review-stars">
+                                ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
+                            </div>
+                            <small>${review.date} • ${review.car}</small>
+                        </div>
+                    </div>
+                    <div class="review-text">${review.text}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ОБРАБОТЧИКИ СОБЫТИЙ ДЛЯ БРОНИРОВАНИЯ
+
+        // Выбор тарифа
+        document.querySelectorAll('.tariff-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.tariff-option').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                this.classList.add('active');
+                calculateBookingCost();
             });
         });
 
-        // Кнопка Логотипа (домой)
-        document.getElementById('logoHome').addEventListener('click', (e) => {
-            e.preventDefault();
-            showSection('home');
-        });
-
-        // Вход (Модалка)
-        document.getElementById('loginBtn').onclick = () => document.getElementById('loginModal').classList.add('active');
+        // Изменение дат
+        const startDateEl = document.getElementById('startDate');
+        const endDateEl = document.getElementById('endDate');
         
-        // Обработка формы входа
-        document.getElementById('loginForm').onsubmit = (e) => {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const pass = document.getElementById('loginPassword').value;
+        if (startDateEl) startDateEl.addEventListener('change', calculateBookingCost);
+        if (endDateEl) endDateEl.addEventListener('change', calculateBookingCost);
 
-            // АДМИН-ВХОД
-            if (email === 'admin@delamain.ru' && pass === 'admin123') {
-                const admin = { name: 'Администратор', email: email, isAdmin: true, stats: { trips: 0, distance: 0, bonus: 0 } };
-                ds.setCurrentUser(admin);
-                ns.show('success', 'Админ-панель', 'Доступ разрешен');
-                document.getElementById('loginModal').classList.remove('active');
-                updateUserInterface();
-                showSection('admin');
-                return;
-            }
-
-            // ОБЫЧНЫЙ ВХОД
-            const user = ds.getUserByEmail(email);
-            if (user && user.password === pass) {
-                ds.setCurrentUser(user);
-                ns.show('success', 'Вход', `Привет, ${user.name}`);
-                document.getElementById('loginModal').classList.remove('active');
-                updateUserInterface();
-                showSection('profile');
-            } else {
-                ns.show('error', 'Ошибка', 'Неверные данные');
-            }
-        };
-
-        // Выход
-        document.getElementById('logoutBtn').onclick = () => {
-            ds.clearCurrentUser();
-            location.reload();
-        };
-
-        // Кнопка открытия админки (шестеренка)
-        document.getElementById('adminToggle').onclick = () => showSection('admin');
-
-        // ПЕРЕХОД В SMM ПАНЕЛЬ (ВК)
-        document.querySelectorAll('#goToVkAdmin').forEach(btn => {
-            btn.onclick = () => showSection('vkPostingSection');
+        // Изменение доп. опций
+        document.querySelectorAll('.extra-checkbox input').forEach(checkbox => {
+            checkbox.addEventListener('change', calculateBookingCost);
         });
 
-        document.getElementById('backToProfile').onclick = () => showSection('profile');
+        // Кнопка расчета стоимости
+        const calculateBtn = document.getElementById('calculateBtn');
+        if (calculateBtn) {
+            calculateBtn.addEventListener('click', function() {
+                calculateBookingCost();
+                showNotification('info', 'Стоимость пересчитана', 'Итоговая стоимость обновлена', 3000);
+            });
+        }
 
-        // --- ЛОГИКА ПУБЛИКАЦИИ В ВК ---
-        const finalPostBtn = document.getElementById('finalPostBtn');
-        if (finalPostBtn) {
-            finalPostBtn.onclick = async function() {
-                const text = document.getElementById('vkMainEditor').value;
-                const fileInput = document.getElementById('vkFileInput');
-
-                if (!text && !fileInput.files[0]) {
-                    ns.show('warning', 'Внимание', 'Пост пустой!');
+        // Кнопка подтверждения бронирования
+        const confirmBookingBtn = document.getElementById('confirmBookingBtn');
+        if (confirmBookingBtn) {
+            confirmBookingBtn.addEventListener('click', function() {
+                if (!currentBookingCar) return;
+                
+                const currentUser = dataStorage.getCurrentUser();
+                
+                if (!currentUser) {
+                    showNotification('error', 'Ошибка бронирования', 'Для бронирования необходимо войти в систему', 5000);
+                    if (loginModal) loginModal.classList.add('active');
+                    if (bookingModalElement) bookingModalElement.classList.remove('active');
                     return;
                 }
-
-                this.disabled = true;
-                this.innerHTML = 'Загрузка...';
-
-                const formData = new FormData();
-                formData.append('message', text);
-                if (fileInput.files[0]) formData.append('photo', fileInput.files[0]);
-
-                try {
-                    const response = await fetch('/api/post', { method: 'POST', body: formData });
-                    const res = await response.json();
-                    if (res.success) {
-                        ns.show('success', 'VK', 'Опубликовано в группу!');
-                        document.getElementById('vkMainEditor').value = '';
-                        fileInput.value = '';
-                    } else {
-                        ns.show('error', 'Ошибка VK', res.error || 'Ошибка доступа');
-                    }
-                } catch (err) {
-                    ns.show('error', 'Ошибка', 'Сервер API не отвечает');
-                } finally {
-                    this.disabled = false;
-                    this.innerHTML = '<i class="fab fa-vk"></i> Опубликовать в группу';
-                }
-            };
+                
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                const selectedTariff = document.querySelector('.tariff-option.active');
+                if (!selectedTariff) return;
+                
+                const tariffType = selectedTariff.getAttribute('data-tariff');
+                const totalCost = calculateBookingCost();
+                
+                const booking = {
+                    id: Date.now(),
+                    userId: currentUser.id,
+                    carId: currentBookingCar.id,
+                    carName: currentBookingCar.name,
+                    startTime: new Date(startDate).toLocaleString('ru-RU'),
+                    endTime: new Date(endDate).toLocaleString('ru-RU'),
+                    tariff: tariffType,
+                    cost: totalCost,
+                    status: 'active',
+                    extras: {
+                        childSeat: document.getElementById('childSeat')?.checked || false,
+                        premiumInsurance: document.getElementById('premiumInsurance')?.checked || true,
+                        delivery: document.getElementById('delivery')?.checked || false
+                    },
+                    createdAt: new Date().toLocaleString('ru-RU'),
+                    distance: Math.floor(Math.random() * 100) + 10,
+                    duration: 4
+                };
+                
+                dataStorage.saveBooking(booking);
+                dataStorage.updateCarAvailability(currentBookingCar.id, -1);
+                
+                showNotification('success', 'Бронирование подтверждено!', 
+                    `${currentBookingCar.name} забронирован с ${new Date(startDate).toLocaleDateString('ru-RU')}`, 5000);
+                
+                if (bookingModalElement) bookingModalElement.classList.remove('active');
+                
+                updateProfileBookings();
+                initCarFleet();
+            });
         }
 
-        // Закрытие модалок
-        document.querySelectorAll('.close-btn').forEach(b => {
-            b.onclick = () => b.closest('.modal').classList.remove('active');
-        });
-    });
-
-    // Функция обновления UI (показ кнопок профиля и админа)
-    function updateUserInterface() {
-        const user = ds.getCurrentUser();
-        if (user) {
-            document.getElementById('authButtons').style.display = 'none';
-            document.getElementById('userProfile').style.display = 'flex';
-            document.getElementById('userName').textContent = user.name;
+        // Навигация
+        function showSection(sectionName) {
+            document.querySelectorAll('main > section').forEach(section => {
+                section.style.display = 'none';
+            });
             
-            // Если админ — показываем кнопку админки
-            if (user.isAdmin) {
-                document.getElementById('adminToggle').style.display = 'flex';
+            const targetSection = document.getElementById(sectionName + 'Section');
+            if (targetSection) {
+                targetSection.style.display = 'block';
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+                
+                if (sectionName === 'profile') {
+                    updateProfileData();
+                }
+                if (sectionName === 'admin') {
+                    updateAdminPanel();
+                }
             }
         }
-    }
 
-    // Темы оформления
-    document.getElementById('themeToggle').onclick = () => {
-        const current = document.body.getAttribute('data-theme');
-        const next = current === 'light' ? 'dark' : 'light';
-        document.body.setAttribute('data-theme', next);
-        document.querySelector('#themeToggle i').className = next === 'light' ? 'fas fa-sun' : 'fas fa-moon';
-    };
+        function checkAuthStatus() {
+            const currentUser = dataStorage.getCurrentUser();
+            if (currentUser) {
+                updateUserInterface();
+            }
+        }
+
+        function updateUserInterface() {
+            const currentUser = dataStorage.getCurrentUser();
+            
+            if (currentUser) {
+                const authButtons = document.getElementById('authButtons');
+                const userProfile = document.getElementById('userProfile');
+                const adminToggle = document.getElementById('adminToggle');
+                
+                if (authButtons) authButtons.style.display = 'none';
+                if (userProfile) userProfile.style.display = 'flex';
+                
+                const userName = document.getElementById('userName');
+                if (userName) userName.textContent = currentUser.name;
+                
+                if (currentUser.avatar) {
+                    const userAvatar = document.getElementById('userAvatar');
+                    const profileAvatar = document.getElementById('profileAvatar');
+                    if (userAvatar) userAvatar.style.backgroundImage = `url(${currentUser.avatar})`;
+                    if (profileAvatar) profileAvatar.style.backgroundImage = `url(${currentUser.avatar})`;
+                }
+                
+                if (currentUser.isAdmin && adminToggle) {
+                    adminToggle.style.display = 'flex';
+                }
+                
+                if (userProfile) {
+                    userProfile.addEventListener('click', function() {
+                        showSection('profile');
+                    });
+                }
+                
+                updateProfileData();
+            }
+        }
+
+        function updateProfileData() {
+            const currentUser = dataStorage.getCurrentUser();
+            
+            if (!currentUser) return;
+            
+            const profileName = document.getElementById('profileName');
+            const profileEmail = document.getElementById('profileEmail');
+            const profilePhone = document.getElementById('profilePhone');
+            const profileRegDate = document.getElementById('profileRegDate');
+            const profileTariff = document.getElementById('profileTariff');
+            
+            if (profileName) profileName.textContent = currentUser.name;
+            if (profileEmail) profileEmail.textContent = currentUser.email;
+            if (profilePhone) profilePhone.textContent = currentUser.phone;
+            if (profileRegDate) profileRegDate.textContent = currentUser.registrationDate;
+            if (profileTariff) profileTariff.textContent = currentUser.tariff || 'Не выбран';
+            
+            const profileDistance = document.getElementById('profileDistance');
+            const profileDriveTime = document.getElementById('profileDriveTime');
+            const profileTrips = document.getElementById('profileTrips');
+            const profileBonus = document.getElementById('profileBonus');
+            
+            if (profileDistance) profileDistance.textContent = currentUser.stats.distance;
+            if (profileDriveTime) profileDriveTime.textContent = currentUser.stats.driveTime;
+            if (profileTrips) profileTrips.textContent = currentUser.stats.trips;
+            if (profileBonus) profileBonus.textContent = currentUser.stats.bonus;
+            
+            updateProfileBookings();
+        }
+
+        function updateProfileBookings() {
+            const currentUser = dataStorage.getCurrentUser();
+            const bookings = dataStorage.getBookings();
+            const userBookings = bookings.filter(booking => booking.userId === currentUser.id);
+            const container = document.getElementById('activeBookingsContainer');
+            
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (userBookings.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-color);">У вас нет активных бронирований</p>';
+                return;
+            }
+            
+            userBookings.forEach(booking => {
+                if (booking.status === 'active') {
+                    const bookingItem = document.createElement('div');
+                    bookingItem.className = 'booking-item';
+                    bookingItem.innerHTML = `
+                        <div class="booking-details">
+                            <h4>${booking.carName}</h4>
+                            <p>Забронировано до: ${booking.endTime}</p>
+                        </div>
+                        <div class="booking-status status-active">Активно</div>
+                    `;
+                    container.appendChild(bookingItem);
+                }
+            });
+        }
+
+        function updateAdminPanel() {
+            const users = dataStorage.getUsers();
+            const bookings = dataStorage.getBookings();
+            const cars = dataStorage.getCars();
+            
+            const adminUsersCount = document.getElementById('adminUsersCount');
+            const adminCarsCount = document.getElementById('adminCarsCount');
+            const adminBookingsCount = document.getElementById('adminBookingsCount');
+            const adminRevenue = document.getElementById('adminRevenue');
+            
+            if (adminUsersCount) adminUsersCount.textContent = users.length;
+            if (adminCarsCount) adminCarsCount.textContent = cars.luxury.length + cars.chinese.length;
+            if (adminBookingsCount) adminBookingsCount.textContent = bookings.filter(b => b.status === 'active').length;
+            
+            const revenue = bookings.reduce((total, booking) => total + (booking.distance * 2), 0);
+            if (adminRevenue) adminRevenue.textContent = `${revenue}₽`;
+            
+            const bookingsContainer = document.getElementById('adminBookingsContainer');
+            if (bookingsContainer) {
+                bookingsContainer.innerHTML = '';
+                
+                const activeBookings = bookings.filter(b => b.status === 'active');
+                if (activeBookings.length === 0) {
+                    bookingsContainer.innerHTML = '<p style="text-align: center; color: var(--text-color);">Нет активных бронирований</p>';
+                } else {
+                    activeBookings.forEach(booking => {
+                        const user = users.find(u => u.id === booking.userId);
+                        const bookingItem = document.createElement('div');
+                        bookingItem.className = 'booking-admin-item';
+                        bookingItem.innerHTML = `
+                            <div class="booking-admin-header">
+                                <h4>${booking.carName}</h4>
+                                <div class="booking-duration">4 часа</div>
+                            </div>
+                            <div class="booking-details-admin">
+                                <div class="booking-detail">
+                                    <span class="label">Пользователь:</span>
+                                    <span class="value">${user ? user.name : 'Неизвестно'}</span>
+                                </div>
+                                <div class="booking-detail">
+                                    <span class="label">Начало:</span>
+                                    <span class="value">${booking.startTime}</span>
+                                </div>
+                                <div class="booking-detail">
+                                    <span class="label">Конец:</span>
+                                    <span class="value">${booking.endTime}</span>
+                                </div>
+                            </div>
+                            <div class="admin-actions">
+                                <button class="admin-btn btn-edit" data-booking-id="${booking.id}">Завершить</button>
+                                <button class="admin-btn btn-delete" data-booking-id="${booking.id}">Отменить</button>
+                            </div>
+                        `;
+                        bookingsContainer.appendChild(bookingItem);
+                    });
+                }
+            }
+            
+            const usersContainer = document.getElementById('adminUsersContainer');
+            if (usersContainer) {
+                usersContainer.innerHTML = '';
+                
+                if (users.length === 0) {
+                    usersContainer.innerHTML = '<p style="text-align: center; color: var(--text-color);">Нет зарегистрированных пользователей</p>';
+                } else {
+                    const recentUsers = users.slice(-5).reverse();
+                    recentUsers.forEach(user => {
+                        const userItem = document.createElement('div');
+                        userItem.className = 'user-admin-item';
+                        userItem.innerHTML = `
+                            <div class="user-admin-header">
+                                <h4>${user.name}</h4>
+                                <div class="user-status status-active">Активен</div>
+                            </div>
+                            <div class="user-details-admin">
+                                <div class="user-detail">
+                                    <span class="label">Регистрация:</span>
+                                    <span class="value">${user.registrationDate}</span>
+                                </div>
+                                <div class="user-detail">
+                                    <span class="label">Поездок:</span>
+                                    <span class="value">${user.stats.trips}</span>
+                                </div>
+                                <div class="user-detail">
+                                    <span class="label">Тариф:</span>
+                                    <span class="value">${user.tariff || 'Не выбран'}</span>
+                                </div>
+                                <div class="user-detail">
+                                    <span class="label">Статус:</span>
+                                    <span class="value">Верифицирован</span>
+                                </div>
+                            </div>
+                            <div class="admin-actions">
+                                <button class="admin-btn btn-edit" data-user-id="${user.id}">Редактировать</button>
+                                <button class="admin-btn btn-delete" data-user-id="${user.id}">Заблокировать</button>
+                            </div>
+                        `;
+                        usersContainer.appendChild(userItem);
+                    });
+                }
+            }
+            
+            document.querySelectorAll('.admin-btn.btn-edit[data-booking-id]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const bookingId = parseInt(this.getAttribute('data-booking-id'));
+                    dataStorage.updateBookingStatus(bookingId, 'completed');
+                    updateAdminPanel();
+                    showNotification('success', 'Бронирование завершено', 'Бронирование успешно завершено', 4000);
+                });
+            });
+            
+            document.querySelectorAll('.admin-btn.btn-delete[data-booking-id]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const bookingId = parseInt(this.getAttribute('data-booking-id'));
+                    dataStorage.updateBookingStatus(bookingId, 'cancelled');
+                    updateAdminPanel();
+                    showNotification('success', 'Бронирование отменено', 'Бронирование успешно отменено', 4000);
+                });
+            });
+        }
+
+        // Инициализация при загрузке
+        if (logoHome) {
+            logoHome.addEventListener('click', function(e) {
+                e.preventDefault();
+                showSection('home');
+            });
+        }
+        
+        // Навигация по ссылкам
+        document.querySelectorAll('[data-section]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const section = this.getAttribute('data-section');
+                if (section) {
+                    showSection(section);
+                }
+            });
+        });
+        
+        initQuickQuestions();
+    });
 </script>
 </body>
 </html>
