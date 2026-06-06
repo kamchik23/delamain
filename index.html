@@ -3727,12 +3727,12 @@
             </div>
             
             <div class="profile-content">
- <!-- КНОПКА ПЕРЕХОДА В SMM -->
-                <div class="stat-card" id="goToVkAdmin" style="cursor: pointer; grid-column: 1 / -1; border: 2px solid var(--primary-color); background: rgba(76, 117, 163, 0.1); padding: 30px;">
-                    <i class="fab fa-vk" style="color: #4c75a3; font-size: 3rem; margin-bottom: 15px;"></i>
-                    <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 10px;">SMM Панель</h3>
-                    <p style="color: #ccc;">Нажмите здесь, чтобы создать пост в группе ВКонтакте</p>
-                </div>
+ <!-- Кнопка SMM для админа -->
+<div class="stat-card" id="smmCard" style="cursor: pointer; grid-column: 1 / -1; border: 2px solid var(--primary-color); display: none;" onclick="showSection('vkPosting')">
+    <i class="fab fa-vk" style="color: #4c75a3; font-size: 2rem;"></i>
+    <span class="stat-number">SMM Панель</span>
+    <span class="stat-label">Опубликовать новость в ВК группу</span>
+</div>
                 
                 <div class="profile-info">
                     <h3>Основная информация <button class="edit-btn" id="editProfileBtn">Редактировать</button></h3>
@@ -3829,11 +3829,13 @@
                 </div>
             </div>
         </section>
-        <!-- ЕДИНСТВЕННАЯ И ПРАВИЛЬНАЯ СЕКЦИЯ ВК -->
+      
+
+<!-- СЕКЦИЯ ВК ПОСТИНГА -->
 <section class="admin-section" id="vkPostingSection" style="display: none;">
     <div class="admin-header">
         <h2 class="section-title">Управление сообществом <span class="highlight-text">VK</span></h2>
-        <p>Публикация постов с фотографиями напрямую с твоего компьютера</p>
+        <p>Публикация постов с фотографиями напрямую в группу</p>
     </div>
 
     <div class="loyalty-container" style="max-width: 800px; margin: 0 auto; padding: 40px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; border: 1px solid var(--primary-color);">
@@ -3843,12 +3845,12 @@
         </div>
 
         <div class="form-group" style="margin-top: 20px;">
-            <label style="color: var(--primary-color); font-weight: bold; display: block; margin-bottom: 10px;">Выберите фото на компьютере:</label>
+            <label style="color: var(--primary-color); font-weight: bold; display: block; margin-bottom: 10px;">Выберите фото:</label>
             <input type="file" id="vkFileInput" accept="image/*" class="form-control" style="padding: 10px; background: rgba(255,255,255,0.1);">
         </div>
 
         <div style="display: flex; gap: 15px; margin-top: 30px;">
-            <button id="backToProfile" class="btn btn-secondary" style="flex: 1; justify-content: center;">Назад</button>
+            <button onclick="showSection('profile')" class="btn btn-secondary" style="flex: 1; justify-content: center;">Назад</button>
             <button id="finalPostBtn" class="btn btn-primary" style="flex: 2; justify-content: center;">
                 <i class="fab fa-vk"></i> Опубликовать в группу
             </button>
@@ -4194,87 +4196,121 @@
     const ds = new DataStorage();
     const ns = new NotificationSystem();
 
-    // 3. ФУНКЦИЯ НАВИГАЦИИ (ПОКАЗ СЕКЦИЙ)
-    function showSection(name) {
-        // Скрываем вообще все секции, которые есть в main
-        const allSections = document.querySelectorAll('main > section');
-        allSections.forEach(s => s.style.display = 'none');
+   function showSection(name) {
+    // 1. Скрываем вообще все секции в main
+    const sections = document.querySelectorAll('main > section');
+    sections.forEach(s => s.style.display = 'none');
 
-        // Ищем нужную секцию по ID (например 'fleet' -> 'fleetSection')
-        const target = document.getElementById(name + 'Section') || document.getElementById(name);
-        if (target) {
-            target.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    // 2. Ищем секцию либо по чистому имени, либо с приставкой Section
+    const target = document.getElementById(name + 'Section') || document.getElementById(name);
+    
+    if (target) {
+        target.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+        console.error("Секция не найдена: " + name);
     }
+}
 
-    // 4. ОСНОВНОЙ КОД ПРИ ЗАГРУЗКЕ
+// Привяжи это к ссылкам в меню при загрузке
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.onclick = (e) => {
+        e.preventDefault();
+        showSection(link.getAttribute('data-section'));
+    };
+});
+
+  // 4. ОСНОВНОЙ КОД ПРИ ЗАГРУЗКЕ
     document.addEventListener('DOMContentLoaded', () => {
-        // Проверка авторизации при входе
+        // Проверка авторизации при старте
         updateUserInterface();
 
-        // Навигация по ссылкам в меню
+        // Навигация по ссылкам в меню (fleet, tariffs и т.д.)
         document.querySelectorAll('[data-section]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                showSection(link.getAttribute('data-section'));
+                const section = link.getAttribute('data-section');
+                showSection(section);
             });
         });
 
-        // Кнопка Логотипа (домой)
-        document.getElementById('logoHome').addEventListener('click', (e) => {
-            e.preventDefault();
-            showSection('home');
-        });
+        // Кнопка Логотипа (возврат на главную)
+        if (document.getElementById('logoHome')) {
+            document.getElementById('logoHome').addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection('home');
+            });
+        }
 
-        // Вход (Модалка)
-        document.getElementById('loginBtn').onclick = () => document.getElementById('loginModal').classList.add('active');
+        // Открытие модалок Входа и Регистрации
+        if (document.getElementById('loginBtn')) {
+            document.getElementById('loginBtn').onclick = () => document.getElementById('loginModal').classList.add('active');
+        }
+        if (document.getElementById('registerBtn')) {
+            document.getElementById('registerBtn').onclick = () => document.getElementById('registrationModal').classList.add('active');
+        }
         
-        // Обработка формы входа
-        document.getElementById('loginForm').onsubmit = (e) => {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const pass = document.getElementById('loginPassword').value;
+        // --- ЛОГИКА ВХОДА ---
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.onsubmit = (e) => {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const pass = document.getElementById('loginPassword').value;
 
-            // АДМИН-ВХОД
-            if (email === 'admin@delamain.ru' && pass === 'admin123') {
-                const admin = { name: 'Администратор', email: email, isAdmin: true, stats: { trips: 0, distance: 0, bonus: 0 } };
-                ds.setCurrentUser(admin);
-                ns.show('success', 'Админ-панель', 'Доступ разрешен');
-                document.getElementById('loginModal').classList.remove('active');
-                updateUserInterface();
-                showSection('admin');
-                return;
+                // 1. ПРОВЕРКА НА АДМИНА
+                if (email === 'admin@delamain.ru' && pass === 'admin123') {
+                    const admin = { 
+                        name: 'Администратор', 
+                        email: email, 
+                        isAdmin: true, 
+                        stats: { trips: 150, distance: 10500, bonus: 5000, driveTime: 400 },
+                        registrationDate: '01.01.2024'
+                    };
+                    dataStorage.setCurrentUser(admin);
+                    showNotification('success', 'Доступ разрешен', 'Вы вошли как администратор');
+                    document.getElementById('loginModal').classList.remove('active');
+                    updateUserInterface(); // Обновляем кнопки в шапке и профиле
+                    showSection('admin');   // Сразу открываем админку
+                    return;
+                }
+
+                // 2. ОБЫЧНЫЙ ВХОД
+                const user = dataStorage.getUserByEmail(email);
+                if (user && user.password === pass) {
+                    dataStorage.setCurrentUser(user);
+                    showNotification('success', 'Вход выполнен', `Привет, ${user.name}!`);
+                    document.getElementById('loginModal').classList.remove('active');
+                    updateUserInterface();
+                    showSection('profile');
+                } else {
+                    showNotification('error', 'Ошибка', 'Неверный логин или пароль');
+                }
+            };
+        }
+
+        // Выход из аккаунта
+        if (document.getElementById('logoutBtn')) {
+            document.getElementById('logoutBtn').onclick = () => {
+                dataStorage.clearCurrentUser();
+                location.reload(); // Перезагружаем для сброса всех состояний
+            };
+        }
+
+        // Кнопка-шестеренка (Админка)
+        if (document.getElementById('adminToggle')) {
+            document.getElementById('adminToggle').onclick = () => showSection('admin');
+        }
+
+        // Кнопки перехода в SMM ПАНЕЛЬ (ВК) - работают из профиля и админки
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('#goToVkAdmin')) {
+                showSection('vkPosting'); // ID секции без слова Section (функция добавит его сама)
             }
-
-            // ОБЫЧНЫЙ ВХОД
-            const user = ds.getUserByEmail(email);
-            if (user && user.password === pass) {
-                ds.setCurrentUser(user);
-                ns.show('success', 'Вход', `Привет, ${user.name}`);
-                document.getElementById('loginModal').classList.remove('active');
-                updateUserInterface();
+            if (e.target.id === 'backToProfile') {
                 showSection('profile');
-            } else {
-                ns.show('error', 'Ошибка', 'Неверные данные');
             }
-        };
-
-        // Выход
-        document.getElementById('logoutBtn').onclick = () => {
-            ds.clearCurrentUser();
-            location.reload();
-        };
-
-        // Кнопка открытия админки (шестеренка)
-        document.getElementById('adminToggle').onclick = () => showSection('admin');
-
-        // ПЕРЕХОД В SMM ПАНЕЛЬ (ВК)
-        document.querySelectorAll('#goToVkAdmin').forEach(btn => {
-            btn.onclick = () => showSection('vkPostingSection');
         });
-
-        document.getElementById('backToProfile').onclick = () => showSection('profile');
 
         // --- ЛОГИКА ПУБЛИКАЦИИ В ВК ---
         const finalPostBtn = document.getElementById('finalPostBtn');
@@ -4282,66 +4318,87 @@
             finalPostBtn.onclick = async function() {
                 const text = document.getElementById('vkMainEditor').value;
                 const fileInput = document.getElementById('vkFileInput');
+                const photo = fileInput.files[0];
 
-                if (!text && !fileInput.files[0]) {
-                    ns.show('warning', 'Внимание', 'Пост пустой!');
+                if (!text && !photo) {
+                    showNotification('warning', 'Пусто', 'Напишите текст или выберите фото');
                     return;
                 }
 
-                this.disabled = true;
-                this.innerHTML = 'Загрузка...';
+                this.disabled = true; 
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Публикуем...';
 
                 const formData = new FormData();
                 formData.append('message', text);
-                if (fileInput.files[0]) formData.append('photo', fileInput.files[0]);
+                if (photo) formData.append('photo', photo);
 
                 try {
-                    const response = await fetch('/api/post', { method: 'POST', body: formData });
-                    const res = await response.json();
-                    if (res.success) {
-                        ns.show('success', 'VK', 'Опубликовано в группу!');
-                        document.getElementById('vkMainEditor').value = '';
-                        fileInput.value = '';
+                    // Отправляем на твой бэкенд на Vercel
+                    const response = await fetch('/api/post', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        showNotification('success', 'Готово!', 'Пост опубликован в группе VK');
+                        document.getElementById('vkMainEditor').value = "";
+                        fileInput.value = "";
                     } else {
-                        ns.show('error', 'Ошибка VK', res.error || 'Ошибка доступа');
+                        showNotification('error', 'Ошибка VK', result.error || 'Ошибка доступа');
                     }
                 } catch (err) {
-                    ns.show('error', 'Ошибка', 'Сервер API не отвечает');
+                    showNotification('error', 'Ошибка', 'Сервер не отвечает (api/post не найден)');
                 } finally {
                     this.disabled = false;
-                    this.innerHTML = '<i class="fab fa-vk"></i> Опубликовать в группу';
+                    this.innerHTML = originalText;
                 }
             };
         }
 
-        // Закрытие модалок
-        document.querySelectorAll('.close-btn').forEach(b => {
-            b.onclick = () => b.closest('.modal').classList.remove('active');
-        });
+        // Тема оформления (Луна/Солнце)
+        const themeBtn = document.getElementById('themeToggle');
+        if (themeBtn) {
+            themeBtn.onclick = () => {
+                const isLight = document.body.getAttribute('data-theme') === 'light';
+                document.body.setAttribute('data-theme', isLight ? 'dark' : 'light');
+                themeBtn.querySelector('i').className = isLight ? 'fas fa-moon' : 'fas fa-sun';
+                localStorage.setItem('theme', isLight ? 'dark' : 'light');
+            };
+        }
     });
 
-    // Функция обновления UI (показ кнопок профиля и админа)
+    // Функция обновления интерфейса (показ профиля, имени и кнопки админа)
     function updateUserInterface() {
-        const user = ds.getCurrentUser();
-        if (user) {
-            document.getElementById('authButtons').style.display = 'none';
-            document.getElementById('userProfile').style.display = 'flex';
-            document.getElementById('userName').textContent = user.name;
+        const currentUser = dataStorage.getCurrentUser();
+        const authButtons = document.getElementById('authButtons');
+        const userProfile = document.getElementById('userProfile');
+        const adminToggle = document.getElementById('adminToggle');
+        const userName = document.getElementById('userName');
+        // Находим все кнопки SMM (и в профиле, и в админке)
+        const smmCards = document.querySelectorAll('#goToVkAdmin'); 
+        
+        if (currentUser) {
+            if (authButtons) authButtons.style.display = 'none';
+            if (userProfile) userProfile.style.display = 'flex';
+            if (userName) userName.textContent = currentUser.name;
             
-            // Если админ — показываем кнопку админки
-            if (user.isAdmin) {
-                document.getElementById('adminToggle').style.display = 'flex';
+            // Если зашел админ — включаем спец. возможности
+            if (currentUser.isAdmin) {
+                if (adminToggle) adminToggle.style.display = 'flex';
+                smmCards.forEach(card => card.style.display = 'block');
+            } else {
+                if (adminToggle) adminToggle.style.display = 'none';
+                smmCards.forEach(card => card.style.display = 'none');
             }
+        } else {
+            if (authButtons) authButtons.style.display = 'flex';
+            if (userProfile) userProfile.style.display = 'none';
+            if (adminToggle) adminToggle.style.display = 'none';
         }
     }
-
-    // Темы оформления
-    document.getElementById('themeToggle').onclick = () => {
-        const current = document.body.getAttribute('data-theme');
-        const next = current === 'light' ? 'dark' : 'light';
-        document.body.setAttribute('data-theme', next);
-        document.querySelector('#themeToggle i').className = next === 'light' ? 'fas fa-sun' : 'fas fa-moon';
-    };
 </script>
 </body>
 </html>
