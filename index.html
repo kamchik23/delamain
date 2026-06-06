@@ -5572,10 +5572,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const profileTrips = document.getElementById('profileTrips');
             const profileBonus = document.getElementById('profileBonus');
             
-            if (profileDistance) profileDistance.textContent = currentUser.stats.distance;
-            if (profileDriveTime) profileDriveTime.textContent = currentUser.stats.driveTime;
-            if (profileTrips) profileTrips.textContent = currentUser.stats.trips;
-            if (profileBonus) profileBonus.textContent = currentUser.stats.bonus;
+          // Создаем объект-заглушку, если статистики нет
+const stats = currentUser.stats || { distance: 0, driveTime: 0, trips: 0, bonus: 0 };
+
+if (profileDistance) profileDistance.textContent = stats.distance;
+if (profileDriveTime) profileDriveTime.textContent = stats.driveTime;
+if (profileTrips) profileTrips.textContent = stats.trips;
+if (profileBonus) profileBonus.textContent = stats.bonus;
             
             updateProfileBookings();
         }
