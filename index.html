@@ -646,7 +646,7 @@
             align-items: center;
         }
 
-// Обновленный CSS
+
 .car-image {
     height: 220px;
     display: flex;
@@ -780,25 +780,25 @@
 
 /* Базовый стиль с мобильной версией изображения по умолчанию */
 .car-showcase {
-    background-image: url('img/картинка1\(мобилка\).png'); /* Мобильная версия */
+    background-image: url('img/kartinka1mobilka.png'); /* Мобильная версия */
 }
 
 /* Загрузка ПК версии только на больших экранах */
 @media (min-width: 769px) {
     .car-showcase {
-        background-image: url('img/картинка1.png'); /* ПК версия */
+        background-image: url('img/kartinka1.png'); /* ПК версия */
     }
 }
 
 /* Для ретина-дисплеев */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     .car-showcase {
-        background-image: url('img/картинка1.png');
+        background-image: url('img/kartinka1.png');
     }
     
     @media (max-width: 768px) {
         .car-showcase {
-            background-image: url('img/картинка1.png');
+            background-image: url('img/kartinka1.png');
         }
     }
 }
@@ -1252,19 +1252,19 @@
 
 /* Специфичные фоновые изображения */
 .banner-item1 {
-    background-image: url(img/премиумавто.png);
+    background-image: url(img/premiumavto.png);
 }
 
 .banner-item2 {
-    background-image: url(img/рамка2.png); 
+    background-image: url(img/ramka2.png); 
 }
 
 .banner-item3 {
-     background-image: url(img/3рамка.png); 
+     background-image: url(img/3ramka.png); 
 }
 
 .banner-item4 {
-     background-image: url(img/4рамка.png); 
+     background-image: url(img/4ramka.png); 
 }
 
 /* Эффект при наведении - ПК только */
@@ -1378,10 +1378,10 @@
 /* Адаптивные изображения для ретина-дисплеев */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     .banner-item1 {
-        background-image: url(img/премиумавто.png); /* Версия для ретина */
+        background-image: url(img/premiumavto.png); /* Версия для ретина */
     }
     .banner-item2 {
-        background-image: url(img/3рамка.png); /* Версия для ретина */
+        background-image: url(img/3ramka.png); /* Версия для ретина */
     }
 }
 
@@ -2743,7 +2743,7 @@
     height: 300px !important;
     min-height: 300px !important;
     max-height: 300px !important;
-    background-image: url(img/мерседес.png);
+    background-image: url(img/mercedes1.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -3272,7 +3272,7 @@
                 
                <div class="hero-visual">
     <div class="car-showcase">
-        <img src="img/картинка1(мобилка).png" 
+        <img src="img/kartinka1mobilka.png" 
              alt="Премиальный автомобиль Деламейн" 
              class="car-showcase-image"
              onerror="this.style.display='none'; document.getElementById('fallback').style.display='block';">
@@ -4628,14 +4628,14 @@
     // Получение фото автомобиля по ID
     function getCarPhoto(carId) {
         const photoMap = {
-            1: 'Mercedes.png',
-            2: 'BMW7Series.png', 
-            3: 'AudiA8.png',
-            4: 'LexusLS.png',
-            5: 'Porsche.png',
-            6: 'HongqiH9.png',
-            7: 'Chery.png',
-            8: 'GeelyCool.png'
+            1: 'mmercedes.png',
+            2: 'bmw7series.png', 
+            3: 'audia8.png',
+            4: 'lexusls.png',
+            5: 'porsche.png',
+            6: 'hongqih9.png',
+            7: 'chery.png',
+            8: 'geelycool.png'
         };
         return photoMap[carId] || 'default-car.jpg';
     }
@@ -4767,7 +4767,6 @@
             </div>
         `;
         
-        // Проверка загрузки картинки
         const img = new Image();
         img.onerror = function() {
             const carImage = card.querySelector('.car-image');
@@ -4878,7 +4877,6 @@
             </div>
         `;
         
-        // Проверка загрузки картинки
         const img = new Image();
         img.onerror = function() {
             const modalImage = document.getElementById('modalCarImage');
