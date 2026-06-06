@@ -1,0 +1,4327 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Деламейн - Премиальный каршеринг</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* БАЗОВЫЕ СТИЛИ И НОВАЯ ЦВЕТОВАЯ СХЕМА */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* ОБНОВЛЕННАЯ ЦВЕТОВАЯ СХЕМА - ЧЕРНЫЙ, БЕЛЫЙ, СЕРЫЙ С ЖЕЛТЫМИ АКЦЕНТАМИ */
+        :root {
+            --primary-color: #FFD700;
+            --secondary-color: #FFA500;
+            --accent-color: #FFC107;
+            --dark-color: #121212;
+            --darker-color: #0A0A0A;
+            --light-color: #FFFFFF;
+            --text-color: #E0E0E0;
+            --gray-color: #2A2A2A;
+            --light-gray: #F5F5F5;
+            --medium-gray: #9E9E9E;
+            --success-color: #27AE60;
+            --warning-color: #F39C12;
+            --danger-color: #E74C3C;
+            --transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        [data-theme="light"] {
+            --dark-color: #FFFFFF;
+            --darker-color: #F8F9FA;
+            --light-color: #2C3E50;
+            --text-color: #2C3E50;
+            --gray-color: #E0E0E0;
+            --light-gray: #2C3E50;
+            --medium-gray: #757575;
+        }
+
+        body {
+            background-color: var(--darker-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            opacity: 0;
+            animation: fadeIn 1.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* НОВЫЕ СТИЛИ ДЛЯ ВЫДЕЛЕННОГО ТЕКСТА */
+        .highlight-text {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .highlight-text::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        .highlight-box {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight-accent {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        /* НОВАЯ СЕКЦИЯ "КАК ЭТО РАБОТАЕТ" В СТИЛЕ DELIMOBIL */
+        .how-it-works-section {
+            padding: 120px 5%;
+            background: var(--darker-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .how-it-works-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><path fill="rgba(255,215,0,0.02)" d="M0,1000Q250,500,500,0Q750,500,1000,1000Z"/></svg>');
+            background-size: cover;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .how-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .how-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .how-header h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .how-header p {
+            font-size: 1.3rem;
+            color: var(--text-color);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .how-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .how-step {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .how-step:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark-color);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            z-index: 2;
+        }
+
+        .step-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--dark-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 25px;
+            font-size: 45px;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        .how-step:hover .step-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: var(--primary-color);
+            color: var(--dark-color);
+        }
+
+        .how-step h3 {
+            font-size: 1.7rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .how-step p {
+            color: var(--text-color);
+            line-height: 1.7;
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        .how-advantages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+        }
+
+        .how-advantage {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .how-advantage:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .advantage-icon {
+            width: 70px;
+            height: 70px;
+            min-width: 70px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .advantage-content h4 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .advantage-content p {
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Кнопка смены темы и помощи */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: var(--dark-color);
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .help-toggle {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--dark-color);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-toggle {
+            position: fixed;
+            bottom: 170px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--danger-color);
+            color: var(--light-color);
+            border: 2px solid var(--danger-color);
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: none;
+        }
+
+        .theme-toggle:hover, .help-toggle:hover, .admin-toggle:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Кружок статуса СНТХВУ */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ECC71;
+            border: 1px solid #2ECC71;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #2ECC71;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Шапка сайта */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 25px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        [data-theme="light"] header {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        header.scrolled {
+            padding: 15px 5%;
+            background: rgba(10, 10, 10, 0.98);
+        }
+
+        [data-theme="light"] header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+     
+
+        .logo {
+    display: block; /* или inline-block */
+    width: 200px; /* настройте размер */
+    height: 60px; /* настройте размер */
+    text-decoration: none; /* убираем подчеркивание */
+    transition: transform 0.3s ease; /* плавный эффект при наведении */
+}
+
+.logo:hover {
+    transform: scale(1.05); /* легкое увеличение при наведении */
+}
+
+.logo:active {
+    transform: scale(0.98); /* эффект нажатия */
+}
+
+.logo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* сохраняет пропорции логотипа */
+    display: block;
+}
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+            transition: left 0.7s;
+        }
+
+        .nav-link:hover:before {
+            left: 100%;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateY(-3px);
+            color: var(--primary-color);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 8px 16px;
+            border-radius: 25px;
+        }
+
+        .user-profile:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark-color);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid var(--primary-color);
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Улучшенные кнопки */
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 15px;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover:before {
+            left: 100%;
+        }
+
+        .btn-login {
+            background: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-login:hover {
+            background: var(--primary-color);
+            color: var(--dark-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-register {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--dark-color);
+        }
+
+        .btn-register:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        /* НОВЫЙ ГЛАВНЫЙ ЭКРАН В СТИЛЕ TATTOO22.RU */
+        .main-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--darker-color) 0%, var(--dark-color) 100%);
+            padding: 120px 5% 80px;
+        }
+
+        .main-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,215,0,0.03)" points="0,1000 1000,0 1000,1000"/></svg>');
+            background-size: cover;
+            z-index: 0;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 1400px;
+            width: 100%;
+            z-index: 2;
+        }
+
+        .hero-content {
+            padding-right: 40px;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            color: var(--text-color);
+            max-width: 600px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin: 50px 0;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--medium-gray);
+            margin-top: 5px;
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+// Обновленный CSS
+.car-image {
+    height: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.car-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255, 215, 0, 0.1) 0%, transparent 50%, rgba(255, 215, 0, 0.1) 100%);
+}
+
+/* ============ ПК ВЕРСИЯ (по умолчанию) ============ */
+
+/* Большие экраны (1200px и больше) */
+@media (min-width: 1200px) {
+    .car-showcase {
+        height: 550px; /* Самый большой размер */
+        max-width: 1200px; /* Ограничение ширины */
+    }
+}
+
+/* Стандартные ПК (992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .car-showcase {
+        height: 500px; /* Стандартная высота для ПК */
+        max-width: 1000px;
+    }
+}
+
+/* Небольшие ПК/ноутбуки (769px - 991px) */
+@media (min-width: 769px) and (max-width: 991px) {
+    .car-showcase {
+        height: 450px; /* Немного меньше */
+        max-width: 900px;
+    }
+}
+
+/* ============ ПЛАНШЕТНАЯ ВЕРСИЯ ============ */
+
+/* Планшеты горизонтальные (577px - 768px) */
+@media (min-width: 577px) and (max-width: 768px) {
+    .car-showcase {
+        height: 400px; /* Средняя высота для планшетов */
+        border-radius: 15px; /* Немного меньше скругление */
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6); /* Более легкая тень */
+    }
+}
+
+/* Планшеты вертикальные (481px - 576px) */
+@media (min-width: 481px) and (max-width: 576px) {
+    .car-showcase {
+        height: 350px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* ============ МОБИЛЬНАЯ ВЕРСИЯ ============ */
+
+/* Большие мобильные (401px - 480px) */
+@media (max-width: 480px) and (min-width: 401px) {
+    .car-showcase {
+        height: 320px;
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        border-width: 1.5px; /* Тоньше бордер */
+    }
+}
+
+/* Средние мобильные (376px - 400px) */
+@media (max-width: 400px) and (min-width: 376px) {
+    .car-showcase {
+        height: 280px;
+    }
+}
+
+/* Малые мобильные (до 375px) */
+@media (max-width: 375px) {
+    .car-showcase {
+        height: 250px;
+        border-radius: 8px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        border-width: 1px;
+    }
+}
+
+/* Очень маленькие экраны (до 320px) */
+@media (max-width: 320px) {
+    .car-showcase {
+        height: 220px;
+    }
+}
+
+/* ============ АЛЬТЕРНАТИВНЫЙ ВАРИАНТ: ОТНОСИТЕЛЬНАЯ ВЫСОТА ============ */
+/* Раскомментируйте, если хотите пропорциональную высоту */
+
+/*
+.car-showcase {
+    height: auto;
+    aspect-ratio: 16/9; /* Соотношение сторон 16:9 */
+}
+
+@media (max-width: 768px) {
+    .car-showcase {
+        aspect-ratio: 4/3; /* Более квадратное на мобильных */
+    }
+}
+
+@media (max-width: 480px) {
+    .car-showcase {
+        aspect-ratio: 1/1; /* Квадратное на маленьких экранах */
+    }
+}
+*/
+
+/* ============ УЛУЧШЕННЫЙ ВАРИАНТ С РАЗНЫМИ ИЗОБРАЖЕНИЯМИ ============ */
+
+/* Базовый стиль с мобильной версией изображения по умолчанию */
+.car-showcase {
+    background-image: url('img/картинка1\(мобилка\).png'); /* Мобильная версия */
+}
+
+/* Загрузка ПК версии только на больших экранах */
+@media (min-width: 769px) {
+    .car-showcase {
+        background-image: url('img/картинка1.png'); /* ПК версия */
+    }
+}
+
+/* Для ретина-дисплеев */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .car-showcase {
+        background-image: url('img/картинка1.png');
+    }
+    
+    @media (max-width: 768px) {
+        .car-showcase {
+            background-image: url('img/картинка1.png');
+        }
+    }
+}
+
+/* ============ АНИМАЦИИ И ЭФФЕКТЫ ============ */
+
+/* Плавное изменение размера при ресайзе окна */
+.car-showcase {
+    transition: height 0.3s ease, border-radius 0.3s ease;
+}
+
+/* Эффект при наведении (только для ПК) */
+@media (hover: hover) and (pointer: fine) {
+    .car-showcase:hover {
+        transform: scale(1.01);
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+}
+
+.car-showcase {
+    width: 100%;
+    height: 500px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    background: #000;
+}
+.car-showcase-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Картинка заполняет блок без искажений */
+    object-position: center; /* Центрируем изображение */
+    display: block;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ============ ДЛЯ РОДИТЕЛЬСКОГО КОНТЕЙНЕРА ============ */
+/* Чтобы hero-visual правильно отображался */
+
+.hero-visual {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 15px;
+    box-sizing: border-box;
+}
+
+/* Адаптивные отступы */
+@media (max-width: 768px) {
+    .hero-visual {
+        padding: 15px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-visual {
+        padding: 10px 5px;
+    }
+}
+
+
+
+        .car-showcase::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1) 0%, transparent 50%, rgba(255, 215, 0, 0.1) 100%);
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: var(--primary-color);
+            border-radius: 50%;
+            animation: floatElement 20s linear infinite;
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+
+        @keyframes floatElement {
+            0% { transform: translateY(0px) rotate(0deg) scale(1); opacity: 0.8; }
+            25% { transform: translateY(-120px) rotate(90deg) scale(1.1); opacity: 0.6; }
+            50% { transform: translateY(-60px) rotate(180deg) scale(0.9); opacity: 0.4; }
+            75% { transform: translateY(-180px) rotate(270deg) scale(1.2); opacity: 0.6; }
+            100% { transform: translateY(0px) rotate(360deg) scale(1); opacity: 0.8; }
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 25px;
+            margin-top: 45px;
+        }
+
+        .btn-large {
+            padding: 18px 40px;
+            font-size: 17px;
+            border-radius: 35px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--dark-color);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: var(--dark-color);
+            transform: translateY(-5px);
+        }
+
+        /* НОВАЯ СЕКЦИЯ ПРЕИМУЩЕСТВ В СТИЛЕ TATTOO22 */
+        .features-section {
+            padding: 120px 5%;
+            background: var(--darker-color);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-color);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: var(--primary-color);
+        }
+
+        .feature-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--dark-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 25px;
+            font-size: 40px;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: var(--primary-color);
+            color: var(--dark-color);
+        }
+
+        .feature-card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .feature-card p {
+            color: var(--text-color);
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        /* СЕКЦИЯ АВТОПАРКА В НОВОМ СТИЛЕ */
+        .fleet-section {
+            padding: 120px 5%;
+            background: rgba(0, 0, 0, 0.7);
+            position: relative;
+        }
+
+        .fleet-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,215,0,0.03)" points="0,0 1000,1000 0,1000"/></svg>');
+            background-size: cover;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .category-title {
+            font-size: 2.5rem;
+            margin: 80px 0 30px;
+            color: var(--primary-color);
+            text-align: center;
+            position: relative;
+        }
+
+        .category-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .car-card {
+            background: var(--dark-color);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .car-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.2);
+            border-color: var(--primary-color);
+        }
+.car-image {
+    height: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #f0f0f0; /* цвет фона если фото не загрузится */
+}
+
+.car-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+ 
+
+        .car-info {
+            padding: 25px;
+        }
+
+        .car-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .car-info p {
+            color: var(--text-color);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .car-features {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .car-feature {
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+        }
+
+        .car-feature i {
+            margin-right: 5px;
+            color: var(--primary-color);
+        }
+
+        .car-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: right;
+            margin-bottom: 15px;
+        }
+
+        .car-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .available-count {
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .btn-book, .btn-details {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--dark-color);
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-left: 10px;
+        }
+
+        .btn-book:hover, .btn-details:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-book:disabled {
+            background: var(--gray-color);
+            color: rgba(255, 255, 255, 0.5);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Баннерная секция */
+        .banner-section {
+            padding: 80px 5%;
+            background: var(--darker-color);
+        }
+
+        .banner-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .banner-row {
+            
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+        }
+
+     /* Общие стили для всей баннерной секции */
+.banner-section {
+    padding: 20px 0;
+}
+
+.banner-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Стили для рядов баннеров - ПК версия по умолчанию */
+.banner-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* Общий стиль для всех баннеров */
+.banner-item1, .banner-item2, .banner-item3, .banner-item4 {
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #ccc;
+    flex: 1;
+}
+
+/* Специфичные фоновые изображения */
+.banner-item1 {
+    background-image: url(img/премиумавто.png);
+}
+
+.banner-item2 {
+    background-image: url(img/рамка2.png); 
+}
+
+.banner-item3 {
+     background-image: url(img/3рамка.png); 
+}
+
+.banner-item4 {
+     background-image: url(img/4рамка.png); 
+}
+
+/* Эффект при наведении - ПК только */
+@media (hover: hover) and (pointer: fine) {
+    .banner-item1:hover,
+    .banner-item2:hover,
+    .banner-item3:hover,
+    .banner-item4:hover {
+        transform: translateY(-5px);
+        border-color: gold;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+}
+
+/* ============ ПК ВЕРСИЯ (по умолчанию) ============ */
+/* Большие экраны (1200px и больше) */
+@media (min-width: 1200px) {
+    .banner-item1, .banner-item2, .banner-item3, .banner-item4 {
+        min-height: 350px; /* Высокие баннеры на больших экранах */
+    }
+}
+
+/* Стандартные ПК (769px - 1199px) */
+@media (min-width: 769px) {
+    .banner-item1, .banner-item2, .banner-item3, .banner-item4 {
+        min-height: 300px; /* Стандартная высота для ПК */
+    }
+}
+
+/* ============ ПЛАНШЕТНАЯ ВЕРСИЯ ============ */
+@media (max-width: 768px) and (min-width: 481px) {
+    .banner-container {
+        padding: 0 20px;
+    }
+    
+    .banner-row {
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .banner-item1, .banner-item2, .banner-item3, .banner-item4 {
+        min-height: 250px; /* Средняя высота для планшетов */
+    }
+}
+
+/* ============ МОБИЛЬНАЯ ВЕРСИЯ ============ */
+@media (max-width: 480px) {
+    .banner-container {
+        padding: 0 10px;
+    }
+    
+    /* Изменяем расположение на вертикальное */
+    .banner-row {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .banner-item1, .banner-item2, .banner-item3, .banner-item4 {
+        min-height: 180px; /* Низкие баннеры на мобильных */
+        width: 100%;
+    }
+}
+
+/* ============ АЛЬТЕРНАТИВНЫЙ ВАРИАНТ: ИЗМЕНЕНИЕ СООТНОШЕНИЯ СТОРОН ============ */
+/* Раскомментируйте этот блок, если хотите фиксированные пропорции */
+
+/*
+.banner-item1, .banner-item2, .banner-item3, .banner-item4 {
+    min-height: auto !important; /* Убираем фиксированную высоту */
+    aspect-ratio: 16/9; /* Соотношение по умолчанию */
+}
+
+/* ПК версия - широкий формат */
+/*
+@media (min-width: 769px) {
+    .banner-item1, .banner-item2, .banner-item3, .banner-item4 {
+        aspect-ratio: 16/9; /* 16:9 для ПК */
+    }
+}
+
+/* Мобильная версия - квадратный или вертикальный */
+/*
+@media (max-width: 768px) {
+    .banner-item1, .banner-item2, .banner-item3, .banner-item4 {
+        aspect-ratio: 1/1; /* Квадраты на мобильных */
+        /* или aspect-ratio: 4/3; для прямоугольных */
+        /* или aspect-ratio: 2/3; для вертикальных */
+    }
+}
+*/
+
+/* ============ ДОПОЛНИТЕЛЬНЫЕ УЛУЧШЕНИЯ ============ */
+
+/* Анимация при загрузке */
+.banner-item1, .banner-item2, .banner-item3, .banner-item4 {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Адаптивные изображения для ретина-дисплеев */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .banner-item1 {
+        background-image: url(img/премиумавто.png); /* Версия для ретина */
+    }
+    .banner-item2 {
+        background-image: url(img/3рамка.png); /* Версия для ретина */
+    }
+}
+
+/* Поддержка темной темы */
+@media (prefers-color-scheme: dark) {
+    .banner-item1, .banner-item2, .banner-item3, .banner-item4 {
+        border-color: #444;
+    }
+}
+
+        /* Секция тарифов */
+        .tariffs-section {
+            padding: 120px 5%;
+            background: rgba(0, 0, 0, 0.7);
+            position: relative;
+        }
+
+        [data-theme="light"] .tariffs-section {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .tariffs-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,215,0,0.03)" points="0,1000 1000,0 0,0"/></svg>');
+            background-size: cover;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .tariffs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .tariff-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        [data-theme="light"] .tariff-card {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .tariff-card.featured {
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .tariff-card.featured::before {
+            content: 'ПОПУЛЯРНЫЙ';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--primary-color);
+            color: var(--dark-color);
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .tariff-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: var(--primary-color);
+        }
+
+        .tariff-card.featured:hover {
+            transform: scale(1.05) translateY(-15px);
+        }
+
+        .tariff-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .tariff-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--dark-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            font-size: 35px;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .tariff-card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .tariff-description {
+            color: var(--text-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .tariff-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .tariff-period {
+            font-size: 1rem;
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .tariff-features {
+            list-style: none;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+
+        .tariff-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .tariff-features li:last-child {
+            border-bottom: none;
+        }
+
+        .tariff-features li i {
+            color: var(--primary-color);
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .tariff-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--dark-color);
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: auto;
+        }
+
+        .tariff-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Секция отзывов и лояльности */
+        .reviews-loyalty-section {
+            padding: 100px 5%;
+            background: var(--darker-color);
+        }
+
+        .reviews-loyalty-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .reviews-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .review-card {
+            background: var(--dark-color);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .review-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .review-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-color);
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .review-info h4 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .review-stars {
+            color: var(--accent-color);
+        }
+
+        .review-text {
+            color: var(--text-color);
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .loyalty-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 50px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] .loyalty-container {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .loyalty-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .loyalty-badges {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 50px;
+        }
+
+        .badge {
+            text-align: center;
+            flex: 1;
+            padding: 20px;
+        }
+
+        .badge-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--dark-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .badge h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .badge p {
+            color: var(--text-color);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        [data-theme="light"] .benefit-card {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
+        }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .benefit-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .benefit-card p {
+            color: var(--text-color);
+        }
+
+        /* ОБНОВЛЕННАЯ СЕКЦИЯ ПРИЛОЖЕНИЯ */
+        .app-section {
+            padding: 100px 5%;
+            background: rgba(0, 0, 0, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+
+        [data-theme="light"] .app-section {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .app-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><path fill="rgba(255,215,0,0.03)" d="M0,0Q250,500,500,0Q750,500,1000,0V1000H0Z"/></svg>');
+            background-size: cover;
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .app-content {
+            padding-right: 40px;
+        }
+
+        .app-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-image-placeholder {
+            width: 100%;
+            height: 500px;
+            border-radius: 30px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .app-image-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1) 0%, transparent 50%, rgba(255, 215, 0, 0.1) 100%);
+        }
+.app-image-placeholder {
+    width: 100%;
+    height: 500px;
+    border-radius: 30px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+    border: 2px solid var(--primary-color);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.app-background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* заполняет весь блок */
+    object-position: center; /* центрирует */
+    z-index: 1;
+}
+
+ 
+.app-image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255, 215, 0, 0.1) 0%, transparent 50%, rgba(255, 215, 0, 0.1) 100%);
+    z-index: 1;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .app-image-placeholder {
+        height: 350px;
+        border-radius: 20px;
+    }
+}
+        .app-image-placeholder i {
+            
+            font-size: 5rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .app-features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .app-feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .app-feature-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .app-feature-icon {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .app-feature-content h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .app-feature-content p {
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            background: var(--dark-color);
+            color: var(--text-color);
+            border-radius: 12px;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+            background: var(--primary-color);
+            color: var(--dark-color);
+        }
+
+        .download-btn i {
+            font-size: 2rem;
+        }
+
+        .download-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .download-text span:first-child {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .download-text span:last-child {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* ОБНОВЛЕННЫЙ ЛИЧНЫЙ КАБИНЕТ */
+        .profile-section {
+            padding: 150px 5% 120px;
+            min-height: 100vh;
+            background: var(--darker-color);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .profile-avatar-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark-color);
+            font-size: 50px;
+            font-weight: bold;
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            background-size: cover;
+            background-position: center;
+            margin: 0 auto;
+        }
+
+        .avatar-upload {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark-color);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid var(--dark-color);
+        }
+
+        .avatar-upload:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .profile-info, .profile-bookings {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        [data-theme="light"] .profile-info, [data-theme="light"] .profile-bookings {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .profile-info h3, .profile-bookings h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .edit-btn {
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .edit-btn:hover {
+            background: var(--primary-color);
+            color: var(--dark-color);
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-color);
+        }
+
+        .info-value {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .info-edit {
+            display: none;
+        }
+
+        .info-edit input {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid var(--gray-color);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+        }
+
+        .booking-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .booking-item:last-child {
+            border-bottom: none;
+        }
+
+        .booking-details h4 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .booking-details p {
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .booking-status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ECC71;
+        }
+
+        .status-completed {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+        }
+
+        .btn-logout {
+            display: block;
+            margin: 40px auto 0;
+            padding: 12px 30px;
+            background: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-logout:hover {
+            background: var(--primary-color);
+            color: var(--dark-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        /* АДМИН ПАНЕЛЬ */
+        .admin-section {
+            padding: 150px 5% 120px;
+            min-height: 100vh;
+            background: var(--darker-color);
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .admin-stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .admin-stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .admin-stat-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .admin-stat-card .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .admin-stat-card .stat-label {
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .admin-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .admin-bookings, .admin-users {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        [data-theme="light"] .admin-bookings, [data-theme="light"] .admin-users {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .admin-bookings h3, .admin-users h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .booking-admin-item, .user-admin-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .booking-admin-item:last-child, .user-admin-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .booking-admin-header, .user-admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .booking-admin-header h4, .user-admin-header h4 {
+            color: var(--primary-color);
+        }
+
+        .booking-duration, .user-status {
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .booking-details-admin, .user-details-admin {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .booking-detail, .user-detail {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .booking-detail .label, .user-detail .label {
+            color: var(--text-color);
+        }
+
+        .booking-detail .value, .user-detail .value {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .admin-btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-edit {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+            border: 1px solid #3498db;
+        }
+
+        .btn-delete {
+            background: rgba(231, 76, 60, 0.1);
+            color: #E74C3C;
+            border: 1px solid #E74C3C;
+        }
+
+        .btn-edit:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #E74C3C;
+            color: white;
+        }
+
+        /* Улучшенная система уведомлений */
+        .notification-container {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+        }
+
+        .notification {
+            background: var(--dark-color);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateX(400px);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.hiding {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+
+        .notification-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark-color);
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-content h4 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .notification-content p {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: var(--gray-color);
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+            padding: 5px;
+        }
+
+        .notification-close:hover {
+            color: var(--light-color);
+        }
+
+        .notification.success {
+            border-left-color: var(--success-color);
+        }
+
+        .notification.success .notification-icon {
+            background: var(--success-color);
+        }
+
+        .notification.error {
+            border-left-color: var(--danger-color);
+        }
+
+        .notification.error .notification-icon {
+            background: var(--danger-color);
+        }
+
+        .notification.warning {
+            border-left-color: var(--warning-color);
+        }
+
+        .notification.warning .notification-icon {
+            background: var(--warning-color);
+        }
+
+        .notification.info {
+            border-left-color: var(--primary-color);
+        }
+
+        .notification.info .notification-icon {
+            background: var(--primary-color);
+        }
+
+        /* Модальные окна */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--dark-color);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
+            border: 2px solid var(--primary-color);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--gray-color);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .age-warning {
+            color: var(--danger-color);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--dark-color);
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--text-color);
+        }
+
+        .form-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* Модальное окно поддержки */
+        .support-modal .modal-content {
+            max-width: 600px;
+        }
+
+        .chat-container {
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .message.bot {
+            background: rgba(255, 215, 0, 0.1);
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+
+        .message.user {
+            background: rgba(255, 255, 255, 0.1);
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 0;
+        }
+
+        .message-sender {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .quick-question-btn {
+            padding: 8px 12px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 20px;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 12px;
+        }
+
+        .quick-question-btn:hover {
+            background: var(--primary-color);
+            color: var(--dark-color);
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--gray-color);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+        }
+
+        .chat-input button {
+            padding: 12px 20px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--dark-color);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chat-input button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Модальное окно автомобиля */
+        .car-modal .modal-content {
+            max-width: 800px;
+        }
+
+        .car-modal-content {
+            display: flex;
+            flex-direction: column;
+        }
+        #bookingCarImage {
+    width: 100% !important;
+    height: 220px !important; /* Можешь подкрутить высоту под себя */
+    background-size: contain !important; /* ГЛАВНОЕ: чтобы машина влезла целиком */
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-color: rgba(255, 255, 255, 0.05); /* Легкий фон, если картинка меньше окна */
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+        .car-modal-image {
+            background-size: contain !important; /* Чтобы машина не растягивалась и была видна целиком */
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    height: 300px !important;
+    min-height: 300px !important;
+    max-height: 300px !important;
+    background-image: url(img/мерседес.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Блокируем все медиа-запросы для этой картинки */
+@media (max-width: 1200px),
+@media (max-width: 992px),
+@media (max-width: 768px),
+@media (max-width: 576px),
+@media (max-width: 480px),
+@media (max-width: 375px) {
+    .car-modal-image {
+        height: 300px !important;
+        min-height: 300px !important;
+        max-height: 300px !important;
+    }
+}
+
+        .car-modal-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .car-detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .car-detail-label {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .car-detail-value {
+            color: var(--text-color);
+        }
+
+        .car-description {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* МОДАЛЬНОЕ ОКНО БРОНИРОВАНИЯ - НОВОЕ */
+        .booking-modal .modal-content {
+            max-width: 800px;
+        }
+
+        .booking-tariffs {
+            margin: 25px 0;
+        }
+
+        .tariff-option {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px;
+            border: 2px solid var(--gray-color);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tariff-option.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .booking-extras {
+            margin: 25px 0;
+        }
+
+        .extra-checkbox {
+            margin-right: 10px;
+        }
+
+        .booking-summary {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .booking-car-info {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .booking-datetime {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        /* ОБНОВЛЕННЫЙ ФУТЕР */
+        footer {
+            padding: 70px 5% 40px;
+            background: var(--darker-color);
+            border-top: 3px solid var(--primary-color);
+        }
+
+        [data-theme="light"] footer {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+            padding-left: 0;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+            padding-left: 10px;
+        }
+
+        .footer-links a::before {
+            content: '➤';
+            position: absolute;
+            left: -15px;
+            opacity: 0;
+            transition: var(--transition);
+            color: var(--primary-color);
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+            left: -5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            color: var(--dark-color);
+            transform: translateY(-5px) rotate(5deg);
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        /* ОБНОВЛЕННЫЕ КНОПКИ В ФУТЕРЕ */
+        .footer-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-btn-primary {
+            background: var(--primary-color);
+            color: var(--dark-color);
+        }
+
+        .footer-btn-secondary {
+            background: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .footer-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .footer-btn-secondary:hover {
+            background: var(--primary-color);
+            color: var(--dark-color);
+        }
+
+        .subscription-form {
+            margin-top: 15px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            color: var(--text-color);
+            margin-top: 40px;
+        }
+
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3.8rem;
+            }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            
+            .hero-content {
+                padding-right: 0;
+            }
+            
+            .how-steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .app-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            
+            .app-content {
+                padding-right: 0;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-btns {
+                justify-content: center;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .loyalty-badges {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .profile-content, .admin-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .how-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .how-advantages {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .btn-large {
+                padding: 15px 30px;
+                font-size: 15px;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .hero-btns {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tariff-card.featured {
+                transform: scale(1);
+            }
+
+            .tariff-card.featured:hover {
+                transform: translateY(-15px);
+            }
+            
+            .notification-container {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
+
+            .footer-actions {
+                justify-content: center;
+            }
+            
+            .footer-btn {
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+            }
+
+            .profile-stats, .admin-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .how-header h2 {
+                font-size: 2.8rem;
+            }
+            
+            .how-advantage {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .app-image-placeholder {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .logo-placeholder {
+                width: 180px;
+                font-size: 22px;
+            }
+            
+            .car-showcase {
+                height: 300px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cars-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-stats, .admin-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .subscription-form {
+                flex-direction: column;
+            }
+
+            .subscription-form input {
+                border-radius: 10px;
+                margin-bottom: 10px;
+            }
+
+            .subscription-form button {
+                border-radius: 10px;
+            }
+            
+            .how-header h2 {
+                font-size: 2.3rem;
+            }
+            
+            .step-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 35px;
+            }
+            
+            .app-image-placeholder {
+                height: 300px;
+            }
+            
+            .app-features-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Контейнер для уведомлений -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- Кнопка смены темы и помощи -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <button class="help-toggle" id="helpToggle">
+        <i class="fas fa-question"></i>
+    </button>
+
+    <button class="admin-toggle" id="adminToggle">
+        <i class="fas fa-cog"></i>
+    </button>
+
+    <!-- Шапка сайта -->
+    <header>
+  <a href="#" class="logo" id="logoHome">
+    <img src="img/logo.png" alt="Деламейн - вернуться на главную" class="logo-image">
+</a>
+        <nav class="nav-links">
+            <a href="#" class="nav-link" data-section="howItWorks">Как это работает</a>
+            <a href="#" class="nav-link" data-section="fleet">Автопарк</a>
+            <a href="#" class="nav-link" data-section="tariffs">Тарифы</a>
+            <a href="#" class="nav-link" data-section="reviewsLoyalty">Отзывы и лояльность</a>
+            <a href="#" class="nav-link" data-section="app">Приложение</a>
+        </nav>
+        <div class="auth-buttons" id="authButtons">
+            <button class="btn btn-login" id="loginBtn">Вход</button>
+            <button class="btn btn-register" id="registerBtn">Регистрация</button>
+        </div>
+        <div class="user-profile" id="userProfile" style="display: none;">
+            <div class="user-avatar" id="userAvatar"></div>
+            <span id="userName"></span>
+        </div>
+    </header>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ ПЕРЕРАБОТАННЫЙ -->
+    <main id="mainContent">
+        <!-- ГЛАВНЫЙ ЭКРАН В НОВОМ СТИЛЕ -->
+        <section class="main-hero" id="homeSection">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Премиальный каршеринг в <span class="highlight-text">Прокопьевске</span></h1>
+                    <p class="hero-subtitle">Деламейн — это инновационный каршеринг с <span class="highlight-accent">премиальным автопарком</span>, умной системой бронирования и <span class="highlight-accent">круглосуточной поддержкой</span>. Наслаждайтесь свободой передвижения без хлопот и забот.</p>
+                    
+                    <div class="highlight-box">
+                        <p><strong>Специальное предложение для новых пользователей:</strong> Первые <span class="highlight-accent">100 км бесплатно</span> при регистрации через наш сайт!</p>
+                    </div>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Автомобилей</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Поддержка</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">5.0</span>
+                            <span class="stat-label">Рейтинг клиентов</span>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-btns">
+                        <button class="btn btn-large btn-primary" data-section="howItWorks">Начать поездку</button>
+                        <button class="btn btn-large btn-secondary" id="quickRegisterBtn">Начать за 2 минуты</button>
+                    </div>
+                </div>
+                
+               <div class="hero-visual">
+    <div class="car-showcase">
+        <img src="img/картинка1(мобилка).png" 
+             alt="Премиальный автомобиль Деламейн" 
+             class="car-showcase-image"
+             onerror="this.style.display='none'; document.getElementById('fallback').style.display='block';">
+        <div id="fallback" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 1.5rem; font-weight: bold; text-align: center;">
+            Деламейн Премиум Каршеринг
+        </div>
+    </div>
+</div>
+            </div>
+        </section>
+
+        <!-- НОВАЯ СЕКЦИЯ "КАК ЭТО РАБОТАЕТ" -->
+        <section class="how-it-works-section" id="howItWorksSection" style="display: none;">
+            <div class="how-container">
+                <div class="how-header">
+                    <h2>Как это работает</h2>
+                    <p>Всего <span class="highlight-accent">4 простых шага</span>, чтобы начать пользоваться премиальным каршерингом Деламейн</p>
+                </div>
+                
+                <div class="how-steps">
+                    <div class="how-step">
+                        <div class="step-number">1</div>
+                        <div class="step-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Скачайте приложение</h3>
+                        <p>Установите приложение Деламейн на ваш смартфон из App Store или Google Play. <strong>Регистрация займет всего 2 минуты.</strong></p>
+                    </div>
+                    
+                    <div class="how-step">
+                        <div class="step-number">2</div>
+                        <div class="step-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <h3>Подтвердите личность</h3>
+                        <p>Загрузите фото водительского удостоверения и паспорта. <strong>Мы проверим данные в течение 15 минут</strong> и активируем ваш аккаунт.</p>
+                    </div>
+                    
+                    <div class="how-step">
+                        <div class="step-number">3</div>
+                        <div class="step-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <h3>Выберите автомобиль</h3>
+                        <p>Найдите ближайший автомобиль на карте, посмотрите его характеристики и состояние, <strong>затем забронируйте на нужное время.</strong></p>
+                    </div>
+                    
+                    <div class="how-step">
+                        <div class="step-number">4</div>
+                        <div class="step-icon">
+                            <i class="fas fa-road"></i>
+                        </div>
+                        <h3>Начните поездку</h3>
+                        <p>Подойдите к автомобилю, откройте его через приложение и начните поездку. <strong>По окончании оставьте авто в разрешенной зоне.</strong></p>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <p><strong>Важно знать:</strong> Минимальный возраст водителя - <span class="highlight-accent">18 лет</span>, стаж вождения - <span class="highlight-accent">не менее 1 года</span>. Все автомобили застрахованы по КАСКО и ОСАГО.</p>
+                </div>
+                
+                <div class="how-advantages">
+                    <div class="how-advantage">
+                        <div class="advantage-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="advantage-content">
+                            <h4>Полная страховка</h4>
+                            <p>Все автомобили застрахованы по КАСКО и ОСАГО. <strong>Вы защищены на протяжении всей поездки.</strong></p>
+                        </div>
+                    </div>
+                    
+                    <div class="how-advantage">
+                        <div class="advantage-icon">
+                            <i class="fas fa-gas-pump"></i>
+                        </div>
+                        <div class="advantage-content">
+                            <h4>Топливо включено</h4>
+                            <p>Не нужно беспокоиться о заправке. <strong>Все автомобили полностью заправлены, а топливо включено в стоимость.</strong></p>
+                        </div>
+                    </div>
+                    
+                    <div class="how-advantage">
+                        <div class="advantage-icon">
+                            <i class="fas fa-parking"></i>
+                        </div>
+                        <div class="advantage-content">
+                            <h4>Бесплатная парковка</h4>
+                            <p>Оставляйте автомобиль в любой разрешенной парковочной зоне города. <strong>Парковочные расходы включены в тариф.</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+     <!-- Баннерная секция -->
+<section class="banner-section">
+    <div class="banner-container">
+        <div class="banner-row">
+            <!-- Баннер 1 - Премиальные автомобили -->
+            <div class="banner-item1">
+            </div>
+            <!-- Баннер 2 - Комфортные поездки -->
+            <div class="banner-item2">
+            </div>
+        </div>
+        <div class="banner-row">
+            <!-- Баннер 3 - Технологии будущего -->
+            <div class="banner-item3" >
+            </div>
+            <!-- Баннер 4 - Экологичность -->
+            <div class="banner-item4">
+            </div>
+        </div>
+    </div>
+</section>
+ 
+        <!-- СЕКЦИЯ ПРЕИМУЩЕСТВ В НОВОМ СТИЛЕ -->
+        <section class="features-section">
+            <div class="section-header">
+                <h2 class="section-title">Наши преимущества</h2>
+                <p class="section-subtitle">Мы предлагаем <span class="highlight-accent">уникальный опыт каршеринга</span>, сочетающий в себе современные технологии, премиальное качество и непревзойденный сервис</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>Современный автопарк</h3>
+                    <p>Наш автопарк состоит из <strong>новых автомобилей премиум-класса</strong>, которые регулярно проходят техническое обслуживание. Все автомобили не старше 3 лет.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-car"></i></div>
+                    <h3>Доступность</h3>
+                    <p>Автомобили доступны <strong>24/7 в самых популярных районах города</strong>. Забронируйте поездку за несколько минут. Более 50 точек выдачи по всему городу.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>Умное приложение</h3>
+                    <p>Наше приложение с <strong>искусственным интеллектом</strong> подберет оптимальный маршрут и предложит персональные условия. Интеграция с навигационными системами.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Безопасность</h3>
+                    <p>Все автомобили оснащены <strong>современными системами безопасности</strong> и круглосуточной поддержкой. Полная страховка КАСКО включена в стоимость.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-clock"></i></div>
+                    <h3>Экономия времени</h3>
+                    <p>Забудьте о проблемах с парковкой, техобслуживанием и мойкой. <strong>Мы берем на себя все заботы</strong>, чтобы вы могли сосредоточиться на главном.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-piggy-bank"></i></div>
+                    <h3>Выгодные тарифы</h3>
+                    <p><strong>Гибкая система тарифов</strong> позволяет выбрать оптимальный вариант для любых потребностей. Экономьте до 40% по сравнению с такси и личным авто.</p>
+                </div>
+            </div>
+            
+            <div class="highlight-box" style="max-width: 800px; margin: 60px auto 0;">
+                <p><strong>Эксклюзивное предложение:</strong> При заказе через приложение вы получаете <span class="highlight-accent">дополнительные 10% скидки</span> на все поездки в первый месяц использования сервиса.</p>
+            </div>
+        </section>
+
+        <!-- СЕКЦИЯ АВТОПАРКА В НОВОМ СТИЛЕ -->
+        <section class="fleet-section" id="fleetSection" style="display: none;">
+            <div class="section-header">
+                <h2 class="section-title">Наш автопарк</h2>
+                <p class="section-subtitle">Выберите автомобиль, который подходит именно вам - <span class="highlight-accent">от элегантных седанов до вместительных кроссоверов</span></p>
+            </div>
+            
+            <h3 class="category-title">Люкс класс</h3>
+            <div class="cars-grid" id="luxuryCars">
+                <!-- Люкс автомобили будут добавлены через JavaScript -->
+            </div>
+            
+            <h3 class="category-title">Китайский автопром</h3>
+            <div class="cars-grid" id="chineseCars">
+                <!-- Китайские автомобили будут добавлены через JavaScript -->
+            </div>
+            
+            <div class="highlight-box" style="max-width: 800px; margin: 60px auto 0;">
+                <p><strong>Важная информация:</strong> Все автомобили проходят <span class="highlight-accent">ежедневную мойку и дезинфекцию</span>, а также регулярное техническое обслуживание. Состояние каждого авто можно проверить в приложении перед бронированием.</p>
+            </div>
+        </section>
+ 
+        
+        <!-- СЕКЦИЯ ТАРИФОВ -->
+        <section class="tariffs-section" id="tariffsSection" style="display: none;">
+            <h2 class="section-title">Наши тарифы</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 50px; font-size: 1.2rem; line-height: 1.6; color: var(--text-color);">
+                Мы предлагаем <span class="highlight-accent">гибкую систему тарифов</span>, разработанную с учетом разнообразных потребностей наших клиентов. 
+                Независимо от того, нужна ли вам машина на несколько часов или на длительный период, у нас есть оптимальное решение.
+            </p>
+            <div class="tariffs-grid">
+                <div class="tariff-card">
+                    <div class="tariff-header">
+                        <div class="tariff-icon"><i class="fas fa-car-side"></i></div>
+                        <h3>Эконом</h3>
+                        <p class="tariff-description">Идеально для коротких поездок по городу</p>
+                    </div>
+                    <div class="tariff-price">12₽/мин</div>
+                    <div class="tariff-period">или 1900₽/сутки</div>
+                    <ul class="tariff-features">
+                        <li><i class="fas fa-check"></i> Доступ к автомобилям эконом-класса</li>
+                        <li><i class="fas fa-check"></i> Пробег до 150 км в сутки</li>
+                        <li><i class="fas fa-check"></i> Стандартная страховка</li>
+                        <li><i class="fas fa-check"></i> Поддержка 24/7</li>
+                        <li><i class="fas fa-check"></i> Базовое техническое обслуживание</li>
+                        <li><i class="fas fa-check"></i> Мойка 1 раз в неделю</li>
+                        <li><i class="fas fa-times"></i> Премиум-автомобили</li>
+                        <li><i class="fas fa-times"></i> Приоритетное бронирование</li>
+                        <li><i class="fas fa-times"></i> Расширенная страховка</li>
+                    </ul>
+                    <button class="tariff-btn" data-tariff="Эконом">Выбрать тариф</button>
+                </div>
+                <div class="tariff-card featured">
+                    <div class="tariff-header">
+                        <div class="tariff-icon"><i class="fas fa-crown"></i></div>
+                        <h3>Премиум</h3>
+                        <p class="tariff-description">Максимум комфорта и возможностей</p>
+                    </div>
+                    <div class="tariff-price">25₽/мин</div>
+                    <div class="tariff-period">или 3900₽/сутки</div>
+                    <ul class="tariff-features">
+                        <li><i class="fas fa-check"></i> Доступ ко всем автомобилям</li>
+                        <li><i class="fas fa-check"></i> Безлимитный пробег</li>
+                        <li><i class="fas fa-check"></i> Расширенная страховка</li>
+                        <li><i class="fas fa-check"></i> Премиум-поддержка 24/7</li>
+                        <li><i class="fas fa-check"></i> Приоритетное бронирование</li>
+                        <li><i class="fas fa-check"></i> Бесплатная парковка в центре</li>
+                        <li><i class="fas fa-check"></i> Ежедневная мойка</li>
+                        <li><i class="fas fa-check"></i> Персональный менеджер</li>
+                        <li><i class="fas fa-check"></i> Скидка 15% на длительную аренду</li>
+                    </ul>
+                    <button class="tariff-btn" data-tariff="Премиум">Выбрать тариф</button>
+                </div>
+                <div class="tariff-card">
+                    <div class="tariff-header">
+                        <div class="tariff-icon"><i class="fas fa-business-time"></i></div>
+                        <h3>Бизнес</h3>
+                        <p class="tariff-description">Для деловых поездок и командировок</p>
+                    </div>
+                    <div class="tariff-price">18₽/мин</div>
+                    <div class="tariff-period">или 2800₽/сутки</div>
+                    <ul class="tariff-features">
+                        <li><i class="fas fa-check"></i> Автомобили бизнес-класса</li>
+                        <li><i class="fas fa-check"></i> Пробег до 300 км в сутки</li>
+                        <li><i class="fas fa-check"></i> Расширенная страховка</li>
+                        <li><i class="fas fa-check"></i> Приоритетная поддержка</li>
+                        <li><i class="fas fa-check"></i> Бесплатная мойка</li>
+                        <li><i class="fas fa-check"></i> Парковка в бизнес-центрах</li>
+                        <li><i class="fas fa-check"></i> Бухгалтерские документы</li>
+                        <li><i class="fas fa-times"></i> Премиум-автомобили</li>
+                        <li><i class="fas fa-times"></i> Безлимитный пробег</li>
+                    </ul>
+                    <button class="tariff-btn" data-tariff="Бизнес">Выбрать тариф</button>
+                </div>
+                <div class="tariff-card">
+                    <div class="tariff-header">
+                        <div class="tariff-icon"><i class="fas fa-user-friends"></i></div>
+                        <h3>Семейный</h3>
+                        <p class="tariff-description">Для поездок с семьей и друзьями</p>
+                    </div>
+                    <div class="tariff-price">15₽/мин</div>
+                    <div class="tariff-period">или 2200₽/сутки</div>
+                    <ul class="tariff-features">
+                        <li><i class="fas fa-check"></i> Просторные автомобили</li>
+                        <li><i class="fas fa-check"></i> Пробег до 200 км в сутки</li>
+                        <li><i class="fas fa-check"></i> Детские кресла (по запросу)</li>
+                        <li><i class="fas fa-check"></i> Стандартная страховка</li>
+                        <li><i class="fas fa-check"></i> Поддержка 24/7</li>
+                        <li><i class="fas fa-check"></i> Мойка 2 раза в неделю</li>
+                        <li><i class="fas fa-times"></i> Премиум-автомобили</li>
+                        <li><i class="fas fa-times"></i> Приоритетное бронирование</li>
+                        <li><i class="fas fa-times"></i> Расширенная страховка</li>
+                    </ul>
+                    <button class="tariff-btn" data-tariff="Семейный">Выбрать тариф</button>
+                </div>
+                <div class="tariff-card">
+                    <div class="tariff-header">
+                        <div class="tariff-icon"><i class="fas fa-gem"></i></div>
+                        <h3>VIP</h3>
+                        <p class="tariff-description">Эксклюзивные условия для особых случаев</p>
+                    </div>
+                    <div class="tariff-price">35₽/мин</div>
+                    <div class="tariff-period">или 5500₽/сутки</div>
+                    <ul class="tariff-features">
+                        <li><i class="fas fa-check"></i> Эксклюзивные автомобили</li>
+                        <li><i class="fas fa-check"></i> Безлимитный пробег</li>
+                        <li><i class="fas fa-check"></i> Максимальная страховка</li>
+                        <li><i class="fas fa-check"></i> Персональный менеджер 24/7</li>
+                        <li><i class="fas fa-check"></i> Высший приоритет бронирования</li>
+                        <li><i class="fas fa-check"></i> Доставка автомобиля к месту</li>
+                        <li><i class="fas fa-check"></i> Ежедневная химчистка</li>
+                        <li><i class="fas fa-check"></i> Персональные условия</li>
+                        <li><i class="fas fa-check"></i> Скидка 20% на длительную аренду</li>
+                    </ul>
+                    <button class="tariff-btn" data-tariff="VIP">Выбрать тариф</button>
+                </div>
+                <div class="tariff-card">
+                    <div class="tariff-header">
+                        <div class="tariff-icon"><i class="fas fa-calendar-day"></i></div>
+                        <h3>Выходного дня</h3>
+                        <p class="tariff-description">Специальное предложение для отдыха</p>
+                    </div>
+                    <div class="tariff-price">2000₽/день</div>
+                    <div class="tariff-period">только сб-вс</div>
+                    <ul class="tariff-features">
+                        <li><i class="fas fa-check"></i> Автомобили эконом и бизнес-класса</li>
+                        <li><i class="fas fa-check"></i> Пробег до 250 км в сутки</li>
+                        <li><i class="fas fa-check"></i> Стандартная страховка</li>
+                        <li><i class="fas fa-check"></i> Поддержка 24/7</li>
+                        <li><i class="fas fa-check"></i> Мойка перед выдачей</li>
+                        <li><i class="fas fa-times"></i> Премиум-автомобили</li>
+                        <li><i class="fas fa-times"></i> Приоритетное бронирование</li>
+                        <li><i class="fas fa-times"></i> Расширенная страховка</li>
+                        <li><i class="fas fa-times"></i> Безлимитный пробег</li>
+                    </ul>
+                    <button class="tariff-btn" data-tariff="Выходного дня">Выбрать тариф</button>
+                </div>
+            </div>
+            
+            <div class="highlight-box" style="max-width: 800px; margin: 60px auto 0;">
+                <p><strong>Совет:</strong> Для ежедневных поездок по городу выбирайте тариф <span class="highlight-accent">"Эконом"</span>, для деловых поездок - <span class="highlight-accent">"Бизнес"</span>, а для максимального комфорта и всех возможностей - <span class="highlight-accent">"Премиум"</span>. Вы всегда можете сменить тариф в личном кабинете.</p>
+            </div>
+        </section>
+
+        <!-- Секция отзывов и лояльности -->
+        <section class="reviews-loyalty-section" id="reviewsLoyaltySection" style="display: none;">
+            <h2 class="section-title">Отзывы и программа лояльности</h2>
+            <div class="reviews-loyalty-container">
+                <div class="reviews-container" id="reviewsContainer">
+                    <!-- Отзывы будут добавлены через JavaScript -->
+                </div>
+                
+                <div class="loyalty-container">
+                    
+                  <div class="loyalty-container" style="max-width: 800px; margin: 0 auto; padding: 40px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; border: 1px solid var(--primary-color);">
+    <div class="form-group">
+        <label style="color: var(--primary-color); font-weight: bold; display: block; margin-bottom: 15px;">Текст публикации</label>
+        <textarea id="vkMainEditor" class="form-control" style="height: 150px; background: rgba(0,0,0,0.3); border: 1px solid var(--primary-color); color: #fff; padding: 20px; border-radius: 15px; resize: none;" placeholder="Что нового?"></textarea>
+    </div>
+
+    <div class="form-group" style="margin-top: 20px;">
+        <label style="color: var(--primary-color); font-weight: bold; display: block; margin-bottom: 10px;">Прикрепить фото с ПК:</label>
+        <input type="file" id="vkFileInput" accept="image/*" class="form-control" style="padding: 10px;">
+    </div>
+
+    <div style="display: flex; gap: 15px; margin-top: 25px;">
+        <button id="backToProfile" class="btn btn-secondary" style="flex: 1; justify-content: center;">Назад</button>
+        <button id="finalPostBtn" class="btn btn-primary" style="flex: 2; justify-content: center;">
+            <i class="fab fa-vk"></i> Опубликовать с фото
+        </button>
+    </div>
+</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ОБНОВЛЕННАЯ СЕКЦИЯ ПРИЛОЖЕНИЯ -->
+        <section class="app-section" id="appSection" style="display: none;">
+            <div class="app-container">
+                <div class="app-content">
+                    <h2 class="section-title">Наше приложение</h2>
+                    <p style="font-size: 1.2rem; line-height: 1.7; margin-bottom: 30px; color: var(--text-color);">
+                        Скачайте приложение Деламейн и получите <span class="highlight-accent">полный контроль</span> над арендой автомобиля прямо с вашего смартфона. Управляйте бронированиями, отслеживайте бонусы и находите автомобили рядом с вами.
+                    </p>
+                    
+                    <div class="app-features-list">
+                        <div class="app-feature-item">
+                            <div class="app-feature-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="app-feature-content">
+                                <h4>Мгновенное бронирование</h4>
+                                <p>Забронируйте автомобиль всего в несколько касаний</p>
+                            </div>
+                        </div>
+                        <div class="app-feature-item">
+                            <div class="app-feature-icon">
+                                <i class="fas fa-map-marked-alt"></i>
+                            </div>
+                            <div class="app-feature-content">
+                                <h4>Умная навигация</h4>
+                                <p>Оптимальные маршруты с учетом пробок и парковок</p>
+                            </div>
+                        </div>
+                        <div class="app-feature-item">
+                            <div class="app-feature-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="app-feature-content">
+                                <h4>Безопасность</h4>
+                                <p>Многоуровневая система защиты ваших данных</p>
+                            </div>
+                        </div>
+                        <div class="app-feature-item">
+                            <div class="app-feature-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="app-feature-content">
+                                <h4>Искусственный интеллект</h4>
+                                <p>Умные рекомендации и персонализированные предложения</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <p><strong>Скачайте приложение сейчас и получите:</strong> <span class="highlight-accent">500 бонусных баллов</span> на первую поездку и <span class="highlight-accent">персональную скидку 10%</span> на первый месяц использования!</p>
+                    </div>
+                    
+                    <div class="download-buttons">
+                        <a href="#" class="download-btn">
+                            <i class="fab fa-apple"></i>
+                            <div class="download-text">
+                                <span>Загрузите в</span>
+                                <span>App Store</span>
+                            </div>
+                        </a>
+                        <a href="#" class="download-btn">
+                            <i class="fab fa-google-play"></i>
+                            <div class="download-text">
+                                <span>Доступно в</span>
+                                <span>Google Play</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+               <div class="app-image-placeholder">
+    <!-- Фото как тег img внутри -->
+    <img src="img/telephone.png" alt="Описание фото" class="app-background-image">
+</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ОБНОВЛЕННЫЙ ЛИЧНЫЙ КАБИНЕТ -->
+        <section class="profile-section" id="profileSection" style="display: none;">
+          
+            <div class="profile-header">
+                <div class="profile-avatar-container">
+                    <div class="profile-avatar" id="profileAvatar"></div>
+                    <div class="avatar-upload" id="avatarUpload">
+                        <i class="fas fa-camera"></i>
+                        <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                <h2 class="section-title">Личный кабинет</h2>
+            </div>
+            
+            <div class="profile-stats">
+                <div class="stat-card">
+                    <i class="fas fa-road"></i>
+                    <span class="stat-number" id="profileDistance">0</span>
+                    <span class="stat-label">Пройдено км</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock"></i>
+                    <span class="stat-number" id="profileDriveTime">0</span>
+                    <span class="stat-label">Часов за рулем</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-car"></i>
+                    <span class="stat-number" id="profileTrips">0</span>
+                    <span class="stat-label">Поездок</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-coins"></i>
+                    <span class="stat-number" id="profileBonus">0</span>
+                    <span class="stat-label">Бонусных баллов</span>
+                </div>
+            </div>
+            
+            <div class="profile-content">
+ <!-- КНОПКА ПЕРЕХОДА В SMM -->
+                <div class="stat-card" id="goToVkAdmin" style="cursor: pointer; grid-column: 1 / -1; border: 2px solid var(--primary-color); background: rgba(76, 117, 163, 0.1); padding: 30px;">
+                    <i class="fab fa-vk" style="color: #4c75a3; font-size: 3rem; margin-bottom: 15px;"></i>
+                    <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 10px;">SMM Панель</h3>
+                    <p style="color: #ccc;">Нажмите здесь, чтобы создать пост в группе ВКонтакте</p>
+                </div>
+                
+                <div class="profile-info">
+                    <h3>Основная информация <button class="edit-btn" id="editProfileBtn">Редактировать</button></h3>
+                    <div class="info-item">
+                        <span class="info-label">Имя:</span>
+                        <span class="info-value" id="profileName"></span>
+                        <div class="info-edit" id="nameEdit">
+                            <input type="text" id="nameInput" value="">
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value" id="profileEmail"></span>
+                        <div class="info-edit" id="emailEdit">
+                            <input type="email" id="emailInput" value="">
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Телефон:</span>
+                        <span class="info-value" id="profilePhone"></span>
+                        <div class="info-edit" id="phoneEdit">
+                            <input type="tel" id="phoneInput" value="">
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Дата регистрации:</span>
+                        <span class="info-value" id="profileRegDate"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Текущий тариф:</span>
+                        <span class="info-value" id="profileTariff">Не выбран</span>
+                    </div>
+                </div>
+                <!-- Добавь это внутрь <div class="profile-content"> -->
+<div class="stat-card" id="goToVkAdmin" style="cursor: pointer; grid-column: 1 / -1; border-color: #ffd700;">
+    <i class="fab fa-vk" style="color: #4c75a3;"></i>
+    <span class="stat-number">SMM Панель</span>
+    <span class="stat-label">Опубликовать новость в ВК группу</span>
+</div>
+                <div class="profile-bookings">
+                    <h3>Активные бронирования</h3>
+                    <div id="activeBookingsContainer">
+                        <!-- Активные бронирования будут добавлены через JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn-logout" id="logoutBtn">Выйти из аккаунта</button>
+        </section>
+
+        <!-- АДМИН ПАНЕЛЬ -->
+        <section class="admin-section" id="adminSection" style="display: none;">
+            <div class="admin-header">
+                <h2 class="section-title">Административная панель</h2>
+                <p>Управление бронированиями и пользователями системы</p>
+            </div>
+            
+            <div class="admin-stats">
+                <div class="admin-stat-card">
+                    <i class="fas fa-users"></i>
+                    <span class="stat-number" id="adminUsersCount">0</span>
+                    <span class="stat-label">Пользователей</span>
+                </div>
+                <div class="admin-stat-card">
+                    <i class="fas fa-car"></i>
+                    <span class="stat-number" id="adminCarsCount">0</span>
+                    <span class="stat-label">Активных авто</span>
+                </div>
+                <div class="admin-stat-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <span class="stat-number" id="adminBookingsCount">0</span>
+                    <span class="stat-label">Бронирований</span>
+                </div>
+                <div class="admin-stat-card">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span class="stat-number" id="adminRevenue">0₽</span>
+                    <span class="stat-label">Общий доход</span>
+                </div>
+            </div>
+            
+            <div class="admin-content">
+                <div class="admin-bookings">
+                    <h3>Активные бронирования</h3>
+                    <div id="adminBookingsContainer">
+                        <!-- Активные бронирования для админа будут добавлены через JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="admin-users">
+                    <h3>Последние пользователи</h3>
+                    <div id="adminUsersContainer">
+                        <!-- Пользователи для админа будут добавлены через JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ЕДИНСТВЕННАЯ И ПРАВИЛЬНАЯ СЕКЦИЯ ВК -->
+<section class="admin-section" id="vkPostingSection" style="display: none;">
+    <div class="admin-header">
+        <h2 class="section-title">Управление сообществом <span class="highlight-text">VK</span></h2>
+        <p>Публикация постов с фотографиями напрямую с твоего компьютера</p>
+    </div>
+
+    <div class="loyalty-container" style="max-width: 800px; margin: 0 auto; padding: 40px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; border: 1px solid var(--primary-color);">
+        <div class="form-group">
+            <label style="color: var(--primary-color); font-weight: bold; display: block; margin-bottom: 10px;">Текст поста:</label>
+            <textarea id="vkMainEditor" class="form-control" style="height: 150px; background: rgba(0,0,0,0.3); border: 1px solid var(--primary-color); color: #fff; padding: 15px; border-radius: 10px; resize: none;" placeholder="Что нового в Деламейн?"></textarea>
+        </div>
+
+        <div class="form-group" style="margin-top: 20px;">
+            <label style="color: var(--primary-color); font-weight: bold; display: block; margin-bottom: 10px;">Выберите фото на компьютере:</label>
+            <input type="file" id="vkFileInput" accept="image/*" class="form-control" style="padding: 10px; background: rgba(255,255,255,0.1);">
+        </div>
+
+        <div style="display: flex; gap: 15px; margin-top: 30px;">
+            <button id="backToProfile" class="btn btn-secondary" style="flex: 1; justify-content: center;">Назад</button>
+            <button id="finalPostBtn" class="btn btn-primary" style="flex: 2; justify-content: center;">
+                <i class="fab fa-vk"></i> Опубликовать в группу
+            </button>
+        </div>
+    </div>
+</section>
+    </main>
+
+    <!-- Модальные окна -->
+    <!-- Окно входа (ОБНОВЛЕНО: убрана кнопка Google) -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeLoginModal">&times;</button>
+            <h2 class="form-title">Вход в аккаунт</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" class="form-control" placeholder="ваш@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Пароль</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Введите пароль" required>
+                </div>
+                <button type="submit" class="submit-btn">Войти</button>
+            </form>
+            <div class="form-footer">
+                <p>Нет аккаунта? <a href="#" id="toRegisterFromLogin">Зарегистрироваться</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Окно регистрации (ОБНОВЛЕНО: убрана кнопка Google, добавлено поле email) -->
+    <div class="modal" id="registrationModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeRegistrationModal">&times;</button>
+            <h2 class="form-title">Регистрация</h2>
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="name">Имя</label>
+                    <input type="text" id="name" class="form-control" placeholder="Иван" required>
+                </div>
+                <div class="form-group">
+                    <label for="surname">Фамилия</label>
+                    <input type="text" id="surname" class="form-control" placeholder="Иванов" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="ваш@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="+7 (900) 123-45-67" required>
+                </div>
+                <div class="form-group">
+                    <label for="birthdate">Дата рождения</label>
+                    <input type="date" id="birthdate" class="form-control" required>
+                    <div class="age-warning" id="ageWarning">Для регистрации должно быть 18 лет или больше</div>
+                </div>
+                <div class="form-group">
+                    <label for="license">Водительское удостоверение</label>
+                    <input type="text" id="license" class="form-control" placeholder="Серия и номер" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Пароль</label>
+                    <input type="password" id="regPassword" class="form-control" placeholder="Создайте пароль" required>
+                </div>
+                <button type="submit" class="submit-btn">Зарегистрироваться</button>
+            </form>
+            <div class="form-footer">
+                <p>Уже есть аккаунт? <a href="#" id="toLoginFromRegister">Войти</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Окно поддержки -->
+    <div class="modal support-modal" id="supportModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeSupportModal">&times;</button>
+            <h2 class="form-title">Поддержка</h2>
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot">
+                        <div class="message-sender">Ви</div>
+                        <div class="message-text">Здравствуйте! Я Ви, ваш виртуальный помощник. Чем могу помочь?</div>
+                    </div>
+                </div>
+                <div class="quick-questions" id="quickQuestions">
+                    <!-- Кнопки быстрых вопросов будут добавлены через JavaScript -->
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Введите ваш вопрос...">
+                    <button id="sendMessage">Отправить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно автомобиля -->
+    <div class="modal car-modal" id="carModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeCarModal">&times;</button>
+            <div id="carModalContent">
+                <!-- Содержимое будет заполняться через JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО БРОНИРОВАНИЯ - НОВОЕ -->
+    <div class="modal booking-modal" id="bookingModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <button class="close-btn" id="closeBookingModal">&times;</button>
+            <h2 class="form-title">Бронирование автомобиля</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <!-- Информация об автомобиле -->
+                <div class="booking-car-info">
+                    <h3>Информация об автомобиле</h3>
+                    <div id="bookingCarImage" style="width: 100%; height: 200px; "></div>
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; gap: 15px; margin-bottom: 10px;">
+                            <span id="bookingCarSeats" style="color: var(--text-color);"></span>
+                            <span id="bookingCarLuggage" style="color: var(--text-color);"></span>
+                        </div>
+                        <div class="car-price" id="bookingCarPrice" style="font-size: 1.8rem;"></div>
+                    </div>
+                </div>
+                
+                <!-- Выбор дат и времени -->
+                <div class="booking-datetime">
+                    <h3>Выберите дату и время</h3>
+                    <div class="form-group">
+                        <label for="startDate">Начало аренды</label>
+                        <input type="datetime-local" id="startDate" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">Окончание аренды</label>
+                        <input type="datetime-local" id="endDate" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Выбор тарифа -->
+            <div class="booking-tariffs">
+                <h3>Выберите тариф</h3>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <div class="tariff-option active" data-tariff="minute" data-price="25" style="flex: 1; min-width: 120px; padding: 15px; border: 2px solid var(--primary-color); border-radius: 10px; text-align: center; cursor: pointer; transition: var(--transition);">
+                        <div style="font-weight: bold; color: var(--primary-color);">Поминутный</div>
+                        <div style="font-size: 1.2rem; margin: 10px 0;">25₽/мин</div>
+                    </div>
+                    <div class="tariff-option" data-tariff="hour" data-price="1200" style="flex: 1; min-width: 120px; padding: 15px; border: 2px solid var(--gray-color); border-radius: 10px; text-align: center; cursor: pointer; transition: var(--transition);">
+                        <div style="font-weight: bold; color: var(--text-color);">Почасовой</div>
+                        <div style="font-size: 1.2rem; margin: 10px 0;">1,200₽/час</div>
+                    </div>
+                    <div class="tariff-option" data-tariff="day" data-price="3900" style="flex: 1; min-width: 120px; padding: 15px; border: 2px solid var(--gray-color); border-radius: 10px; text-align: center; cursor: pointer; transition: var(--transition);">
+                        <div style="font-weight: bold; color: var(--text-color);">Суточный</div>
+                        <div style="font-size: 1.2rem; margin: 10px 0;">3,900₽/день</div>
+                    </div>
+                    <div class="tariff-option" data-tariff="week" data-price="19900" style="flex: 1; min-width: 120px; padding: 15px; border: 2px solid var(--gray-color); border-radius: 10px; text-align: center; cursor: pointer; transition: var(--transition);">
+                        <div style="font-weight: bold; color: var(--text-color);">Недельный</div>
+                        <div style="font-size: 1.2rem; margin: 10px 0;">19,900₽/нед</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Дополнительные опции -->
+            <div class="booking-extras">
+                <h3>Дополнительные опции</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                        <input type="checkbox" id="childSeat" class="extra-checkbox">
+                        <span>Детское кресло</span>
+                        <span style="margin-left: auto; color: var(--primary-color);">+500₽</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                        <input type="checkbox" id="premiumInsurance" class="extra-checkbox" checked>
+                        <span>Расширенная страховка</span>
+                        <span style="margin-left: auto; color: var(--primary-color);">+1,000₽</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                        <input type="checkbox" id="delivery" class="extra-checkbox">
+                        <span>Доставка автомобиля</span>
+                        <span style="margin-left: auto; color: var(--primary-color);">+1,500₽</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Сводка стоимости -->
+            <div class="booking-summary">
+                <h3 style="margin-bottom: 15px;">Сводка стоимости</h3>
+                <div style="display: grid; gap: 10px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Стоимость аренды:</span>
+                        <span id="rentalCost">0₽</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Дополнительные опции:</span>
+                        <span id="extraCost">0₽</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Скидка (10%):</span>
+                        <span id="discount">0₽</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: bold; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                        <span>Итого:</span>
+                        <span id="totalCost">0₽</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Кнопки действий -->
+            <div style="display: flex; gap: 15px;">
+                <button id="calculateBtn" style="flex: 1; padding: 15px; background: var(--dark-color); color: var(--text-color); border: 2px solid var(--primary-color); border-radius: 10px; font-weight: 600; cursor: pointer; transition: var(--transition);">
+                    Рассчитать стоимость
+                </button>
+                <button id="confirmBookingBtn" style="flex: 1; padding: 15px; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); color: var(--dark-color); border: none; border-radius: 10px; font-size: 17px; font-weight: 600; cursor: pointer; transition: var(--transition);">
+                    Подтвердить бронирование
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ОБНОВЛЕННЫЙ ФУТЕР -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Деламейн</h3>
+                <p>Современный каршеринг для современного города. Инновации, комфорт и надежность.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+                </div>
+                <div class="footer-actions">
+                    <button class="footer-btn footer-btn-primary" id="footerAppBtn">
+                        <i class="fas fa-mobile-alt"></i> Скачать приложение
+                    </button>
+                    <button class="footer-btn footer-btn-secondary" id="footerSupportBtn">
+                        <i class="fas fa-headset"></i> Поддержка
+                    </button>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Навигация</h3>
+                <ul class="footer-links">
+                    <li><a href="#" data-section="home">Главная</a></li>
+                    <li><a href="#" data-section="howItWorks">Как это работает</a></li>
+                    <li><a href="#" data-section="fleet">Автопарк</a></li>
+                    <li><a href="#" data-section="tariffs">Тарифы</a></li>
+                    <li><a href="#" data-section="reviewsLoyalty">Отзывы и лояльность</a></li>
+                    <li><a href="#" data-section="app">Приложение</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-phone"></i> +7 (900) 123-45-67</li>
+                    <li><i class="fas fa-envelope"></i> info@delamain.ru</li>
+                    <li><i class="fas fa-map-marker-alt"></i> г. Прокопьевск</li>
+                    <li><i class="fas fa-clock"></i> Круглосуточно</li>
+                </ul>
+                <div class="footer-actions">
+                    <button class="footer-btn footer-btn-primary" id="footerCallBtn">
+                        <i class="fas fa-phone"></i> Позвонить
+                    </button>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Подписка</h3>
+                <p>Будьте в курсе новых автомобилей и специальных предложений</p>
+                <div class="subscription-form">
+                    <input type="email" class="form-control" placeholder="Ваш email" id="footerEmailInput">
+                    <button class="footer-btn footer-btn-primary" id="footerSubscriptionBtn">
+                        <i class="fas fa-paper-plane"></i> Подписаться
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Деламейн. Все права защищены.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">
+                <a href="#" style="color: var(--text-color); margin-right: 15px;">Политика конфиденциальности</a>
+                <a href="#" style="color: var(--text-color);">Условия использования</a>
+            </p>
+        </div>
+    </footer>
+
+   <script>
+  // 1. ДАННЫЕ И ХРАНИЛИЩЕ
+const carData = {
+    luxury: [
+        { id: 1, name: "Mercedes-Benz S-Class", price: "от 25₽/мин", desc: "Роскошный седан", img: "Mercedes.png" },
+        { id: 2, name: "BMW 7 Series", price: "от 23₽/мин", desc: "Элегантный драйв", img: "BMW7Series.png" },
+        { id: 3, name: "Audi A8", price: "от 24₽/мин", desc: "Технологичный флагман", img: "AudiA8.png" }
+    ],
+    chinese: [
+        { id: 6, name: "Hongqi H9", price: "от 18₽/мин", desc: "Китайский премиум", img: "HongqiH9.png" }
+    ]
+};
+
+// Функция переключения секций
+function showSection(name) {
+    // Убираем суффикс Section если он есть, чтобы не было дублей (например: vkPosting -> vkPostingSection)
+    const cleanName = name.replace('Section', '');
+    const sections = document.querySelectorAll('main > section');
+    sections.forEach(s => s.style.display = 'none');
+    
+    const target = document.getElementById(cleanName + 'Section');
+    if (target) {
+        target.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+// 2. ГЛАВНАЯ ЛОГИКА
+document.addEventListener('DOMContentLoaded', function() {
+    const notificationContainer = document.getElementById('notificationContainer');
+
+    // Система уведомлений
+    window.showNotification = (type, title, msg) => {
+        const el = document.createElement('div');
+        el.className = `notification ${type}`;
+        el.innerHTML = `
+            <div class="notification-icon"><i class="fas ${type === 'success' ? 'fa-check' : 'fa-exclamation-triangle'}"></i></div>
+            <div class="notification-content">
+                <h4>${title}</h4>
+                <p>${msg}</p>
+            </div>
+        `;
+        notificationContainer.appendChild(el);
+        setTimeout(() => el.classList.add('show'), 10);
+        setTimeout(() => {
+            el.classList.remove('show');
+            setTimeout(() => el.remove(), 500);
+        }, 4000);
+    };
+
+    // Отрисовка автопарка
+    const luxuryContainer = document.getElementById('luxuryCars');
+    const chineseContainer = document.getElementById('chineseCars');
+
+    if (luxuryContainer) {
+        carData.luxury.forEach(car => {
+            luxuryContainer.innerHTML += `
+                <div class="car-card">
+                    <div class="car-image" style="background-image: url('img/${car.img}')"></div>
+                    <div class="car-info">
+                        <h3>${car.name}</h3>
+                        <p>${car.desc}</p>
+                        <div class="car-price">${car.price}</div>
+                        <button class="btn-book">Забронировать</button>
+                    </div>
+                </div>`;
+        });
+    }
+
+    if (chineseContainer) {
+        carData.chinese.forEach(car => {
+            chineseContainer.innerHTML += `
+                <div class="car-card">
+                    <div class="car-image" style="background-image: url('img/${car.img}')"></div>
+                    <div class="car-info">
+                        <h3>${car.name}</h3>
+                        <p>${car.desc}</p>
+                        <div class="car-price">${car.price}</div>
+                        <button class="btn-book">Забронировать</button>
+                    </div>
+                </div>`;
+        });
+    }
+
+    // Навигация по кликам на пункты меню
+    document.querySelectorAll('[data-section]').forEach(el => {
+        el.onclick = (e) => {
+            e.preventDefault();
+            const sectionName = el.getAttribute('data-section');
+            showSection(sectionName);
+        };
+    });
+
+    // Проверка авторизации
+    const user = JSON.parse(localStorage.getItem('delamainUser'));
+    const authButtons = document.getElementById('authButtons');
+    const userProfile = document.getElementById('userProfile');
+    const userNameSpan = document.getElementById('userName');
+    const vkAdminBtn = document.querySelectorAll('#goToVkAdmin'); // Находим все кнопки SMM панели
+
+    if (user) {
+        authButtons.style.display = 'none';
+        userProfile.style.display = 'flex';
+        userNameSpan.textContent = user.name;
+        
+        if (user.isAdmin) {
+            document.getElementById('adminToggle').style.display = 'flex';
+            vkAdminBtn.forEach(btn => btn.style.display = 'block');
+        }
+    }
+
+    // Логика входа
+    const loginModal = document.getElementById('loginModal');
+    document.getElementById('loginBtn').onclick = () => loginModal.classList.add('active');
+    document.getElementById('closeLoginModal').onclick = () => loginModal.classList.remove('active');
+
+    document.getElementById('loginForm').onsubmit = (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const pass = document.getElementById('loginPassword').value;
+
+        if (email === 'admin@delamain.ru' && pass === 'admin123') {
+            localStorage.setItem('delamainUser', JSON.stringify({
+                name: 'Главный Админ',
+                isAdmin: true,
+                email: email
+            }));
+            showNotification('success', 'Успех', 'Добро пожаловать, Админ!');
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            showNotification('error', 'Ошибка', 'Неверный логин или пароль');
+        }
+    };
+
+    // Выход
+    document.getElementById('logoutBtn').onclick = () => {
+        localStorage.removeItem('delamainUser');
+        location.reload();
+    };
+
+    // Личный кабинет
+    userProfile.onclick = () => showSection('profile');
+
+    // Кнопка перехода в ВК Панель
+    vkAdminBtn.forEach(btn => {
+        btn.onclick = () => showSection('vkPosting');
+    });
+
+    document.getElementById('backToProfile').onclick = () => showSection('profile');
+
+    // --- ЛОГИКА ПУБЛИКАЦИИ ВК ---
+    const finalPostBtn = document.getElementById('finalPostBtn');
+
+    if (finalPostBtn) {
+        finalPostBtn.onclick = async function() {
+            const text = document.getElementById('vkMainEditor').value;
+            const fileInput = document.getElementById('vkFileInput');
+
+            if (!text.trim() && (!fileInput.files || !fileInput.files[0])) {
+                showNotification('error', 'Внимание', 'Введите текст поста или выберите фото');
+                return;
+            }
+
+            // Визуальная блокировка
+            this.disabled = true;
+            const originalHTML = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Публикация...';
+
+            const formData = new FormData();
+            formData.append('message', text);
+            if (fileInput.files && fileInput.files[0]) {
+                formData.append('photo', fileInput.files[0]);
+            }
+
+            try {
+                const response = await fetch('/api/post', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error('Сервер недоступен');
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showNotification('success', 'Ура!', 'Пост успешно опубликован в группе VK!');
+                    document.getElementById('vkMainEditor').value = '';
+                    fileInput.value = '';
+                    setTimeout(() => showSection('profile'), 2000);
+                } else {
+                    showNotification('error', 'Ошибка VK', result.error);
+                }
+            } catch (err) {
+                showNotification('error', 'Ошибка соединения', 'Запустите vk_server.py на ПК');
+                console.error(err);
+            } finally {
+                this.disabled = false;
+                this.innerHTML = originalHTML;
+            }
+        };
+    }
+});
+</script>
+</body>
+</html>
